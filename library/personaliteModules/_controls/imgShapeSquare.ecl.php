@@ -1,0 +1,14 @@
+'flags'={
+'value'='square'
+}
+'text'={
+'caption'={
+'pt'={
+1='Quadrado'
+2=1
+}
+'en'={
+1='Square'
+}
+}
+}

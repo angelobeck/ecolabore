@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Coreano'
+}
+'en'={
+1='Korean'
+}
+'ko'={
+1='한국어'
+}
+}
+}

@@ -1,0 +1,32 @@
+'flags'={
+'type'='select'
+'filter'='select'
+'field_name'='size'
+'target'='local/box-font-size'
+'default_value'=''
+'clear'=1
+}
+'text'={
+'caption'={
+'pt'={
+1='Tamanho do texto'
+2=1
+}
+'en'={
+1='Text size'
+}
+}
+}
+'children'={
+#='~000auto'
+#='~075rem'
+#='~083rem'
+#='~091rem'
+#='~100rem'
+#='~110rem'
+#='~125rem'
+#='~150rem'
+#='~200rem'
+#='~250rem'
+#='~300rem'
+}

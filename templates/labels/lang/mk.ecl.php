@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Macedônio'
+}
+'en'={
+1='Macedonian'
+}
+'mk'={
+1='македонски'
+}
+}
+}

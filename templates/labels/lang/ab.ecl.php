@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Abkhazian'
+}
+'en'={
+1='Abkhazian'
+}
+'ab'={
+1='Аҧсуа'
+}
+}
+}

@@ -1,0 +1,15 @@
+'local'={
+'type'='view'
+}
+'text'={
+'caption'={
+'pt'={
+1='Vendidos'
+2=1
+}
+'en'={
+1='Sould'
+2=1
+}
+}
+}

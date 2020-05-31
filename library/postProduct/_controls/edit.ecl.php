@@ -1,0 +1,17 @@
+'flags'={
+'filter'='postProduct'
+'field_name'='product'
+'filters_manager'='product'
+}
+'text'={
+'caption'={
+'pt'={
+1='Produto'
+2=1
+}
+'en'={
+1='Product'
+2=1
+}
+}
+}

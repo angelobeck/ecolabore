@@ -1,0 +1,32 @@
+'flags'={
+'type'='select'
+'filter'='select'
+'field_name'='margin_top'
+'target'='local/mod-padding-top'
+'default_value'=''
+'clear'=1
+}
+'text'={
+'caption'={
+'pt'={
+1='Margem superior'
+2=1
+}
+'en'={
+1='Top margin'
+}
+}
+}
+'children'={
+#='~modPaddingAuto'
+#='~modPadding0'
+#='~025rem'
+#='~050rem'
+#='~075rem'
+#='~100rem'
+#='~125rem'
+#='~150rem'
+#='~200rem'
+#='~250rem'
+#='~300rem'
+}

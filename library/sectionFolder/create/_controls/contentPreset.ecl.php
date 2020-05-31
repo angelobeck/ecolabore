@@ -1,0 +1,14 @@
+'flags'={
+'section_type'='folder'
+'modList_preset'='folder'
+}
+'extras'={
+'section'={
+'local'={
+'list'='list_columns_1'
+'details'='img_mini_floatleft
+title_3
+description'
+}
+}
+}

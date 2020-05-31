@@ -1,0 +1,15 @@
+'flags'={
+'value'='3'
+}
+'text'={
+'caption'={
+'pt'={
+1='Alerta'
+2=1
+}
+'en'={
+1='Alert'
+2=1
+}
+}
+}

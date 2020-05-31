@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Guarani'
+}
+'en'={
+1='Guarani'
+}
+'gn'={
+1='Avañe`ẽ'
+}
+}
+}

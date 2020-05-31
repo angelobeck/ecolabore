@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Tigrínia'
+}
+'en'={
+1='Tigrinya'
+}
+'ti'={
+1='ትግርኛ'
+}
+}
+}

@@ -1,0 +1,11 @@
+'children'={
+#='_start'
+#='admin_constants_systemDefaultLanguage'
+#='admin_constants_systemDefaultCharset'
+#='admin_constants_systemDefaultCurrency'
+#='admin_constants_systemTimezone'
+#='admin_constants_systemSessionTTL'
+#='admin_constants_systemSessionCacheExpire'
+#='_submit'
+#='_end'
+}

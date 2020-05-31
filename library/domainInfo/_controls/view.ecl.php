@@ -1,0 +1,13 @@
+'flags'={
+'modFormulary_preset'='view'
+}
+'children'={
+#='_startView'
+#='~viewTitle'
+#='~viewCaption'
+#='~viewDescription'
+#='~viewMail'
+#='~viewPhone'
+#='~viewAddress'
+#='_endView'
+}

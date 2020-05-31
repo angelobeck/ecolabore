@@ -1,0 +1,17 @@
+'flags'={
+'type'='text'
+'filter'='free'
+'field_name'='identifier'
+'target'='identifier'
+}
+'text'={
+'caption'={
+'pt'={
+1='Identificador'
+2=1
+}
+'en'={
+1='Identifier'
+}
+}
+}

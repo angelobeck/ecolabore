@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Maltês'
+}
+'en'={
+1='Maltese'
+}
+'mt'={
+1='Bil-Malta'
+}
+}
+}

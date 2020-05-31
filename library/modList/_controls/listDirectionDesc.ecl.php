@@ -1,0 +1,14 @@
+'flags'={
+'value'='desc'
+}
+'text'={
+'caption'={
+'pt'={
+1='Descendente'
+2=1
+}
+'en'={
+1='Descendant'
+}
+}
+}

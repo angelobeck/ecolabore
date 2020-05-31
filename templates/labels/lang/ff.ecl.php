@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Fula'
+}
+'en'={
+1='Fulah'
+}
+'ff'={
+1='Fulfulde'
+}
+}
+}

@@ -1,0 +1,10 @@
+'children'={
+#='_start'
+#='adminDomains_details_editDefaultLanguage'
+#='~editLanguagesManager'
+#='_separator'
+#='adminDomains_details_editCurrency'
+#='~editCurrenciesManager'
+#='_save'
+#='_end'
+}

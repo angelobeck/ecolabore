@@ -1,0 +1,11 @@
+'check'={
+'mode'='section'
+'marker'=7
+}
+'parent'={
+'mode'='index'
+}
+'create'={
+'mode'='section'
+'type'='search'
+}

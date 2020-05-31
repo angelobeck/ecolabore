@@ -1,0 +1,10 @@
+'flags'={
+'condition'='rewrite_engine_choose'
+'type'='checkbox'
+'filter'='checkbox'
+'target'='SYSTEM_REWRITE_ENGINE'
+'field_name'='SYSTEM_REWRITE_ENGINE'
+'value_cast'='bool'
+'caption'='admin_constants_systemRewriteEngine'
+'help'=1
+}

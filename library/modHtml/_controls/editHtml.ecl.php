@@ -1,0 +1,17 @@
+'flags'={
+'type'='textarea'
+'filter'='free'
+'field_name'='html'
+'target'='local/html'
+}
+'text'={
+'caption'={
+'pt'={
+1='HTML'
+2=1
+}
+'en'={
+1='HTML'
+}
+}
+}

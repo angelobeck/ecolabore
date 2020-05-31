@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Sânscrito'
+}
+'en'={
+1='Sanskrit'
+}
+'sa'={
+1='संस्कृत'
+}
+}
+}

@@ -1,0 +1,17 @@
+'flags'={
+'type'='text'
+'filter'='text'
+'field_name'='caption'
+'target'='text/caption'
+}
+'text'={
+'caption'={
+'pt'={
+1='Legenda'
+2=1
+}
+'en'={
+1='Caption'
+}
+}
+}

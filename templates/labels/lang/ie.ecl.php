@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Interlíngue'
+}
+'en'={
+1='Interlingue'
+}
+'ie'={
+1='Interlingue'
+}
+}
+}

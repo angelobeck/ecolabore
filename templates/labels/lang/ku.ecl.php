@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Curdo'
+}
+'en'={
+1='Kurdish'
+}
+'ku'={
+1='Kurdî/كوردي'
+}
+}
+}

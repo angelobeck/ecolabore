@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Guzerate'
+}
+'en'={
+1='Gujarati'
+}
+'gu'={
+1='ગુજરાતી'
+}
+}
+}

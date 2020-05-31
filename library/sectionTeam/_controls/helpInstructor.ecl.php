@@ -1,0 +1,12 @@
+'check'={
+'mode'='section'
+'marker'=27
+}
+'parent'={
+'mode'='section'
+'marker'=20
+}
+'create'={
+'mode'='section'
+'type'='team'
+}

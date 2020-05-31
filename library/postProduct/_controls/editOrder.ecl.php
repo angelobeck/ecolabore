@@ -1,0 +1,15 @@
+'local'={
+'type'='text_tiny'
+}
+'text'={
+'caption'={
+'pt'={
+1='Encomendas'
+2=1
+}
+'en'={
+1='Order'
+2=1
+}
+}
+}

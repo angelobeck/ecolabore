@@ -1,0 +1,10 @@
+'flags'={
+'value'='125'
+}
+'text'={
+'caption'={
+'en'={
+1='1.25rem'
+}
+}
+}

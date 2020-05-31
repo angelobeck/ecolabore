@@ -1,0 +1,13 @@
+'flags'={
+'type'='textarea'
+'filter'='~logView'
+'field_name'='log'
+}
+'text'={
+'caption'={
+'pt'={
+1='error_log'
+2=1
+}
+}
+}

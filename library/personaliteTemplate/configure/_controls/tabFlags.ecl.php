@@ -1,0 +1,17 @@
+'flags'={
+'filter'='formulary'
+}
+'text'={
+'caption'={
+'pt'={
+1='Sinalizadores'
+2=1
+}
+'en'={
+1='Flags'
+}
+}
+}
+'children'={
+#='~editFlags'
+}

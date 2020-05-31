@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Cadastre-se'
+2=1
+5=2
+}
+'en'={
+1='Subscribe'
+2=1
+}
+}
+}

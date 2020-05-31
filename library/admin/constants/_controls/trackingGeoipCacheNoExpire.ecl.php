@@ -1,0 +1,15 @@
+'flags'={
+'value'=0
+}
+'text'={
+'caption'={
+'pt'={
+1='Permanente'
+2=1
+}
+'en'={
+1='Permanent'
+2=1
+}
+}
+}

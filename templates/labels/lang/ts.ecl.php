@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Tsonga'
+}
+'en'={
+1='Tsonga'
+}
+'ts'={
+1='Tsonga'
+}
+}
+}

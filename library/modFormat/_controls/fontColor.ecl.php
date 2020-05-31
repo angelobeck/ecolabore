@@ -1,0 +1,16 @@
+'flags'={
+'filter'='color'
+'field_name'='font_color'
+'target'='local/format-font-color'
+}
+'text'={
+'caption'={
+'pt'={
+1='Cor'
+2=1
+}
+'en'={
+1='Color'
+}
+}
+}

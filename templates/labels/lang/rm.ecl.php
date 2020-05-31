@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Reto-romano'
+}
+'en'={
+1='Raeto-Romance'
+}
+'rm'={
+1='Rumantsch'
+}
+}
+}

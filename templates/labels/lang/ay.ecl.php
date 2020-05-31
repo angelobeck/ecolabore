@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Aimará'
+}
+'en'={
+1='Aymara'
+}
+'ay'={
+1='Aymar'
+}
+}
+}

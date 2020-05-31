@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Sueco'
+}
+'en'={
+1='Swedish'
+}
+'sv'={
+1='Svenska'
+}
+}
+}

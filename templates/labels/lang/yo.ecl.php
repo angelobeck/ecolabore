@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Iorubá'
+}
+'en'={
+1='Yoruba'
+}
+'yo'={
+1='Yorùbá'
+}
+}
+}

@@ -1,0 +1,11 @@
+'text'={
+'caption'={
+'pt'={
+1='Atualizar'
+2=1
+}
+'en'={
+1='Update'
+}
+}
+}

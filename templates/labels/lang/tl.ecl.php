@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Tagalo'
+}
+'en'={
+1='Tagalog'
+}
+'tl'={
+1='Tagalog'
+}
+}
+}

@@ -1,0 +1,14 @@
+'flags'={
+'value'='box'
+}
+'text'={
+'caption'={
+'pt'={
+1='Caixa'
+2=1
+}
+'en'={
+1='Box'
+}
+}
+}

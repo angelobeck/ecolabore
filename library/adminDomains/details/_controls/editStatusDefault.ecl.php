@@ -1,0 +1,15 @@
+'flags'={
+'value'='2'
+}
+'text'={
+'caption'={
+'pt'={
+1='Ativo'
+2=1
+}
+'en'={
+1='Active'
+2=1
+}
+}
+}

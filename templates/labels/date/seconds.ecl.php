@@ -1,0 +1,11 @@
+'text'={
+'caption'={
+'pt'={
+1='Segundos'
+2=1
+}
+'en'={
+1='Seconds'
+}
+}
+}

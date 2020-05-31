@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Tibetano'
+}
+'en'={
+1='Tibetan'
+}
+'bo'={
+1='བོད་ཡིག'
+}
+}
+}

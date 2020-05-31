@@ -1,0 +1,14 @@
+'flags'={
+'value'='spotlight'
+}
+'text'={
+'caption'={
+'pt'={
+1='Destaque'
+2=1
+}
+'en'={
+1='Spotlight'
+}
+}
+}

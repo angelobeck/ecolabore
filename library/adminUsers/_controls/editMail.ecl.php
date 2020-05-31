@@ -1,0 +1,16 @@
+'flags'={
+'type'='text'
+'filter'='personaliteFields_mail'
+'field_name'='mail'
+}
+'text'={
+'caption'={
+'pt'={
+1='Email'
+2=1
+}
+'en'={
+1='Email'
+}
+}
+}

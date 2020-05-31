@@ -1,0 +1,6 @@
+domainIcons
+domainScripts
+domainServices
+domainStyles
+systemShared
+adminDefault

@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Galês'
+}
+'en'={
+1='Welsh'
+}
+'cy'={
+1='Cymraeg'
+}
+}
+}

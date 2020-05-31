@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Avéstico'
+}
+'en'={
+1='Avestan'
+}
+'ae'={
+1='Avesta'
+}
+}
+}

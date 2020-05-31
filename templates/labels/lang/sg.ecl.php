@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Sango'
+}
+'en'={
+1='Sango'
+}
+'sg'={
+1='Sängö'
+}
+}
+}

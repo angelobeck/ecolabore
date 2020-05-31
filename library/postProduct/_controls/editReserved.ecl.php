@@ -1,0 +1,15 @@
+'local'={
+'type'='view'
+}
+'text'={
+'caption'={
+'pt'={
+1='Reservados'
+2=1
+}
+'en'={
+1='Reserved'
+2=1
+}
+}
+}

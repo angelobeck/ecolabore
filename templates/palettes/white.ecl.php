@@ -1,0 +1,37 @@
+'text'={
+'caption'={
+'pt'={
+1='Branco'
+2=1
+}
+'en'={
+1='White'
+}
+}
+}
+'local'={
+'document-text-color'='#000'
+'document-background-color'='#fff'
+'document-border-color'='#444'
+'document-header-color'='#444'
+'document-mark-color'='#888'
+'panel-background-color'='#ddd'
+'spotlight-text-color'='#fff'
+'spotlight-background-color'='#444'
+'spotlight-border-color'='#ddd'
+'spotlight-header-color'='#fff'
+'spotlight-mark-color'='#ccc'
+'card-background-color'='#ccc'
+'formulary-background-color'='#bbb'
+'input-text-color'='#000'
+'input-background-color'='#eee'
+'focus-text-color'='#000'
+'focus-background-color'='#fff'
+'button-text-color'='#fff'
+'button-background-color'='#406e8e'
+'active-text-color'='#fff'
+'active-background-color'='#393A44'
+'badge-text-color'='#fff'
+'badge-background-color'='rgba(0, 0, 0, 0.5)'
+'table-strip'='rgba(0, 0, 0, 0.2)'
+}

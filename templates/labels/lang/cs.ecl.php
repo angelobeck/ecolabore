@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Tcheco'
+}
+'en'={
+1='Czech'
+}
+'cs'={
+1='česky'
+}
+}
+}

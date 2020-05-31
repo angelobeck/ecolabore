@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Quirguiz'
+}
+'en'={
+1='Kirghiz'
+}
+'ky'={
+1='Кыргызча'
+}
+}
+}

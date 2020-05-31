@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Espanhol'
+}
+'en'={
+1='Spanish'
+}
+'es'={
+1='Español'
+}
+}
+}

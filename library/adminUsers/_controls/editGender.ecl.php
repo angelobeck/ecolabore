@@ -1,0 +1,22 @@
+'flags'={
+'type'='select'
+'filter'='select'
+'target'='local/gender'
+'field_name'='gender'
+}
+'text'={
+'caption'={
+'pt'={
+1='Forma de tratamento'
+2=1
+}
+'en'={
+1='Gender'
+}
+}
+}
+'children'={
+#='~editGenderUndefined'
+#='~editGenderFemale'
+#='~editGenderMale'
+}

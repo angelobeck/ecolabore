@@ -1,0 +1,12 @@
+domainIndex
+section
+section_create
+domainFiles
+domainGlossary
+domainIcons
+domainInfo
+domainRecents
+domainScripts
+domainSearch
+domainStyles
+domainSubscription

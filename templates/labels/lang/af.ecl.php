@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Africâner'
+}
+'en'={
+1='Afrikaans'
+}
+'af'={
+1='Afrikaans'
+}
+}
+}

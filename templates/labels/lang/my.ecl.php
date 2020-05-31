@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Birmanês'
+}
+'en'={
+1='Burmese'
+}
+'my'={
+1='မန္မာစာ'
+}
+}
+}

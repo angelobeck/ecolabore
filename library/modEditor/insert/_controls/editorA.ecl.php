@@ -1,0 +1,16 @@
+'local'={
+'personalite'='link'
+'target'='new'
+'icon'='insert_a.svg'
+}
+'text'={
+'caption'={
+'pt'={
+1='Hyperlink'
+2=1
+}
+'en'={
+1='Hyperlink'
+}
+}
+}

@@ -1,0 +1,12 @@
+'children'={
+#='_start'
+#='~editFrom'
+#='~editTo'
+#='~editCc'
+#='~editBcc'
+#='~editSubject'
+#='~editText'
+#='~editHtml'
+#='_submit'
+#='_end'
+}

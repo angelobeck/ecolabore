@@ -1,0 +1,10 @@
+'text'={
+'caption'={
+'pt'={
+1='Desabilitado'
+}
+'en'={
+1='Disabled'
+}
+}
+}

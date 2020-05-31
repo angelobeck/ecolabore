@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Bielo-russo'
+}
+'en'={
+1='Belarusian'
+}
+'be'={
+1='беларуская'
+}
+}
+}

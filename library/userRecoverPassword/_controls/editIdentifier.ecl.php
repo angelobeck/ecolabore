@@ -1,0 +1,15 @@
+'flags'={
+'filter'='userRecoverPassword_identifier'
+'field_name'='identifier'
+}
+'text'={
+'caption'={
+'pt'={
+1='Identificador'
+2=1
+}
+'en'={
+1='Identifier'
+}
+}
+}

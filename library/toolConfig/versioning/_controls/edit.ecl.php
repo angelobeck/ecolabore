@@ -1,0 +1,11 @@
+'children'={
+#='_start'
+#='domainCreate_editCaption'
+#='domainCreate_editTitle'
+#='domainCreate_editDescription'
+#='domainCreate_editAddress'
+#='domainCreate_editPhone'
+#='domainCreate_editMail'
+#='_save'
+#='_end'
+}

@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Xhosa'
+}
+'en'={
+1='Xhosa'
+}
+'xh'={
+1='Xhosa'
+}
+}
+}

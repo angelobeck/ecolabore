@@ -1,0 +1,9 @@
+'children'={
+#='_start'
+#='~formName'
+#='~formMail'
+#='~formGender'
+#='~formComment'
+#='_submit'
+#='_end'
+}

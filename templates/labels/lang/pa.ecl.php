@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Panjabi'
+}
+'en'={
+1='Panjabi'
+}
+'pa'={
+1='ਪੰਜਾਬੀ'
+}
+}
+}

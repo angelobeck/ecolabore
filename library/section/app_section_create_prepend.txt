@@ -1,0 +1,6 @@
+sectionFolder_create
+sectionCart_create
+sectionBlog_create
+sectionCategories_create
+sectionSearch_create
+sectionFormulary_create

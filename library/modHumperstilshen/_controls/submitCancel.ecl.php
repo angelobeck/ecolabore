@@ -1,0 +1,9 @@
+'flags'={
+'filter'='submit'
+'field_name'='close'
+'reset'=1
+'caption'='labels/action/cancel'
+}
+'local'={
+'onclick'='humperstilshen.dialogClose()'
+}

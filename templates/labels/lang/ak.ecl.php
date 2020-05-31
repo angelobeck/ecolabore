@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Akan'
+}
+'en'={
+1='Akan'
+}
+'ak'={
+1='Akana'
+}
+}
+}

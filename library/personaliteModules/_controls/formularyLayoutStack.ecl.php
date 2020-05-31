@@ -1,0 +1,14 @@
+'flags'={
+'value'='stack'
+}
+'text'={
+'caption'={
+'pt'={
+1='Pilha'
+2=1
+}
+'en'={
+1='Stack'
+}
+}
+}

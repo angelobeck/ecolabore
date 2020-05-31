@@ -1,0 +1,16 @@
+'flags'={
+'filter'='submit'
+'field_name'='submit'
+}
+'text'={
+'caption'={
+'pt'={
+1='Ir'
+2=1
+}
+'en'={
+1='Go'
+2=1
+}
+}
+}

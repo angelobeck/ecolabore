@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Húngaro'
+}
+'en'={
+1='Hungarian'
+}
+'hu'={
+1='Magyar'
+}
+}
+}

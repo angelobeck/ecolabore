@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Islandês'
+}
+'en'={
+1='Icelandic'
+}
+'is'={
+1='Íslenska'
+}
+}
+}

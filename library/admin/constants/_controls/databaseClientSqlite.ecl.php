@@ -1,0 +1,15 @@
+'flags'={
+'value'='sqlite'
+}
+'text'={
+'caption'={
+'pt'={
+1='SQLite'
+2=1
+}
+'en'={
+1='SQLite'
+2=1
+}
+}
+}

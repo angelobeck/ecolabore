@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Bâmbara'
+}
+'en'={
+1='Bambara'
+}
+'bm'={
+1='Bamanankan'
+}
+}
+}

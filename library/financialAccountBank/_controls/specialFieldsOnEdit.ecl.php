@@ -1,0 +1,5 @@
+'children'={
+#='~editPayDeposit'
+#='~editPaySlip'
+#='~editPayCardMachine'
+}

@@ -1,0 +1,13 @@
+'flags'={
+'filter'='personaliteExport_components'
+}
+'text'={
+'caption'={
+'pt'={
+1='Componentes'
+}
+'en'={
+1='Components'
+}
+}
+}

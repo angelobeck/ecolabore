@@ -1,0 +1,11 @@
+'local'={
+'type'='reportTopic'
+}
+'text'={
+'caption'={
+'pt'={
+1='Software'
+2=1
+}
+}
+}

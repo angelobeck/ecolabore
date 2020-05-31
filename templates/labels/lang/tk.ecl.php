@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Turcomano'
+}
+'en'={
+1='Turkmen'
+}
+'tk'={
+1='Түркмен'
+}
+}
+}

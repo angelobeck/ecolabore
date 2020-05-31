@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Finlandês'
+}
+'en'={
+1='Finnish'
+}
+'fi'={
+1='Suomi'
+}
+}
+}

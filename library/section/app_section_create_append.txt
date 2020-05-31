@@ -1,0 +1,8 @@
+sectionGlossary_create
+sectionInfo_create
+sectionLogin_create
+sectionSubdomains_create
+sectionTerms_create
+sectionPrivacyPolicy_create
+sectionMenu_create
+sectionRedirect_create

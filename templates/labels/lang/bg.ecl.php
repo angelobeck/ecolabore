@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Búlgaro'
+}
+'en'={
+1='Bulgarian'
+}
+'bg'={
+1='български'
+}
+}
+}

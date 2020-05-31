@@ -1,0 +1,17 @@
+'flags'={
+'filter'='adminDomains_selectCurrency'
+'target'='flags/currency'
+'field_name'='currency'
+}
+'text'={
+'caption'={
+'pt'={
+1='Moeda'
+2=1
+}
+'en'={
+1='Currency'
+2=1
+}
+}
+}

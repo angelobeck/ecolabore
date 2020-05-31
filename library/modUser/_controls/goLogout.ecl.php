@@ -1,0 +1,12 @@
+'text'={
+'caption'={
+'pt'={
+1='Desconectar'
+2=1
+}
+'en'={
+1='Disconnect'
+2=1
+}
+}
+}

@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Frísio'
+}
+'en'={
+1='Frisian'
+}
+'fy'={
+1='Frysk'
+}
+}
+}

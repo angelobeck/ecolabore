@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Georgiano'
+}
+'en'={
+1='Georgian'
+}
+'ka'={
+1='ქართული'
+}
+}
+}

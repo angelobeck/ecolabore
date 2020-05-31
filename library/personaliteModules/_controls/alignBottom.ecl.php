@@ -1,0 +1,14 @@
+'flags'={
+'value'='bottom'
+}
+'text'={
+'caption'={
+'pt'={
+1='Inferior'
+2=1
+}
+'en'={
+1='Bottom'
+}
+}
+}

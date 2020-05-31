@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Volapuque'
+}
+'en'={
+1='Volapük'
+}
+'vo'={
+1='Volapük'
+}
+}
+}

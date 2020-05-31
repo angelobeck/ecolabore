@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Tswana'
+}
+'en'={
+1='Tswana'
+}
+'tn'={
+1='SeTswana'
+}
+}
+}

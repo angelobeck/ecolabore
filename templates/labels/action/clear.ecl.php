@@ -1,0 +1,12 @@
+'text'={
+'caption'={
+'pt'={
+1='Limpar'
+2=1
+}
+'en'={
+1='Clear'
+2=1
+}
+}
+}

@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Japonês'
+}
+'en'={
+1='Japanese'
+}
+'ja'={
+1='日本語'
+}
+}
+}

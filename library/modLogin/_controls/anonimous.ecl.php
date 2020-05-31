@@ -1,0 +1,11 @@
+'text'={
+'caption'={
+'pt'={
+1='Visitante'
+}
+'en'={
+1='Visitor'
+2=1
+}
+}
+}

@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Lingala'
+}
+'en'={
+1='Lingala'
+}
+'ln'={
+1='Lingala'
+}
+}
+}

@@ -1,0 +1,11 @@
+'children'={
+#='_start'
+#='personaliteFields_editCaption'
+#='~editType'
+#='_separator'
+#='~editExplain'
+#='~editFields'
+#='_separator'
+#='_saveCancel'
+#='_end'
+}

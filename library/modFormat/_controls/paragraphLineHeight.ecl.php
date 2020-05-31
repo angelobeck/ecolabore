@@ -1,0 +1,32 @@
+'flags'={
+'type'='select'
+'filter'='options'
+'field_name'='paragraph_line_height'
+'target'='local/format-line-height'
+'default_value'=''
+'clear'=1
+}
+'text'={
+'caption'={
+'pt'={
+1='Altura da linha'
+2=1
+}
+'en'={
+1='Line height'
+}
+}
+}
+'options'={
+#=''
+#='0.9'
+#='1'
+#='1.1'
+#='1.2'
+#='1.3'
+#='1.4'
+#='1.5'
+#='1.6'
+#='1.8'
+#='2'
+}

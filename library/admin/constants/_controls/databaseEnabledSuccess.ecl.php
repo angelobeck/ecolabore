@@ -1,0 +1,23 @@
+'flags'={
+'icon'='happy'
+}
+'text'={
+'caption'={
+'pt'={
+1='Sucesso!'
+2=1
+}
+'en'={
+1='Success!'
+}
+}
+'content'={
+'pt'={
+1='O [text $system.caption] conectou-se ao banco de dados corretamente.
+'
+2=1
+4=1
+6=1
+}
+}
+}

@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Azerbaijano'
+}
+'en'={
+1='Azerbaijani'
+}
+'az'={
+1='Azərbaycan'
+}
+}
+}

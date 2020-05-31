@@ -1,0 +1,10 @@
+'flags'={
+'type'='text_password'
+'filter'='systemInstallation_password'
+'target'='ADMIN_PASSWORD'
+'field_name'='ADMIN_PASSWORD'
+'help'=1
+'required'=1
+'password_md5'=1
+'caption'='admin_constants_adminPassword'
+}

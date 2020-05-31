@@ -1,0 +1,2 @@
+
+me.lastAlt = false;

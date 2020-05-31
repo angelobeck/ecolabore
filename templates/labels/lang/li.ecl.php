@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Limburguês'
+}
+'en'={
+1='Limburgish'
+}
+'li'={
+1='Lèmburgs'
+}
+}
+}

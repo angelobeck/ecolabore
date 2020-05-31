@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Tchuvache'
+}
+'en'={
+1='Chuvash'
+}
+'cv'={
+1='Чӑваш'
+}
+}
+}

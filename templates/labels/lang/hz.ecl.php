@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Hereró'
+}
+'en'={
+1='Herero'
+}
+'hz'={
+1='Otjiherero'
+}
+}
+}

@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Venda'
+}
+'en'={
+1='Venda'
+}
+'ve'={
+1='Venḓa'
+}
+}
+}

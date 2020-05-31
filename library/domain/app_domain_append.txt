@@ -1,0 +1,7 @@
+endpoints
+personalite
+tool
+userJoin
+domainSitemap
+domainAbuseReport
+domainDefault

@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Estoniano'
+}
+'en'={
+1='Estonian'
+}
+'et'={
+1='Eesti'
+}
+}
+}

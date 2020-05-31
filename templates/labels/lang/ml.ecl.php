@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Malayalam'
+}
+'en'={
+1='Malayalam'
+}
+'ml'={
+1='മലയാളം'
+}
+}
+}

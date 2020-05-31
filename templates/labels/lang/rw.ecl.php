@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Quiniaruanda'
+}
+'en'={
+1='Kinyarwanda'
+}
+'rw'={
+1='KinyaRwanda'
+}
+}
+}

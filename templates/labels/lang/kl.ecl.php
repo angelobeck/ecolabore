@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Groenlandês'
+}
+'en'={
+1='Kalaallisut'
+}
+'kl'={
+1='Kalaallisut'
+}
+}
+}

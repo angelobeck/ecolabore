@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Chamorro'
+}
+'en'={
+1='Chamorro'
+}
+'ch'={
+1='Chamoru'
+}
+}
+}

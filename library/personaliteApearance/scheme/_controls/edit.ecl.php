@@ -1,0 +1,12 @@
+'children'={
+#='_start'
+#='~tabDocument'
+#='~tabFonts'
+#='~tabPanel'
+#='~tabSpotlight'
+#='~tabCard'
+#='~tabFormulary'
+#='~tabNav'
+#='~tabSystem'
+#='_end'
+}

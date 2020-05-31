@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Bashkir'
+}
+'en'={
+1='Bashkir'
+}
+'ba'={
+1='Башҡорт'
+}
+}
+}

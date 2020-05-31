@@ -1,0 +1,14 @@
+'flags'={
+'value'='order'
+}
+'text'={
+'caption'={
+'pt'={
+1='Pedido'
+2=1
+}
+'en'={
+1='Order'
+}
+}
+}

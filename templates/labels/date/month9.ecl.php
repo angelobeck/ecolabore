@@ -1,0 +1,11 @@
+'text'={
+'caption'={
+'pt'={
+1='Setembro'
+2=1
+}
+'en'={
+1='September'
+}
+}
+}

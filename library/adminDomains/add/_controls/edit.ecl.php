@@ -1,0 +1,12 @@
+'children'={
+#='_start'
+#='~editName'
+#='~editTitle'
+#='~editDescription'
+#='adminUsers_editMail'
+#='adminUsers_editPhone'
+#='~editDefaultLanguage'
+#='~editAdmin'
+#='_submit'
+#='_end'
+}

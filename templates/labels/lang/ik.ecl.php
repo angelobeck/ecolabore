@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Inupiaq'
+}
+'en'={
+1='Inupiaq'
+}
+'ik'={
+1='Iñupiaq'
+}
+}
+}

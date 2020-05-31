@@ -1,0 +1,10 @@
+'children'={
+#='_start'
+#='admin_constants_databaseDisplayErrors'
+#='admin_constants_databaseLogErrors'
+#='_submit'
+#='_separator'
+#='~editLogView'
+#='~editLogClear'
+#='_end'
+}

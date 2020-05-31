@@ -1,0 +1,17 @@
+'flags'={
+'filter'='formulary'
+}
+'text'={
+'caption'={
+'pt'={
+1='Listas'
+2=1
+}
+'en'={
+1='Lists'
+}
+}
+}
+'children'={
+#='~manageLists'
+}

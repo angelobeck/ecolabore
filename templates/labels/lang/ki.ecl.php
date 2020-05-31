@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Gikuyu'
+}
+'en'={
+1='Kikuyu'
+}
+'ki'={
+1='Gĩkũyũ'
+}
+}
+}

@@ -1,0 +1,32 @@
+'flags'={
+'type'='select'
+'filter'='select'
+'field_name'='margin_left'
+'target'='local/mod-padding-left'
+'default_value'=''
+'clear'=1
+}
+'text'={
+'caption'={
+'pt'={
+1='Margem esquerda'
+2=1
+}
+'en'={
+1='Left margin'
+}
+}
+}
+'children'={
+#='~modPaddingAuto'
+#='~modPadding0'
+#='~025rem'
+#='~050rem'
+#='~075rem'
+#='~100rem'
+#='~125rem'
+#='~150rem'
+#='~200rem'
+#='~250rem'
+#='~300rem'
+}

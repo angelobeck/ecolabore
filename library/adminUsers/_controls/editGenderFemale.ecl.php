@@ -1,0 +1,14 @@
+'flags'={
+'value'='female'
+}
+'text'={
+'caption'={
+'pt'={
+1='Senhora'
+2=1
+}
+'en'={
+1='Miss'
+}
+}
+}

@@ -1,0 +1,12 @@
+'text'={
+'caption'={
+'pt'={
+1='Unidade'
+2=1
+}
+'en'={
+1='Unit'
+2=1
+}
+}
+}

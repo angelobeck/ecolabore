@@ -1,0 +1,14 @@
+'local'={
+'caption'={
+'pt'={
+1='Arquivo'
+2=1
+}
+'en'={
+1='File'
+2=1
+}
+}
+'list'='details'
+'details'='media_file'
+}

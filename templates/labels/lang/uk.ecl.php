@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Ucraniano'
+}
+'en'={
+1='Ukrainian'
+}
+'uk'={
+1='українська'
+}
+}
+}

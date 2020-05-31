@@ -1,0 +1,11 @@
+'text'={
+'caption'={
+'pt'={
+1='Estado'
+2=1
+}
+'en'={
+1='State'
+}
+}
+}

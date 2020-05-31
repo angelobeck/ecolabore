@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Oshikwanyama'
+}
+'en'={
+1='Kuanyama'
+}
+'kj'={
+1='Kuanyama'
+}
+}
+}

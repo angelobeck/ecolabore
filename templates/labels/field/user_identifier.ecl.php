@@ -1,0 +1,12 @@
+'text'={
+'caption'={
+'pt'={
+1='Identificador'
+2=1
+}
+'en'={
+1='Identifier'
+2=1
+}
+}
+}

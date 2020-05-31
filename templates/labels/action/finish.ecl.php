@@ -1,0 +1,12 @@
+'text'={
+'caption'={
+'pt'={
+1='Concluir'
+2=1
+}
+'en'={
+1='Finish'
+2=1
+}
+}
+}

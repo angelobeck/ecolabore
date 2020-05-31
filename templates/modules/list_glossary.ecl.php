@@ -1,0 +1,16 @@
+'text'={
+'caption'={
+'pt'={
+1='Verbetes'
+2=1
+}
+'en'={
+1='Tags'
+2=1
+}
+}
+}
+'local'={
+'details'='img_mini_title_description'
+'list-sort'='name'
+}

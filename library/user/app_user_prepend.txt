@@ -1,0 +1,7 @@
+userIndex
+userAnonimous
+userPartialSubscription
+userHome
+userAdmin
+userJoin
+userRecoverPassword

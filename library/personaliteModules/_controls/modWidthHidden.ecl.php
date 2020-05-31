@@ -1,0 +1,14 @@
+'flags'={
+'value'='hidden'
+}
+'text'={
+'caption'={
+'pt'={
+1='Ocultar'
+2=1
+}
+'en'={
+1='Hidden'
+}
+}
+}

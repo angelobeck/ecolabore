@@ -1,0 +1,14 @@
+'flags'={
+'value'='panel'
+}
+'text'={
+'caption'={
+'pt'={
+1='Painel'
+2=1
+}
+'en'={
+1='Panel'
+}
+}
+}

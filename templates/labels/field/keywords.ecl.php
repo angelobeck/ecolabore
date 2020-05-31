@@ -1,0 +1,12 @@
+'text'={
+'caption'={
+'pt'={
+1='Palavras-chave'
+2=1
+}
+'en'={
+1='Keywords'
+2=1
+}
+}
+}

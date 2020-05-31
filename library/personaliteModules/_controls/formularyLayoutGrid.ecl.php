@@ -1,0 +1,14 @@
+'flags'={
+'value'='grid'
+}
+'text'={
+'caption'={
+'pt'={
+1='Grade'
+2=1
+}
+'en'={
+1='Grid'
+}
+}
+}

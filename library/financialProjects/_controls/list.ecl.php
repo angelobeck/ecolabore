@@ -1,0 +1,12 @@
+'text'={
+'caption'={
+'pt'={
+1='Projetos'
+2=1
+}
+'en'={
+1='Projects'
+2=1
+}
+}
+}

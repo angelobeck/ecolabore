@@ -1,0 +1,17 @@
+'text'={
+'caption'={
+'pt'={
+1='Relacionado'
+2=1
+}
+'en'={
+1='Related'
+2=1
+}
+}
+}
+'local'={
+'caption-display'=1
+'list-layout'='inline'
+'details'='img_mini_title_description'
+}

@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Ibo'
+}
+'en'={
+1='Igbo'
+}
+'ig'={
+1='Igbo'
+}
+}
+}

@@ -1,0 +1,9 @@
+'flags'={
+'type'='text_small'
+'filter'='regexp'
+'target'='ADMIN_IDENTIFIER'
+'field_name'='ADMIN_IDENTIFIER'
+'regexp'='/[a-z][a-z0-9]+/'
+'help'=1
+'caption'='admin_constants_adminIdentifier'
+}

@@ -1,0 +1,12 @@
+'text'={
+'caption'={
+'pt'={
+1='Cancelar'
+2=1
+}
+'en'={
+1='Cancel'
+2=1
+}
+}
+}

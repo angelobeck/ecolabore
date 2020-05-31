@@ -1,0 +1,14 @@
+'flags'={
+'value'='center'
+}
+'text'={
+'caption'={
+'pt'={
+1='Centralizado'
+2=1
+}
+'en'={
+1='Center'
+}
+}
+}

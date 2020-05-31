@@ -1,0 +1,9 @@
+'flags'={
+'type'='text_small'
+'filter'='free'
+'target'='ADMIN_CAPTION'
+'field_name'='ADMIN_CAPTION'
+'required'=1
+'caption'='admin_constants_adminCaption'
+'help'=1
+}

@@ -1,0 +1,12 @@
+'text'={
+'caption'={
+'pt'={
+1='Anterior'
+2=1
+}
+'en'={
+1='Previous'
+2=1
+}
+}
+}

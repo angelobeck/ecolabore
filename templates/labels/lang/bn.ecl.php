@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Bengali'
+}
+'en'={
+1='Bengali'
+}
+'bn'={
+1='বাংলা'
+}
+}
+}

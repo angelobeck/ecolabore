@@ -1,0 +1,16 @@
+'flags'={
+'filter'='personaliteExtras_img'
+'field_name'='img'
+}
+'text'={
+'caption'={
+'pt'={
+1='Imagem'
+2=1
+}
+'en'={
+1='Image'
+2=1
+}
+}
+}

@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Kongo'
+}
+'en'={
+1='Kongo'
+}
+'kg'={
+1='Kikongo'
+}
+}
+}

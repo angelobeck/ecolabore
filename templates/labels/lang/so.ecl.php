@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Somali'
+}
+'en'={
+1='Somali'
+}
+'so'={
+1='Soomaaliga'
+}
+}
+}

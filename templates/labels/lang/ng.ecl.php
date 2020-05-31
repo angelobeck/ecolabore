@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Ndonga'
+}
+'en'={
+1='Ndonga'
+}
+'ng'={
+1='O(shi)wambo'
+}
+}
+}

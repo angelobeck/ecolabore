@@ -1,0 +1,15 @@
+'flags'={
+'type'='text_small'
+'filter'='regexp'
+'field_name'='cpf'
+'target'='local/document/cpf'
+'regexp'='/^[0-9]{9}[-]?[0-9]{2}$/'
+}
+'text'={
+'caption'={
+'pt'={
+1='CPF'
+2=1
+}
+}
+}

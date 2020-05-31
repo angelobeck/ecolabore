@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Occitano'
+}
+'en'={
+1='Occitan'
+}
+'oc'={
+1='Occitan'
+}
+}
+}

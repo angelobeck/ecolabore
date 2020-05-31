@@ -1,0 +1,17 @@
+'flags'={
+'type'='textarea_big'
+'filter'='free'
+'field_name'='script'
+'target'='html'
+}
+'text'={
+'caption'={
+'pt'={
+1='JavaScript'
+2=1
+}
+'en'={
+1='JavaScript'
+}
+}
+}

@@ -1,0 +1,12 @@
+'text'={
+'caption'={
+'pt'={
+1='Escolher'
+2=1
+}
+'en'={
+1='Choose'
+2=1
+}
+}
+}

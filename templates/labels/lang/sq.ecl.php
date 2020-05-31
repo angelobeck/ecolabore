@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Albanês'
+}
+'en'={
+1='Albanian'
+}
+'sq'={
+1='Shqip'
+}
+}
+}

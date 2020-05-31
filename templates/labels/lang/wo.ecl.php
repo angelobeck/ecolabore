@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Wolof'
+}
+'en'={
+1='Wolof'
+}
+'wo'={
+1='Wolof'
+}
+}
+}

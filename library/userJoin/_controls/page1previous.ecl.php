@@ -1,0 +1,11 @@
+'local'={
+'scheme'='system'
+}
+'children'={
+#='_start'
+#='adminUsers_editName'
+#='adminUsers_editGender'
+#='adminUsers_editPassword'
+#='_previousNext'
+#='_end'
+}

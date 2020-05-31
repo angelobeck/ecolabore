@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Inuktitut'
+}
+'en'={
+1='Inuktitut'
+}
+'iu'={
+1='ᐃᓄᒃᑎᑐᑦ'
+}
+}
+}

@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Suázi'
+}
+'en'={
+1='Swati'
+}
+'ss'={
+1='SiSwati'
+}
+}
+}

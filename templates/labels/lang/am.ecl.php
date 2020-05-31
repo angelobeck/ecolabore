@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Amárico'
+}
+'en'={
+1='Amharic'
+}
+'am'={
+1='አማርኛ'
+}
+}
+}

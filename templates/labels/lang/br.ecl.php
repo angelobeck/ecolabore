@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Bretão'
+}
+'en'={
+1='Breton'
+}
+'br'={
+1='Brezhoneg'
+}
+}
+}

@@ -1,0 +1,4 @@
+'ADMIN_CAPTION'='Administrador'
+'ADMIN_GENDER'='male'
+'ADMIN_IDENTIFIER'='admin'
+'SYSTEM_HOSTING_MODE'=0

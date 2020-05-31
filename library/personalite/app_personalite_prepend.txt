@@ -1,0 +1,8 @@
+personaliteApearance
+personaliteDetails
+personaliteExtras
+personaliteInstall
+personaliteModules
+personaliteObjects
+personaliteTemplate
+personaliteExport

@@ -1,0 +1,9 @@
+'flags'={
+'condition'='text_ecolabore_choose'
+'type'='checkbox'
+'filter'='checkbox'
+'field_name'='text_ecolabore'
+'target'='flags/text_ecolabore'
+'invert'=1
+'caption'='labels/field/recognize_ecolabore'
+}

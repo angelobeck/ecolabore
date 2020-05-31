@@ -1,0 +1,14 @@
+'flags'={
+'value'='thumbnail'
+}
+'text'={
+'caption'={
+'pt'={
+1='Slide'
+2=1
+}
+'en'={
+1='Slide'
+}
+}
+}

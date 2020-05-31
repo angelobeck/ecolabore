@@ -1,0 +1,9 @@
+'children'={
+#='_start'
+#='~viewCurrentVersion'
+#='~viewCurrentRelease'
+#='~viewLastVerification'
+#='~editCheckNow'
+#='~viewNewVersionAvailable'
+#='_end'
+}

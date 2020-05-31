@@ -1,0 +1,15 @@
+'local'={
+'url'='javascript:EcolaboreEditor.insertSeparator()'
+'icon'='insert_hr.svg'
+}
+'text'={
+'caption'={
+'pt'={
+1='Separador'
+2=1
+}
+'en'={
+1='Separator'
+}
+}
+}

@@ -1,0 +1,17 @@
+'flags'={
+'action'='_user-edit'
+}
+'children'={
+#='_start'
+#='~editName'
+#='adminUsers_editCaption'
+#='adminUsers_editTitle'
+#='adminUsers_editMail'
+#='adminUsers_editGender'
+#='~editPasswordDescription'
+#='~editPassword'
+#='adminUsers_editPassword2'
+#='~editComments'
+#='_submit'
+#='_end'
+}

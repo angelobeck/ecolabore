@@ -1,0 +1,14 @@
+'flags'={
+'value'='columns'
+}
+'text'={
+'caption'={
+'pt'={
+1='Colunas'
+2=1
+}
+'en'={
+1='Columns'
+}
+}
+}

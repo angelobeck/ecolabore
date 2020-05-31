@@ -1,0 +1,8 @@
+adminIndex
+adminAlerts
+adminUsers
+adminDomains
+adminSystem
+adminDatabase
+adminIntegrations
+adminTools

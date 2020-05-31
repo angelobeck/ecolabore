@@ -1,0 +1,12 @@
+'children'={
+#='_start'
+#='admin_constants_adminIdentifier'
+#='admin_constants_adminCaption'
+#='admin_constants_adminMail'
+#='admin_constants_adminGender'
+#='admin_constants_adminPassword'
+#='admin_constants_adminPassword2'
+#='admin_constants_adminHelpers'
+#='_submit'
+#='_end'
+}

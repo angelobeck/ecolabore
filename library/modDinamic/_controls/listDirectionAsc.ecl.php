@@ -1,0 +1,14 @@
+'flags'={
+'value'='asc'
+}
+'text'={
+'caption'={
+'pt'={
+1='Ascendente'
+2=1
+}
+'en'={
+1='Ascendant'
+}
+}
+}

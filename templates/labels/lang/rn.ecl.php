@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Rundi'
+}
+'en'={
+1='Rundi'
+}
+'rn'={
+1='kiRundi'
+}
+}
+}

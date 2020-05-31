@@ -1,0 +1,3 @@
+'local'={
+'symbol'='&#xa5;'
+}

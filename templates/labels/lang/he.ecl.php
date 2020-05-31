@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Hebraico'
+}
+'en'={
+1='Hebrew'
+}
+'he'={
+1='עִבְרִית'
+}
+}
+}

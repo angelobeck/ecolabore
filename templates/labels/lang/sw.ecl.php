@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Suaíli'
+}
+'en'={
+1='Swahili'
+}
+'sw'={
+1='Kiswahili'
+}
+}
+}

@@ -1,0 +1,13 @@
+'text'={
+'caption'={
+'pt'={
+1='Norueguês'
+}
+'en'={
+1='Norwegian'
+}
+'no'={
+1='Norsk'
+}
+}
+}

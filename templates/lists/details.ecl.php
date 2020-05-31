@@ -1,0 +1,1 @@
+'html'='[loop{ details; }'

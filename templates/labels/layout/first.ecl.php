@@ -1,0 +1,12 @@
+'text'={
+'caption'={
+'pt'={
+1='Primeira'
+2=1
+}
+'en'={
+1='First'
+2=1
+}
+}
+}
