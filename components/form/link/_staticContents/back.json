@@ -1,0 +1,17 @@
+{
+    "flags": {
+        "filter": "form_link",
+        "name": "back",
+        "action": "_form-back"
+    },
+    "text": {
+        "label": {
+            "pt": {
+                "value": "Retornar"
+            },
+            "en": {
+                "value": "Back"
+            }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+<form 
+action={action} 
+enctype="multipart-form-data" 
+for:each={children}
+for:item={field}
+method="post"
+>
+<mod name={field.template} field={field} />
+</form>

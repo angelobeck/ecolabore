@@ -1,0 +1,17 @@
+{
+    "flags": {
+        "filter": "form_link",
+        "name": "previous",
+        "action": "_form-previous"
+    },
+    "text": {
+        "label": {
+            "pt": {
+                "value": "Anterior"
+            },
+            "en": {
+                "value": "Previous"
+            }
+        }
+    }
+}

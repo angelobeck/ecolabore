@@ -1,0 +1,16 @@
+{
+    "flags": {
+        "filter": "form_command",
+        "name": "back"
+    },
+    "text": {
+        "label": {
+            "pt": {
+                "value": "Retornar"
+            },
+            "en": {
+                "value": "Back"
+            }
+        }
+    }
+}

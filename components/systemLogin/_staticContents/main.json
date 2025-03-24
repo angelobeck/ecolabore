@@ -1,0 +1,23 @@
+{
+    "text": {
+        "title": {
+            "pt": {
+                "value": "Conectar-se"
+            },
+            "en": {
+                "value": "Login"
+            }
+        },
+        "welcome": {
+            "pt": {
+                "value": "Bem-vindo(a)"
+            },
+            "en": {
+                "value": "Welcome"
+            }
+        }
+    },
+    "flags": {
+        "module": "systemLogin"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "flags": {
+        "filter": "form_link",
+        "name": "cancel",
+        "action": "_form-cancel"
+    },
+    "text": {
+        "label": {
+            "pt": {
+                "value": "Cancelar"
+            },
+            "en": {
+                "value": "Cancel"
+            }
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "flags": {
+        "filter": "form_command",
+        "name": "save"
+    },
+    "text": {
+        "label": {
+            "pt": {
+                "value": "Salvar"
+            },
+            "en": {
+                "value": "Save"
+            }
+        }
+    }
+}

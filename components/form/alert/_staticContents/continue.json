@@ -1,0 +1,16 @@
+{
+    "text": {
+        "label": {
+            "pt": {
+                "value": "Continuar"
+            },
+            "en": {
+                "value": "Next"
+            }
+        }
+    },
+    "flags": {
+        "filter": "form_command",
+        "name": "save"
+    }
+}

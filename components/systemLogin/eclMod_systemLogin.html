@@ -1,0 +1,19 @@
+<template if:false={isConnected}>
+    <h1>{Application.text.title.SelectLanguage.value}</h1>
+    <form action={action} method="post">
+        <label>
+            Identificador, email, telefone ou CPF<br />
+            <input type="text" name="name" /><br />
+        </label>
+        <label>
+            Senha<br />
+            <input type="password" name="password" /><br />
+        </label>
+        <input type="submit" value="Enviar" />
+    </form>
+</template>
+
+<template if:true={isConnected}>
+    <h1>{Application.text.welcome.SelectLanguage.value} {name}</h1>
+    <a href={action}>Continuar</a>
+</template>
