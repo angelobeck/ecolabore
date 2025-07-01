@@ -6,6 +6,8 @@ class eclScope_application extends eclScope {
             return data.text[argument];
         if (data[argument])
             return data[argument];
+        if (page.application[argument])
+            return page.application[argument];
         else
             return '';
     }

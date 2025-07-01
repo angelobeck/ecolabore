@@ -11,6 +11,8 @@ class eclMod {
 
     connectedCallback() { }
 
+    refreshCallback() {}
+
     renderedCallback() { }
 
     disconnectedCallback() { }

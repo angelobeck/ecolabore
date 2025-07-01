@@ -59,6 +59,45 @@ class eclIo_convert
         255 => 121, // &yuml; => y
     ];
 
+    public const DATABASE_ESCAPE_CHARS_LIST = [
+        '#' => '#c',
+        "\0" => '#0',
+        "\r" => '#r',
+        "\n" => '#n',
+        "\t" => '#t',
+        '\\' => '#b'
+    ];
+
+    public const ESCAPE_CHARS_LIST = [
+        '#' => '#c',
+        "\0" => '#0',
+        "\r" => '#r',
+        "\n" => '#n',
+        "\t" => '#t',
+        '"' => '#q',
+        '\\' => '#b'
+    ];
+
+    public static function escapeString(string $value): string
+    {
+        return str_replace(array_keys(self::ESCAPE_CHARS_LIST), array_values(self::ESCAPE_CHARS_LIST), $value);
+    }
+
+    public static function unescapeString(string $value): string
+    {
+        return str_replace(array_values(self::ESCAPE_CHARS_LIST), array_keys(self::ESCAPE_CHARS_LIST), $value);
+    }
+
+    public static function databaseEscapeString(string $value): string
+    {
+        return str_replace(array_keys(self::DATABASE_ESCAPE_CHARS_LIST), array_values(self::DATABASE_ESCAPE_CHARS_LIST), $value);
+    }
+
+    public static function databaseUnescapeString(string $value): string
+    {
+        return str_replace(array_values(self::DATABASE_ESCAPE_CHARS_LIST), array_keys(self::DATABASE_ESCAPE_CHARS_LIST), $value);
+    }
+
     public static function json2array(string $json, string $fileName = ''): mixed
     {
         $index = 0;
@@ -84,7 +123,7 @@ class eclIo_convert
                     if ($end === false)
                         throw new ErrorException("JSON decode error: missing string ending quote in file $fileName, on line $line");
                     $index = $end + 1;
-                    return substr($json, $start, $end - $start);
+                    return self::unescapeString(substr($json, $start, $end - $start));
 
                 case 'f':
                     if (substr($json, $index, 5) === 'false') {
@@ -152,6 +191,8 @@ class eclIo_convert
                         throw new ErrorException("JSON decode error: missing string ending quote in file $fileName, on line $line");
                     $index = $end + 1;
                     $key = substr($json, $start, $end - $start);
+                    if (!preg_match('/^[a-zA-Z0-9_]+$/', $key))
+                        throw new ErrorException("JSON decode error: invalid character in fileName $fileName, on line $line");
                     $dots = strpos($json, ':', $index);
                     if ($dots === false)
                         throw new ErrorException("JSON decode error: missing :  in fileName $fileName, on line $line");
@@ -204,16 +245,6 @@ class eclIo_convert
 
     static function array2json(mixed $data): string
     {
-        static $replaces = [
-        "\b" => '\\b',
-        "\f" => '\\f',
-        "\n" => '\\n',
-        "\r" => '',
-        "\t" => '\\t',
-        '"' => '\\"',
-        '\\' => '\\\\'
-        ];
-
         $buffer = '';
 
         if (!is_array($data)) {
@@ -226,7 +257,9 @@ class eclIo_convert
             elseif (is_float($data))
                 return strval($data);
             elseif (is_string($data))
-                return '"' . str_replace(array_keys($replaces), array_values($replaces), $data) . '"';
+                return '"' . self::escapeString($data) . '"';
+            else
+                throw new ErrorException('JSON encode error: invalid value type');
 
         } elseif (!$data) {
             return '{}';
@@ -249,9 +282,13 @@ class eclIo_convert
         $buffer .= '{' . CRLF;
         $index = 0;
         foreach ($data as $key => $value) { // each array element
+            $key = strval($key);
+            if (!preg_match('/^[a-zA-Z0-9_]+$/', $key))
+                throw new ErrorException("JSON encode error: invalid key");
+
             if ($index++)
                 $buffer .= ',' . CRLF;
-            $buffer .= '"' . str_replace('"', '\\"', $key) . '"' . ': ';
+            $buffer .= '"' . $key . '": ';
 
             $buffer .= self::array2json($value);
         } // each array element
@@ -282,6 +319,10 @@ class eclIo_convert
         $iso = mb_convert_encoding($fromString, 'ISO8859-1', $encoding);
         $length = strlen($iso);
         for ($i = 0; $i < $length; $i++) {
+            if ($iso[$i] === '#') {
+                $i++;
+                continue;
+            }
             $ord = ord($iso[$i]);
             if (isset(self::$remove_diacritics_iso_8859_1[$ord])) {
                 $ord = self::$remove_diacritics_iso_8859_1[$ord];

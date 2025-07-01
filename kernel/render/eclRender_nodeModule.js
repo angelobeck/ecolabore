@@ -1,7 +1,7 @@
 
 class eclRender_nodeModule extends eclRender_node {
     endingElement;
-    moduleSymbol;
+    module;
     value = 'module';
 
     create(parentElement, insertBeforeMe) {
@@ -11,58 +11,54 @@ class eclRender_nodeModule extends eclRender_node {
     }
 
     generateModule(parentElement, insertBeforeMe) {
-        this.moduleSymbol = this.findMySymbol();
-        var moduleSymbol = this.moduleSymbol;
-        var module;
-        if (!moduleSymbol) {
+        this.module = this.findMySymbol();
+        if (!this.module) {
             return;
         }
-        try {
-            module = new moduleSymbol();
-        } catch (err) {
-            module = moduleSymbol;
-        }
-
         var tokenizer = new eclRender_tokenizer();
         var parser = new eclRender_parser();
 
-        var templateName = module.constructor.name;
+        var templateName = this.module.constructor.name;
         var template = templates[templateName];
         if (!template) {
             return;
         }
         var tokens = tokenizer.tokenize(template);
-        parser.parse(this, tokens, module);
+        parser.parse(this, tokens, this.module);
 
         this.createStaticAttributes();
         this.createDinamicAttributes();
         setTimeout(() => {
             this.component.beforeEvent();
-            if(Object.hasOwn(this.component.module, 'renderedCallback'))
             this.component.module.renderedCallback();
             this.component.afterEvent();
         }, 20);
         this.component.module.connectedCallback();
+        this.component.module.refreshCallback();
+
         this.createChildren(this.children, parentElement, insertBeforeMe);
     }
 
-    refresh() {
-        var moduleSymbol = this.findMySymbol();
-        if (moduleSymbol !== this.moduleSymbol) {
-            this.moduleSymbol = moduleSymbol;
+    refresh(cancelRefreshCallback = false) {
+        var module = this.findMySymbol();
+        if (module !== this.module) {
             this.removeChildren(this.children);
             this.children = [];
             this.component.module.disconnectedCallback();
+
+            this.module = module;
             this.generateModule(this.endingElement.parentElement, this.endingElement);
             return;
         }
 
-        this.refreshDinamicAttributes()
         setTimeout(() => {
             this.component.beforeEvent();
             this.component.module.renderedCallback();
             this.component.afterEvent();
         }, 20);
+        if (!cancelRefreshCallback)
+            this.component.module.refreshCallback();
+        this.refreshDinamicAttributes();
         this.refreshChildren(this.children);
     }
 
@@ -73,14 +69,16 @@ class eclRender_nodeModule extends eclRender_node {
             let parentElement = this.endingElement.parentElement;
             parentElement.removeChild(this.endingElement);
             this.endingElement = false;
+            this.module = false;
+            this.component.module = false;
         }
-        this.children = [];
+        this.children = this.component.slot;
     }
 
     createStaticAttributes() {
         for (let name in this.staticAttributes) {
             const value = this.staticAttributes[name];
-            this.component.module[name] = value;
+            this.component.module[this.convertToCamelCase(name)] = value;
         }
     }
 
@@ -95,7 +93,7 @@ class eclRender_nodeModule extends eclRender_node {
             } else {
                 const path = this.dinamicAttributes[name];
                 const value = this.parent.component.getProperty(path);
-                this.component.module[name] = value;
+                this.component.module[this.convertToCamelCase(name)] = value;
             }
         }
     }
@@ -114,7 +112,7 @@ class eclRender_nodeModule extends eclRender_node {
             } else {
                 const path = this.dinamicAttributes[name];
                 const value = this.parent.component.getProperty(path);
-                this.component.module[name] = value;
+                this.component.module[this.convertToCamelCase(name)] = value;
             }
         }
     }
@@ -129,21 +127,17 @@ class eclRender_nodeModule extends eclRender_node {
             return false;
         }
 
-        if (page.modules[name]) {
-            if (typeof (page.modules[name]) === 'string') {
-                const data = staticContents[page.modules[name]];
-                if (data && data.flags && data.flags.module && registeredClasses.eclMod[data.flags.module])
-                    return registeredClasses.eclMod[data.flags.module];
-                else
-                    return false;
-            }
-            return page.modules[name];
+        return page.modules.createModule(name);
+    }
 
-        } else if (registeredClasses.eclMod[name]) {
-            return registeredClasses.eclMod[name];
-        } else {
-            return false;
+    convertToCamelCase(name) {
+        var parts = name.split('-');
+        var camel = parts.shift().toLowerCase();
+        while (parts.length > 0) {
+            const part = parts.shift();
+            camel += part.substring(0, 1).toUpperCase() + part.substring(1).toLowerCase();
         }
+        return camel;
     }
 
 }

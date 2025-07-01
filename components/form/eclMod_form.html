@@ -1,9 +1,11 @@
-<form 
-action={action} 
-enctype="multipart-form-data" 
-for:each={children}
-for:item={field}
-method="post"
->
-<mod name={field.template} field={field} />
-</form>
+<div for:each={_filters_} for:item={filter}>
+    <mod name={filter.name} control={filter.control} formulary={this} />
+</div>
+<div>
+    {errorMessage}
+</div>
+<div for:each={_commands_} for:item={command}>
+    <button onclick={handleCommand} data-name={command.name} aria-disabled={disabled}>
+        {command.label.Value}
+    </button>
+</div>

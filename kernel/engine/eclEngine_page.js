@@ -1,6 +1,5 @@
 
 class eclEngine_page {
-    modules = {};
     cuts = {};
     rootNode;
     session = {};
@@ -9,35 +8,28 @@ class eclEngine_page {
     domain;
     user;
 
+    pathMonitor = [];
+    actions = [];
+
+    constructor() {
+        this.modules = new eclEngine_modules();
+    }
+
     reset() {
-        this.modules = {
-            layout: registeredClasses.eclMod.modLayout,
-            list: registeredClasses.eclMod.modList,
-            nav: registeredClasses.eclMod.modNav,
-            title: registeredClasses.eclMod.modTitle
-        }
+        this.modules.reset();
+        this.modules.layout = 'modLayout_main';
+        this.modules.title = 'modTitle_main';
     }
 
     route() {
-        var path;
-        path = this.getPathFromHash();
-
-        if (path.length === 0) {
-            path = [SYSTEM_APPLICATION_NAME];
-        } else if (
-            path[0].startsWith('-')
-            && root.child(path[0].substring(1))
-        ) {
-            path[0] = path[0].substring(1);
-        }
-
-        if (path.length === 1) {
-            path.push("-home");
-        }
+        var path = this.getPathFromUrl(location.href);
 
         this.domain = root.child(path[0]);
 
-        this.application = this.routeSubfolders(root, path);
+        if (path.length === 1 && this.domain.child('-home'))
+            this.application = this.domain.child('-home');
+        else
+            this.application = this.routeSubfolders(root, path);
     }
 
     routeSubfolders(application, path) {
@@ -57,6 +49,9 @@ class eclEngine_page {
         }
         child = application.child('-default');
         if (child) {
+            child.path = [...child.parent.path, name];
+            child.name = name;
+            child.reset();
             return this.routeSubfolders(child, path);
         }
         return null;
@@ -71,19 +66,60 @@ class eclEngine_page {
         }
     }
 
-    getPathFromUrl() {
+    getPathFromUrl(href) {
+        this.actions = [];
+
         var path = [];
-        var href = window.location.href;
-        var tail = href.substring(SYSTEM_BASE_URL.length);
-        if (tail.endsWith("/")) {
-            tail = tail.substring(0, -1);
+        var hashPos = href.indexOf('#');
+        if (hashPos > 0)
+            href = href.substring(0, hashPos);
+        if (href.startsWith('https://'))
+            href = href.substring(8);
+        else if (href.startsWith('http://'))
+            href = href.substring(7);
+
+        var searchPos = href.indexOf('?url=');
+        if (searchPos > 0) {
+            href = href.substring(searchPos + 5);
+        } else if (SYSTEM_REWRITE_ENGINE) {
+            href = href.substring(SYSTEM_HOST.length);
+        } else {
+            href = '';
         }
-        if (SYSTEM_HOSTING_MODE === "single") {
-            if (tail.length > 0) {
-                path = tail.split("/");
-            }
+
+        if (href.endsWith("/"))
+            href = href.substring(0, href.length - 1);
+
+        if (href.length === 0)
+            path = [];
+        else
+            path = href.split('/');
+
+        if (SYSTEM_HOSTING_MODE === 'single')
+            path.unshift(SYSTEM_DEFAULT_DOMAIN_NAME);
+
+        if (path[path.length - 1].startsWith('_')) {
+            this.processActions(path.pop());
         }
         return path;
+    }
+
+    processActions(actions) {
+        var groups = actions.split('_');
+        for (let i = 0; i < groups.length; i++) {
+            let actionGroup = groups[i];
+            if (actionGroup.length === 0)
+                continue;
+
+            let action = actionGroup.split('-');
+            this.actions[action[0]] = action;
+        }
+    }
+
+    adjustHistory(path) {
+        if (path.length > 1 && path.length === this.pathMonitor.length) {
+            this.pathMonitor = path;
+        }
     }
 
     dispatch() {
@@ -112,13 +148,11 @@ class eclEngine_page {
         }
     }
 
-    navigate(url) {
-        if (SYSTEM_NAVIGATION_MODE === "hash") {
-            window.location = url;
-        } else {
-            window.history.pushState({}, "", url);
-            init();
-        }
+    access(level) {
+        if(level === 0)
+            return true;
+
+        return false;
     }
 
     selectLanguage(text) {
@@ -139,13 +173,27 @@ class eclEngine_page {
         return { value: "", lang: this.lang };
     }
 
-    url(path) {
-        if (path === true)
-            return '#' + this.application.path.join('/');
-        if (!Array.isArray(path))
-            return '#';
+    url(fromPath, language = false, actions = '') {
+        var host = location.protocol + '//' + SYSTEM_HOST;
+        if (!SYSTEM_REWRITE_ENGINE)
+            host += SYSTEM_SCRIPT_NAME + '?url=';
 
-        return "#" + path.join("/");
+        var path;
+        if (!Array.isArray(fromPath))
+            path = [...this.application.path];
+        else
+            path = [...fromPath];
+
+        if (actions !== '')
+            path.push(actions);
+
+        if (SYSTEM_HOSTING_MODE == 'single' && path[0] === SYSTEM_DEFAULT_DOMAIN_NAME)
+            path.shift();
+
+        if (path.length)
+            return host + path.join("/");
+        else
+            return host;
     }
 
     createModule(name) {
@@ -157,4 +205,5 @@ class eclEngine_page {
         }
         return new eclMod(this, data);
     }
+
 }

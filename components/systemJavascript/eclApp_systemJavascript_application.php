@@ -14,7 +14,7 @@ class eclApp_systemJavascript_application extends eclApp
     {
         global $applicationsPaths;
 
-        if (SYSTEM_TIME_LIMIT !== 0) {
+        if (SERVER_TIME_LIMIT !== 0) {
             set_time_limit(60);
         }
 
@@ -24,14 +24,18 @@ class eclApp_systemJavascript_application extends eclApp
         $registeredClasses = [];
         $classes = [];
 
-        $applicationName = $page->domain->applicationName;
-        $applicationPath = $applicationsPaths[$applicationName];
-
         $paths = [
             [PATH_ENGINE . 'kernel/', []],
             [PATH_ENGINE . 'components/', []],
-            [$applicationPath . '/components/', []]
+            [PATH_APPLICATION . 'components/', []]
         ];
+
+        if (defined('PLUGINS')) {
+            foreach (PLUGINS as $plugin) {
+                $paths[] = [PATH_ROOT . $plugin . '/components/', []];
+            }
+        }
+
         $subpaths = [];
 
         $index = 0;
@@ -77,7 +81,7 @@ class eclApp_systemJavascript_application extends eclApp
                     }
 
                     if ($generateHTML) {
-                        $src = $page->host . substr($nextPath, strlen(PATH_ROOT));
+                        $src = $page->protocol . '//' . SERVER_HOST . substr($nextPath, strlen(PATH_ROOT));
                         $scripts[] = '<script src="' . $src . '"></script>';
                     } else {
                         $scripts[] = trim(file_get_contents($nextPath));
@@ -131,12 +135,14 @@ class eclApp_systemJavascript_application extends eclApp
             $bufferRegisteredClasses .= '};' . CRLF . CRLF;
         }
 
-        $bufferStart = file_get_contents(PATH_ENGINE . 'rootFunctions.js');
-        $location = $applicationPath . '/map.js';
+
+        $bufferStart = '';
+        $location = PATH_APPLICATION . 'map.js';
         if (is_file($location)) {
             $bufferStart .= CRLF . file_get_contents($location) . CRLF;
         }
 
+        $bufferStart .= file_get_contents(PATH_ENGINE . 'map.js');
         $bufferStart .= file_get_contents(PATH_ENGINE . 'start.js');
 
         if ($generateHTML) {

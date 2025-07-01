@@ -2,9 +2,9 @@
 
 class eclIo_request
 {
-    public string $host = 'http://localhost/ecolabore/';
+    public string $host = SERVER_HOST;
     public array $path = [];
-    public string $lang = SYSTEM_DEFAULT_LANGUAGE;
+    public string $lang = DEFAULT_LANGUAGE;
     public array $actions = [];
     public array $flags = [];
     public array $received = [];

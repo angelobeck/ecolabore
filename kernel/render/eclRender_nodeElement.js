@@ -58,15 +58,27 @@ class eclRender_nodeElement extends eclRender_node {
             if (name.startsWith("on")) {
                 this.createEvent(name);
             } else if (name === "wire:element") {
-                this.component.module[path] = this.element;
+                if (/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(path))
+                    this.component.module[path] = this.element;
+                continue;
             } else if (name.indexOf(":") > 0) {
                 continue;
             } else {
                 const value = this.component.getProperty(path);
                 if (!value) {
                     continue;
+                } else if (name === 'href') {
+                    this.element.dataset.href = value.toString();
+                    this.element.setAttribute('tabindex', '0');
+                    this.element.onclick = (event) => {
+                        event.preventDefault();
+                        navigate(event.currentTarget.dataset.href);
+                    };
+                } else if (name === 'value') {
+                    this.element.value = value;
+                } else {
+                    this.element.setAttribute(name, value);
                 }
-                this.element.setAttribute(name, value);
             }
         }
     }
@@ -85,15 +97,14 @@ class eclRender_nodeElement extends eclRender_node {
             const path = this.dinamicAttributes[name];
             if (name.startsWith("on")) {
                 continue;
-            } else if (name === "wire:element") {
-                this.component.module[path] = this.element;
-                continue;
             } else if (name.indexOf(":") > 0) {
                 continue;
             } else {
                 const value = this.component.getProperty(path);
                 if (name === "value") {
                     this.element.value = value;
+                } else if (name === 'href') {
+                    this.element.dataset.href = value;
                 } else {
                     this.element.setAttribute(name, value);
                 }

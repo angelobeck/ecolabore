@@ -12,11 +12,12 @@ class eclEngine_page
     public eclEngine_modules $modules;
     public eclEngine_views $views;
 
-    public string $host = '#';
+    public string $protocol = SERVER_PROTOCOL;
+    public string $host = SERVER_HOST;
     public array $path = [];
-    public string $lang = SYSTEM_DEFAULT_LANGUAGE;
-    public string $defaultLang = SYSTEM_DEFAULT_LANGUAGE;
-    public string $charset = 'UTF-8';
+    public string $lang = DEFAULT_LANGUAGE;
+    public string $defaultLang = DEFAULT_LANGUAGE;
+    public string $charset = DEFAULT_CHARSET;
     public array $actions = [];
     public array $flags = [];
     public array $received = [];
@@ -44,11 +45,11 @@ class eclEngine_page
             $this->session = &$createdSession['session'];
         }
 
-        $this->user = $applications->child(SYSTEM_USERS_URI)->child('-guest');
+        $this->user = $applications->child(APPLICATION_USERS_NAME)->child('-guest');
         if (isset($this->actions['logout'])) {
             $this->session = [];
         } else if (isset($this->session['user_name'])) {
-            $user = $applications->child(SYSTEM_USERS_URI)->child($this->session['user_name']);
+            $user = $applications->child(APPLICATION_USERS_NAME)->child($this->session['user_name']);
             if ($user) {
                 $this->user = $user;
             }
@@ -60,8 +61,10 @@ class eclEngine_page
     {
         global $applications;
         $path = $this->path;
+        if (SERVER_HOSTING_MODE == 'single')
+            array_unshift($path, DEFAULT_DOMAIN_NAME);
         if (!count($path)) {
-            $path[] = SYSTEM_DEFAULT_DOMAIN_NAME;
+            $path[] = DEFAULT_DOMAIN_NAME;
         }
         $domain = $applications->child($path[0]);
         if (!$domain) {
@@ -101,8 +104,10 @@ class eclEngine_page
             return $child;
         }
 
-        $child = $application->child('-not-found');
+        $child = $application->child('-default');
         if ($child) {
+            $child->path = [...$child->parent->path, $name];
+            $child->name = $name;
             return $this->routeSubfolders($child, $path);
         }
         return false;
@@ -111,6 +116,7 @@ class eclEngine_page
     public function dispatch(): void
     {
         $this->modules = new eclEngine_modules($this);
+        $this->endpoints = new eclEngine_endpoints($this);
 
         if ($this->domain->applicationName !== $this->application->applicationName) {
             $domainHelper = 'eclApp_' . $this->domain->applicationName;
@@ -118,6 +124,17 @@ class eclEngine_page
         }
         $helper = 'eclApp_' . $this->application->applicationName;
         $helper::dispatch($this);
+
+        if (isset($this->actions['endpoint'][1])) {
+            $endpoint = $this->actions['endpoint'][1];
+            $raw = file_get_contents("php://input");
+            $input = eclIo_convert::json2array($raw);
+            if (!is_array($input))
+                $input = [];
+            $this->buffer = $this->endpoints->$endpoint->dispatch($input);
+            return;
+        }
+
         $helper::view_main($this);
     }
 
@@ -125,7 +142,7 @@ class eclEngine_page
     {
         if (is_array($this->buffer)) {
             $this->buffer = eclIo_convert::array2json($this->buffer);
-            $this->contentType = 'text/json';
+            $this->contentType = 'application/json';
             return;
         }
 
@@ -137,8 +154,11 @@ class eclEngine_page
         $this->buffer = $render->render($this->modules->html);
     }
 
-    public function access(int $requiredAccess, int $currentAccess): bool
+    public function access(int $requiredAccess, array $groups): bool
     {
+        if ($requiredAccess === 4)
+            return false;
+
         return true;
     }
 
@@ -209,7 +229,14 @@ class eclEngine_page
             $path[] = '_' . implode('_', $actions);
         }
 
-        return 'http://localhost/ecolabore/index.php?url=' . implode('/', $path);
+        $url = SERVER_PROTOCOL . '//' . SERVER_HOST;
+        if (!SERVER_REWRITE_ENGINE)
+            $url .= SERVER_SCRIPT_NAME . '?url=';
+        if (SERVER_HOSTING_MODE == 'single' && $path[0] === DEFAULT_DOMAIN_NAME)
+            array_shift($path);
+
+        $url .= implode('/', $path);
+        return $url;
     }
 
     public function createFormulary(string|array $control, array $data = [], string $prefix = 'edit'): eclEngine_formulary

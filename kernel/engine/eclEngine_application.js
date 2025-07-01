@@ -12,7 +12,7 @@ class eclEngine_application {
     domainId = 0;
     userId = 0;
 
-    childrenByName = [];
+    childrenByName = {};
     allChildren = [];
     allChildrenIsLoaded = false;
 
@@ -33,6 +33,9 @@ class eclEngine_application {
         if (helper.map) {
             this.map = helper.map;
         }
+        if (helper.access && helper.access > this.access) {
+            this.access = helper.access;
+        }
         if (helper.content) {
             this.data = store.staticContent.open(helper.content);
         }
@@ -44,16 +47,14 @@ class eclEngine_application {
         if (this.childrenByName[name]) {
             return this.childrenByName[name];
         }
-        if (this.allChildrenIsLoaded) {
-            return false;
-        }
+
         for (let i = 0; i < this.map.length; i++) {
             const applicationName = this.map[i];
             if (!isset(registeredClasses.eclApp[applicationName]))
                 continue;
 
             const helper = registeredClasses.eclApp[applicationName];
-            if (helper.name) {
+            if (isset(helper.name)) {
                 if (helper.name != name) {
                     continue;
                 }
@@ -102,7 +103,7 @@ class eclEngine_application {
     }
 
     reset() {
-        this.childrenByName = [];
+        this.childrenByName = {};
         this.allChildren = [];
         this.allChildrenIsLoaded = false;
     }

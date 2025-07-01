@@ -2,6 +2,7 @@
 class eclRender_nodeTag extends eclRender_node {
     endingElement;
     moduleSymbol;
+    module;
 
     create(parentElement, insertBeforeMe) {
         this.endingElement = document.createComment(" tag ");
@@ -10,19 +11,19 @@ class eclRender_nodeTag extends eclRender_node {
     }
 
     generateModule(parentElement, insertBeforeMe) {
-        this.moduleSymbol = registeredClasses.eclTag[this.value];
-        var module = new this.moduleSymbol();
-
+        var moduleName = registeredTags[this.value];
+        this.moduleSymbol = registeredClasses.eclMod[moduleName];
+        this.module = new this.moduleSymbol();
         var tokenizer = new eclRender_tokenizer();
         var parser = new eclRender_parser();
 
-        var templateName = module.constructor.name;
-                var template = templates[templateName];
+        var templateName = this.module.constructor.name;
+        var template = templates[templateName];
         if (!template) {
             return;
         }
         var tokens = tokenizer.tokenize(template);
-        parser.parse(this, tokens, module);
+        parser.parse(this, tokens, this.module);
 
         this.createStaticAttributes();
         this.createDinamicAttributes();
@@ -32,16 +33,19 @@ class eclRender_nodeTag extends eclRender_node {
             this.component.afterEvent();
         }, 20);
         this.component.module.connectedCallback();
+        this.component.module.refreshCallback();
+
         this.createChildren(this.children, parentElement, insertBeforeMe);
     }
 
     refresh() {
-        this.refreshDinamicAttributes()
         setTimeout(() => {
             this.component.beforeEvent();
             this.component.module.renderedCallback();
             this.component.afterEvent();
         }, 20);
+        this.component.module.refreshCallback();
+        this.refreshDinamicAttributes();
         this.refreshChildren(this.children);
     }
 
@@ -53,13 +57,13 @@ class eclRender_nodeTag extends eclRender_node {
             parentElement.removeChild(this.endingElement);
             this.endingElement = false;
         }
-        this.children = [];
+        this.children = this.component.slot;
     }
 
     createStaticAttributes() {
         for (let name in this.staticAttributes) {
             const value = this.staticAttributes[name];
-            this.component.module[name] = value;
+            this.component.module[this.convertToCamelCase(name)] = value;
         }
     }
 
@@ -74,7 +78,7 @@ class eclRender_nodeTag extends eclRender_node {
             } else {
                 const path = this.dinamicAttributes[name];
                 const value = this.parent.component.getProperty(path);
-                this.component.module[name] = value;
+                this.component.module[this.convertToCamelCase(name)] = value;
             }
         }
     }
@@ -93,9 +97,19 @@ class eclRender_nodeTag extends eclRender_node {
             } else {
                 const path = this.dinamicAttributes[name];
                 const value = this.parent.component.getProperty(path);
-                this.component.module[name] = value;
+                this.component.module[this.convertToCamelCase(name)] = value;
             }
         }
+    }
+
+    convertToCamelCase(name) {
+        var parts = name.split('-');
+        var camel = parts.shift().toLowerCase();
+        while (parts.length > 0) {
+            const part = parts.shift();
+            camel += part.substring(0, 1).toUpperCase() + part.substring(1).toLowerCase();
+        }
+        return camel;
     }
 
 }

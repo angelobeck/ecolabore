@@ -77,27 +77,27 @@ class eclRender_parser {
         var tagName = this.tokens[this.index]['value'];
         switch (tagName) {
             case 'cut':
-                node = new eclRender_nodeCut(this.current);
+                node = new eclRender_nodeCut(this.current, 'cut');
                 break;
 
             case 'mod':
-                node = new eclRender_nodeModule(this.current);
+                node = new eclRender_nodeModule(this.current, 'mod');
                 break;
 
             case 'paste':
-                node = new eclRender_nodePaste(this.current);
+                node = new eclRender_nodePaste(this.current, 'paste');
                 break;
 
             case 'slot':
-                node = new eclRender_nodeSlot(this.current);
+                node = new eclRender_nodeSlot(this.current, 'slot');
                 break;
 
             case 'template':
-                node = new eclRender_nodeTemplate(this.current);
+                node = new eclRender_nodeTemplate(this.current, 'template');
                 break;
 
             default:
-                if (registeredClasses.eclTag && registeredClasses.eclTag[tagName]) {
+                if (registeredTags && registeredTags[tagName]) {
                     node = new eclRender_nodeTag(this.current, tagName);
                 } else {
                     node = new eclRender_nodeElement(this.current, tagName);

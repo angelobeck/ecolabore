@@ -12,26 +12,29 @@ class eclApp_systemStyle_application extends eclApp
 
     public static function generate_style(eclEngine_page $page, bool $generateHTML = false): string
     {
-        if (SYSTEM_TIME_LIMIT !== 0) {
+
+        if (SERVER_TIME_LIMIT !== 0) {
             set_time_limit(60);
         }
 
-        $styles = file_get_contents(PATH_ROOT . 'reset.css');
-
-        [$prefix, $applicationFolder] = explode('_', $page->domain->helper);
-        $currentApplicationPath = PATH_APPLICATIONS . $applicationFolder;
-
         $paths = [
-            [PATH_KERNEL, []],
-            [PATH_LIBRARY, []],
-            [$currentApplicationPath, [$applicationFolder]]
+            [PATH_ENGINE . 'kernel/', []],
+            [PATH_ENGINE . 'components/', []],
+            [PATH_APPLICATION . 'components/', []]
         ];
+
+        if (defined('PLUGINS')) {
+            foreach (PLUGINS as $plugin) {
+                $paths[] = [PATH_ROOT . $plugin . '/components/', []];
+            }
+        }
+
         $subpaths = [];
 
-        $index = 0;
         $currentPath = '';
         $nextPath = '';
         $folders = [];
+        $styles = '/* Ecolabore Engine packager */' . CRLF;
 
         while (count($paths)) {
             [$currentPath, $folders] = array_shift($paths);
@@ -46,14 +49,15 @@ class eclApp_systemStyle_application extends eclApp
 
                 $nextPath = $currentPath . '/' . $fileName;
                 if (is_dir($nextPath)) {
-                    $subpaths[] = [$nextPath, [...$folders, $fileName]];
+                    $paths[] = [$nextPath, [...$folders, $fileName]];
                     continue;
                 }
 
                 list($className, $extension) = explode('.', $fileName, 2);
 
                 if ($extension == 'css') {
-                    $styles .= file_get_contents($nextPath) . CRLF;
+                    $styles .= CRLF . '/* ' . $className . ' */' . CRLF;
+                    $styles .= trim(file_get_contents($nextPath) . CRLF) . CRLF;
                     continue;
                 }
             }
@@ -61,8 +65,8 @@ class eclApp_systemStyle_application extends eclApp
 
         if ($generateHTML) {
             return '<style>' . CRLF . $styles . CRLF . '</style>' . CRLF;
-        }else{
-        return $styles;
+        } else {
+            return $styles;
         }
     }
 

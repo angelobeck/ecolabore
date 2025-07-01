@@ -12,9 +12,8 @@ class eclEngine_formulary
     public array $control = [];
 
     private string $sessionKey;
-
-    private int $errorStatus = 0;
-    private array $errorMessage = [];
+    private string $currentName;
+    private array $currentControl;
 
     public function __construct(eclEngine_page $page, string|array $control, array $data, string $prefix)
     {
@@ -38,67 +37,94 @@ class eclEngine_formulary
             foreach ($this->control['children'] as $control) {
                 if (is_string($control)) {
                     $control = $this->cloneControl($store->staticContent->open($control));
+                } else {
+                    $control = $this->cloneControl($control);
                 }
 
                 if (!isset($control['filter']))
                     continue;
                 if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $control['filter']))
                     continue;
-                if (!isset($control['name']))
-                    continue;
                 if (isset($control['condition']) && !$this->condition($control['condition']))
                     continue;
-                if (isset($control['flags']) and $posteriori == 1)
+                if (isset($control['posteriori']) and $posteriori == 1)
                     continue;
                 if (!isset($control['posteriori']) and $posteriori == 2)
                     continue;
                 if (isset($control['view']))
                     continue;
 
-                $name = $this->prefix . '_' . $control['name'];
+                $name = $this->prefix . '_' . ($control['name'] ?? '');
                 $filter = 'eclFilter_' . $control['filter'];
-                if (!isset($control['target']))
-                    $control['target'] = $control['name'];
+                $this->currentName = $name;
+                $this->currentControl = $control;
 
                 $filter::save($this, $control, $name);
             }
         }
 
-        return $this->errorStatus === 0;
+        return !$this->error;
+    }
+
+    public function sanitize(array $input): bool
+    {
+        global $store;
+        $this->error = [];
+        $this->received = $input;
+        if (isset($this->control['children'])) {
+            foreach ($this->control['children'] as $control) {
+                if (is_string($control)) {
+                    $control = $this->cloneControl($store->staticContent->open($control));
+                } else {
+                    $control = $this->cloneControl($control);
+                }
+
+                if (!isset($control['filter']))
+                    continue;
+                if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $control['filter']))
+                    continue;
+                if (isset($control['condition']) && !$this->condition($control['condition']))
+                    continue;
+                if (isset($control['view']))
+                    continue;
+
+                $this->currentName = '';
+                $this->currentControl = $control;
+                $filter = 'eclFilter_' . $control['filter'];
+
+                $filter::sanitize($this, $control);
+            }
+        }
+
+        return !$this->error;
     }
 
     public function create(): eclMod
     {
         global $store;
-        if (!$this->errorStatus) {
-            $this->children = [];
-            if (isset($this->control['children'])) {
-                foreach ($this->control['children'] as $name) {
-                    if (is_string($name))
-                        $control = $this->cloneControl($store->staticContent->open($name));
-                    else
-                        $control = $name;
+        $this->children = [];
+        if (isset($this->control['children'])) {
+            foreach ($this->control['children'] as $control) {
+                if (is_string($control))
+                    $control = $this->cloneControl($store->staticContent->open($control));
+                else
+                    $control = $this->cloneControl($control);
 
 
-                    if (!isset($control['filter']))
-                        continue;
-                    if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $control['filter']))
-                        continue;
-                    if (!isset($control['name']))
-                        continue;
-                    if (isset($control['condition']) && !$this->condition($control['condition']))
-                        continue;
+                if (!isset($control['filter']))
+                    continue;
+                if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $control['filter']))
+                    continue;
+                if (isset($control['condition']) && !$this->condition($control['condition']))
+                    continue;
 
-                    $name = $this->prefix . '_' . $control['name'];
-                    $filter = 'eclFilter_' . $control['filter'];
-                    if (!isset($control['target']))
-                        $control['target'] = $control['name'];
+                $name = $this->prefix . '_' . ($control['name'] || '');
+                $filter = 'eclFilter_' . $control['filter'];
 
-                    if (isset($control['view']))
-                        $filter::view($this, $control, $name);
-                    else
-                        $filter::create($this, $control, $name);
-                }
+                if (isset($control['view']) || isset($this->flags['view']))
+                    $filter::view($this, $control, $name);
+                else
+                    $filter::create($this, $control, $name);
             }
         }
         $form = new eclMod_form($this->page);
@@ -106,42 +132,15 @@ class eclEngine_formulary
         return $form;
     }
 
-    public function alert(): eclMod
+    public function view(): eclMod
     {
-        $alert = new eclMod_form_alert($this->page);
-        $alert->data = $this->errorMessage;
-        return $alert;
+        $this->flags['view'] = true;
+        return $this->create();
     }
 
-    public function error(): bool
-    {
-        return $this->errorStatus > 0;
-    }
-
-    public function errorClear()
-    {
-        $this->errorStatus = 0;
-        $this->errorMessage = [];
-    }
     private function condition(string $condition): bool
     {
         return isset($this->flags[$condition]) && $this->flags[$condition];
-    }
-
-    public function submited(): bool
-    {
-        static $received;
-        if (!isset($received)) {
-            $received = false;
-            $start = strlen($this->prefix);
-            foreach (array_keys($this->page->received) as $key) {
-                if (substr($key, 0, $start) === $this->prefix) {
-                    $received = true;
-                    return true;
-                }
-            }
-        }
-        return $received;
     }
 
     public function removeLanguage(string $lang)
@@ -157,7 +156,7 @@ class eclEngine_formulary
     public function getField(string $target): mixed
     {
         if (!strlen($target))
-            return false;
+            return null;
 
         $path = explode('.', $target);
         $length = count($path);
@@ -165,7 +164,7 @@ class eclEngine_formulary
         for ($i = 0; $i < $length; ) {
             $field = $path[$i];
             if (!isset($found[$i][$field]))
-                return false;
+                return null;
             $return = $found[$i][$field];
             $i++;
             if ($length == $i)
@@ -175,7 +174,28 @@ class eclEngine_formulary
         return $return;
     }
 
-    public function setField(string $target, mixed $value = false): void
+    public function getReceived(string $target): mixed
+    {
+        if (!strlen($target))
+            return null;
+
+        $path = explode('.', $target);
+        $length = count($path);
+        $found = [$this->received];
+        for ($i = 0; $i < $length; ) {
+            $field = $path[$i];
+            if (!isset($found[$i][$field]))
+                return null;
+            $return = $found[$i][$field];
+            $i++;
+            if ($length == $i)
+                return $return;
+            $found[$i] = $return;
+        }
+        return $return;
+    }
+
+    public function setField(string $target, mixed $value = null): void
     {
         if (!strlen($target))
             return;
@@ -226,9 +246,9 @@ class eclEngine_formulary
 
             break;
         }
-        while ('Ill never be evaluated');
+        while (false);
 
-        if ($value === false) {
+        if ($value === null) {
             switch ($length) {
                 case 6:
                     if (!$this->data[$path[0]][$path[1]][$path[2]][$path[3]][$path[4]][$path[5]])
@@ -264,29 +284,17 @@ class eclEngine_formulary
         return $child;
     }
 
-    public function setErrorMessage(array $control, string $name, array|string $message): void
+    public function setErrorMessage(string $message, string $value = ''): void
     {
         global $store;
 
-        if ($this->errorStatus > 0)
+        if ($this->error)
             return;
 
-        if (is_string($message)) {
-            $this->errorMessage = $this->cloneControl($store->staticContent->open($message));
-        } else {
-            $this->errorMessage = $this->cloneControl($message);
-        }
-
-        $filter = 'eclFilter_' . $control['filter'];
-        $filter::create($this, $control, $name);
-
-        $next = $this->cloneControl($store->staticContent->open('form_command_next'));
-        eclFilter_form_command::create($this, $next, 'save');
-
-        $back = $this->cloneControl($store->staticContent->open('form_link_back'));
-        eclFilter_form_link::create($this, $back, 'back');
-
-        $this->errorStatus = 2;
+        $this->error = $this->cloneControl($store->staticContent->open($message));
+        $this->error['field_id'] = $this->currentName;
+        $this->error['value'] = $value;
+        $this->error['control'] = $this->currentControl;
     }
 
     private function cloneControl(array $control): array

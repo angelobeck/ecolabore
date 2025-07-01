@@ -1,7 +1,6 @@
 {
     "flags": {
-        "filter": "form_command",
-        "name": "previous"
+        "command": "previous"
     },
     "text": {
         "label": {

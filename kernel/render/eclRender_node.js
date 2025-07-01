@@ -130,7 +130,7 @@ class eclRender_node {
     refreshLoop(element, insertBeforeMe) {
         var loopChildren;
         var target;
-        const loopIterator = this.component.getProperty(this.dinamicAttributes["for:each"]);
+        var loopIterator = this.component.getProperty(this.dinamicAttributes["for:each"]);
         if (!Array.isArray(loopIterator)) {
             loopIterator = [];
         }

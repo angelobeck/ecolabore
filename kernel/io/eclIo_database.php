@@ -36,7 +36,7 @@ class eclIo_database
 
     public function __construct(eclEngine_io $io, string $database = '')
     {
-        if (!defined('DATABASE_ENABLE') or !DATABASE_ENABLE)
+        if (!DATABASE_ENABLED)
             return;
 
         try {
@@ -51,7 +51,7 @@ class eclIo_database
                     if (!is_dir(PATH_DATABASE))
                         mkdir(PATH_DATABASE);
 
-                    $this->pdo = new PDO('sqlite:' . PATH_DATABASE . 'ecolabore.db');
+                    $this->pdo = new PDO('sqlite:' . PATH_DATABASE . DATABASE_DB . '.db');
                 } else {
                     $this->pdo = new PDO(DATABASE_CLIENT . ':host=' . DATABASE_HOST . ';dbname=' . DATABASE_DB, DATABASE_USER, DATABASE_PASSWORD);
                     $this->databasePrefix = DATABASE_PREFIX;
@@ -75,7 +75,7 @@ class eclIo_database
                 $string = '#On: ' . date('c s u') . CRLF
                     . '#client: ' . $this->client . ' database:' . $this->database . CRLF
                     . '#Database connection error: ' . $e->getMessage() . CRLF . CRLF;
-                file_put_contents(DATABASE_LOG_FILE, $string, FILE_APPEND);
+                file_put_contents(SERVER_DATABASE_LOG_FILE, $string, FILE_APPEND);
             }
             $this->status = false;
         }

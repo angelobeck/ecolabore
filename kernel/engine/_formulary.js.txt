@@ -1,0 +1,253 @@
+
+class eclEngine_formulary
+{
+    page;
+    data = {};
+    flags = {};
+    prefix = 'edit';
+    children = [];
+    received = {};
+    error = {};
+    control = {};
+
+    currentName;
+    currentControl;
+
+    constructor(control, data, prefix)
+    {
+        this.data = data;
+        this.prefix = prefix;
+        if (typeof(control) === 'string') {
+            control = store.staticContent.open(control);
+        }
+        this.control = control;
+    }
+
+    save()
+    {
+        this.error = [];
+        if (isset(this.control['children'])) {
+            foreach (this.control['children'] as control) {
+                if (is_string(control)) {
+                    control = this.cloneControl(store.staticContent.open(control));
+                } else {
+                    control = this.cloneControl(control);
+                }
+
+                if (!control.filter)
+                    continue;
+                if (!/^[a-zA-Z][a-zA-Z0-9_]*$/.check(control.filter))
+                    continue;
+if(!registeredClasses.eclFilter[control.filter])
+continue;
+                if (control.condition) && !this.condition(control.condition))
+                    continue;
+                if (control.view)
+                    continue;
+
+                name = this.prefix + '_' + (control.name ?? '');
+                filter = registeredClasses.eclFilter[control.filter];
+                this.currentName = name;
+                this.currentControl = control;
+
+                filter.save(this, control, name);
+            }
+        }
+
+        return !this.error;
+    }
+
+    create(): eclMod
+    {
+        this.children = [];
+        if (isset(this.control['children'])) {
+            foreach (this.control['children'] as control) {
+                if (is_string(control))
+                    control = this.cloneControl(store.staticContent.open(control));
+                else
+                    control = this.cloneControl(control);
+
+
+                if (!isset(control['filter']))
+                    continue;
+                if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_]*/', control['filter']))
+                    continue;
+                if (isset(control['condition']) && !this.condition(control['condition']))
+                    continue;
+
+                name = this.prefix + '_' + (control['name'] || '');
+                filter = 'eclFilter_' + control['filter'];
+
+                if (isset(control['view']) || isset(this.flags['view']))
+                    filter::view(this, control, name);
+                else
+                    filter::create(this, control, name);
+            }
+        }
+        form = new eclMod_form(this.page);
+        form.children = this.children;
+        return form;
+    }
+
+    view(): eclMod
+    {
+        this.flags['view'] = true;
+        return this.create();
+    }
+
+    private condition(string condition): bool
+    {
+        return isset(this.flags[condition]) && this.flags[condition];
+    }
+
+    removeLanguage(string lang)
+    {
+        if (!isset(this.data['text']))
+            return;
+        foreach (array_keys(this.data['text']) as key) {
+            if (isset(this.data['text'][key][lang]))
+                unset(this.data['text'][key][lang]);
+        }
+    }
+
+    getField(string target): mixed
+    {
+        if (!strlen(target))
+            return null;
+
+        path = explode('.', target);
+        length = count(path);
+        found = [this.data];
+        for (i = 0; i < length; ) {
+            field = path[i];
+            if (!isset(found[i][field]))
+                return null;
+            return = found[i][field];
+            i++;
+            if (length == i)
+                return return;
+            found[i] = return;
+        }
+        return return;
+    }
+
+    setField(string target, mixed value = null): void
+    {
+        if (!strlen(target))
+            return;
+
+        path = explode('.', target);
+        length = count(path);
+        do { // its not a loop
+            if (length == 1) {
+                this.data[path[0]] = value;
+                break;
+            }
+            if (!isset(this.data[path[0]]))
+                this.data[path[0]] = [];
+
+            if (length == 2) {
+                this.data[path[0]][path[1]] = value;
+                break;
+            }
+            if (!isset(this.data[path[0]][path[1]]))
+                this.data[path[0]][path[1]] = [];
+
+            if (length == 3) {
+                this.data[path[0]][path[1]][path[2]] = value;
+                break;
+            }
+
+            if (!isset(this.data[path[0]][path[1]][path[2]]))
+                this.data[path[0]][path[1]][path[2]] = [];
+
+            if (length == 4) {
+                this.data[path[0]][path[1]][path[2]][path[3]] = value;
+                break;
+            }
+            if (!isset(this.data[path[0]][path[1]][path[2]][path[3]]))
+                this.data[path[0]][path[1]][path[2]][path[3]] = [];
+
+            if (length == 5) {
+                this.data[path[0]][path[1]][path[2]][path[3]][path[4]] = value;
+                break;
+            }
+            if (!isset(this.data[path[0]][path[1]][path[2]][path[3]][path[4]]))
+                this.data[path[0]][path[1]][path[2]][path[3]][path[4]] = [];
+
+            if (length == 6) {
+                this.data[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]] = value;
+                break;
+            }
+
+            break;
+        }
+        while (false);
+
+        if (value === null) {
+            switch (length) {
+                case 6:
+                    if (!this.data[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]])
+                        unset(this.data[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]);
+
+                case 5:
+                    if (!this.data[path[0]][path[1]][path[2]][path[3]][path[4]])
+                        unset(this.data[path[0]][path[1]][path[2]][path[3]][path[4]]);
+
+                case 4:
+                    if (!this.data[path[0]][path[1]][path[2]][path[3]])
+                        unset(this.data[path[0]][path[1]][path[2]][path[3]]);
+
+                case 3:
+                    if (!this.data[path[0]][path[1]][path[2]])
+                        unset(this.data[path[0]][path[1]][path[2]]);
+
+                case 2:
+                    if (!this.data[path[0]][path[1]])
+                        unset(this.data[path[0]][path[1]]);
+
+                case 1:
+                    if (!this.data[path[0]])
+                        unset(this.data[path[0]]);
+            }
+        }
+    }
+
+    appendChild(mixed data): eclEngine_child
+    {
+        child = new eclEngine_child(this.page, data);
+        this.children[] = child;
+        return child;
+    }
+
+    setErrorMessage(string message, string value = ''): void
+    {
+        global store;
+
+        if (this.error)
+            return;
+
+        this.error = this.cloneControl(store.staticContent.open(message));
+        this.error['field_id'] = this.currentName;
+        this.error['value'] = value;
+        this.error['control'] = this.currentControl;
+    }
+
+    private cloneControl(array control): array
+    {
+        cloned = [];
+        foreach (control as key => value) {
+            if (key === 'flags' or key === 'text') {
+                if (is_array(value)) {
+                    foreach (value as subKey => subValue) {
+                        cloned[subKey] = subValue;
+                    }
+                }
+            } else {
+                cloned[key] = value;
+            }
+        }
+        return cloned;
+    }
+
+}

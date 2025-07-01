@@ -3,84 +3,91 @@
 $startTime = microtime(true);
 ob_start();
 
-define('SYSTEM_CONFIG_FILE', 'config.php');
-!is_file(__DIR__ . '/' . SYSTEM_CONFIG_FILE) or include __DIR__ . '/' . SYSTEM_CONFIG_FILE;
+defined('SERVER_HOSTING_MODE') or define('SERVER_HOSTING_MODE', 'single'); // 'single', 'subfolders', 'subdomains'
+defined('SERVER_PROTOCOL') or define('SERVER_PROTOCOL', 'http:'); // 'http:', 'https:'
+defined('SERVER_HOST') or define('SERVER_HOST', 'localhost');
+defined('SERVER_REWRITE_ENGINE') or define('SERVER_REWRITE_ENGINE', false);
+defined('SERVER_SCRIPT_NAME') or define('SERVER_SCRIPT_NAME', substr(__FILE__, 1 + strlen(__DIR__)));
+defined('SERVER_CONFIG_FILE') or define('SERVER_CONFIG_FILE', __DIR__ . '/config.php');
+defined('SERVER_DISPLAY_ERRORS') or define('SERVER_DISPLAY_ERRORS', true);
+defined('SERVER_LOG_ERRORS') or define('SERVER_LOG_ERRORS', false);
+defined('SERVER_LOG_FILE') or define('SERVER_LOG_FILE', __DIR__ . '/php_log.txt');
+defined('SERVER_DATABASE_LOG_FILE') or define('SERVER_DATABASE_LOG_FILE', __DIR__ . '/database_log.txt');
+defined('SERVER_TIME_LIMIT') or define('SERVER_TIME_LIMIT', 3);
 
-defined('FOLDER_APPLICATIONS') or define('FOLDER_APPLICATIONS', '');
-defined('FOLDER_DATABASE') or define('FOLDER_DATABASE', 'database/');
-defined('FOLDER_ENGINE') or define('FOLDER_ENGINE', 'ecolabore-engine/');
-defined('FOLDER_SITES') or define('FOLDER_SITES', 'sites/');
-defined('FOLDER_USERS') or define('FOLDER_USERS', 'users/');
+defined('PATH_ROOT') or define('PATH_ROOT', __DIR__ . '/');
+defined('PATH_APPLICATION') or define('PATH_APPLICATION', __DIR__ . '/');
+defined('PATH_ENGINE') or define('PATH_ENGINE', __DIR__ . '/');
 
-define('PATH_ROOT', __DIR__ . '/');
-define('PATH_APPLICATIONS', __DIR__ . '/' . FOLDER_APPLICATIONS);
-define('PATH_DATABASE', __DIR__ . '/' . FOLDER_DATABASE);
-define('PATH_ENGINE', __DIR__ . '/' . FOLDER_ENGINE);
-define('PATH_SITES', __DIR__ . '/' . FOLDER_SITES);
-define('PATH_USERS', __DIR__ . '/' . FOLDER_USERS);
+defined('MODULES') or define('MODULES', []);
 
-defined('SYSTEM_HOSTING_MODE') or define('SYSTEM_HOSTING_MODE', 'subfolders'); // 'single' | 'subfolders' | 'subdomains'
-defined('SYSTEM_HOST') or define('SYSTEM_HOST', 'localhost');
-defined('SYSTEM_DEFAULT_DOMAIN_NAME') or define('SYSTEM_DEFAULT_DOMAIN_NAME', 'admin');
-defined('SYSTEM_ADMIN_URI') or define('SYSTEM_ADMIN_URI', 'admin');
-defined('SYSTEM_USERS_URI') or define('SYSTEM_USERS_URI', 'friends');
-defined('SYSTEM_DEFAULT_LANGUAGE') or define('SYSTEM_DEFAULT_LANGUAGE', 'pt');
-defined('SYSTEM_DEFAULT_CHARSET') or define('SYSTEM_DEFAULT_CHARSET', 'ISO-8859-1');
-defined('SYSTEM_SESSION_TTL') or define('SYSTEM_SESSION_TTL', 3600);
-defined('SYSTEM_SESSION_CACHE_EXPIRE') or define('SYSTEM_SESSION_CACHE_EXPIRE', 300);
-defined('SYSTEM_TIME_LIMIT') or define('SYSTEM_TIME_LIMIT', 6);
-defined('SYSTEM_TIMEZONE') or define('SYSTEM_TIMEZONE', 'America/Sao_Paulo');
-defined('SYSTEM_DISPLAY_ERRORS') or define('SYSTEM_DISPLAY_ERRORS', 1);
-defined('SYSTEM_LOG_ERRORS') or define('SYSTEM_LOG_ERRORS', 0);
-defined('SYSTEM_HTTPS_REDIRECT') or define('SYSTEM_HTTPS_REDIRECT', false);
-defined('SYSTEM_REWRITE_ENGINE') or define('SYSTEM_REWRITE_ENGINE', false);
+if (is_file(SERVER_CONFIG_FILE))
+    include SERVER_CONFIG_FILE;
 
-defined('DATABASE_ENABLE') or define('DATABASE_ENABLE', true);
+    defined('ADMIN_NAME') or define('ADMIN_NAME', 'admin');
+defined('ADMIN_TITLE') or define('ADMIN_TITLE', 'Administrator');
+defined('ADMIN_GENDER') or define('ADMIN_GENDER', 'male');
+defined('ADMIN_PASSWORD') or define('ADMIN_PASSWORD', '');
+defined('ADMIN_HELPERS') or define('ADMIN_HELPERS', '');
+
+defined('APPLICATION_ADMIN_NAME') or define('APPLICATION_ADMIN_NAME', 'admin');
+defined('APPLICATION_USERS_NAME') or define('APPLICATION_USERS_NAME', 'friends');
+
+defined('DATABASE_ENABLED') or define('DATABASE_ENABLED', false);
 defined('DATABASE_CLIENT') or define('DATABASE_CLIENT', 'sqlite');
-defined('DATABASE_DB') or define('DATABASE_DB', 'ecolabore');
 defined('DATABASE_HOST') or define('DATABASE_HOST', '');
 defined('DATABASE_USER') or define('DATABASE_USER', 'root');
 defined('DATABASE_PASSWORD') or define('DATABASE_PASSWORD', '');
-defined('DATABASE_LOG_FILE') or define('DATABASE_LOG_FILE', 'database_log');
+defined('DATABASE_DB') or define('DATABASE_DB', 'ecolabore');
 defined('DATABASE_PREFIX') or define('DATABASE_PREFIX', 'ecl_');
-defined('DATABASE_ENCRYPT_ENABLE') or define('DATABASE_ENCRYPT_ENABLE', false);
-defined('DATABASE_ENCRYPT_CIPHER') or define('DATABASE_ENCRYPT_CIPHER', 'aes-128-cbc');
-defined('DATABASE_ENCRYPT_KEY') or define('DATABASE_ENCRYPT_KEY', '');
-defined('DATABASE_ENCRYPT_HASH') or define('DATABASE_ENCRYPT_HASH', 'fE7QxHKV');
 
-define('SYSTEM_SCRIPT_PATH', __FILE__);
-define('SYSTEM_SCRIPT_NAME', substr(__FILE__, 1 + strlen(__DIR__)));
-define('SYSTEM_COMPILER_HALT_OFFSET', __COMPILER_HALT_OFFSET__);
-define('SYSTEM_LOG_FILE', __DIR__ . '/.log_php_errors');
+defined('DEFAULT_CHARSET') or define('DEFAULT_CHARSET', 'UTF-8');
+defined('DEFAULT_DOMAIN_NAME') or define('DEFAULT_DOMAIN_NAME', 'ecolabore');
+defined('DEFAULT_LANGUAGE') or define('DEFAULT_LANGUAGE', 'pt');
+defined('DEFAULT_TIMEZONE') or define('DEFAULT_TIMEZONE', 'america/sao_paulo');
+defined('DEFAULT_SESSION_TTL') or define('DEFAULT_SESSION_TTL', '3600');
 
-defined('CHR_FNS') or define('CHR_FNS', '+');
+defined('ENCRYPTION_ENABLED') or define('ENCRYPTION_ENABLED', false);
+defined('ENCRYPTION_CYPHER') or define('ENCRYPTION_CYPHER', '');
+defined('ENCRYPTION_KEY') or define('ENCRYPTION_KEY', '');
+defined('ENCRYPTION_HASH') or define('ENCRYPTION_HASH', '');
+
+defined('FOLDER_ACETS') or define('FOLDER_ACETS', 'acets/');
+defined('FOLDER_CACHE') or define('FOLDER_CACHE', 'cache/');
+defined('FOLDER_DATABASE') or define('FOLDER_DATABASE', 'database/');
+defined('FOLDER_SITES') or define('FOLDER_SITES', 'sites/');
+defined('FOLDER_USERS') or define('FOLDER_USERS', 'users/');
+
+define('PATH_ACETS', PATH_ROOT . FOLDER_ACETS);
+define('PATH_CACHE', PATH_ROOT . FOLDER_CACHE);
+define('PATH_DATABASE', PATH_ROOT . FOLDER_DATABASE);
+define('PATH_SITES', PATH_ROOT . FOLDER_SITES);
+define('PATH_USERS', PATH_ROOT . FOLDER_USERS);
+
+define('PACK_COMPILER_HALT_OFFSET', __COMPILER_HALT_OFFSET__);
 define('CRLF', chr(13) . chr(10));
 define('TIME', time());
 
 // PHP settings
-if (SYSTEM_TIME_LIMIT)
-    set_time_limit(SYSTEM_TIME_LIMIT);
-session_cache_expire(SYSTEM_SESSION_CACHE_EXPIRE);
+if (SERVER_TIME_LIMIT)
+    set_time_limit(SERVER_TIME_LIMIT);
+session_cache_expire(180);
 error_reporting(E_ALL);
-date_default_timezone_set(SYSTEM_TIMEZONE);
-ini_set('display_errors', SYSTEM_DISPLAY_ERRORS);
-ini_set('log_errors', SYSTEM_LOG_ERRORS);
-ini_set('error_log', SYSTEM_LOG_FILE);
+date_default_timezone_set(DEFAULT_TIMEZONE);
+ini_set('display_errors', SERVER_DISPLAY_ERRORS);
+ini_set('log_errors', SERVER_LOG_ERRORS);
+ini_set('error_log', SERVER_LOG_FILE);
 ini_set('session.use_strict_mode', 0);
 
 $applicationsMaps = [];
-$applicationsPaths = [];
 
-function setMap(string $applicationHost, string $applicationChild, string $applicationPath = ''): void
+function setMap(string $applicationHost, string $applicationChild): void
 {
-    global $applicationsMaps, $applicationsPaths;
+    global $applicationsMaps;
     if (!isset($applicationsMaps[$applicationHost])) {
         $applicationsMaps[$applicationHost] = [$applicationChild];
     } else {
         $applicationsMaps[$applicationHost][] = $applicationChild;
-    }
-    if ($applicationPath !== '') {
-        $applicationsPaths[$applicationChild] = $applicationPath;
     }
 }
 
@@ -89,23 +96,21 @@ function getMap(string $applicationHost): array
     global $applicationsMaps;
     if (isset($applicationsMaps[$applicationHost]))
         return $applicationsMaps[$applicationHost];
-
-    return [];
+    else
+        return [];
 }
 
-$includePaths = [PATH_ENGINE];
-foreach (scandir(PATH_APPLICATIONS) as $folder) {
-    if ($folder[0] == '.')
-        continue;
-    if (!is_dir(PATH_APPLICATIONS . $folder))
-        continue;
-    if (!is_dir(PATH_APPLICATIONS . $folder . '/components'))
-        continue;
-    if (!is_file(PATH_APPLICATIONS . $folder . '/map.php'))
-        continue;
+$includePaths = [PATH_ENGINE, PATH_APPLICATION];
 
-    $includePaths[] = PATH_APPLICATIONS . $folder . '/';
-    includeFile(PATH_APPLICATIONS . $folder . '/map.php');
+if (defined('PLUGINS')) {
+    foreach (PLUGINS as $folderName) {
+        $includePaths[] = PATH_ROOT . $pluginName . '/';
+    }
+}
+
+foreach ($includePaths as $path) {
+    if (is_file($path . 'map.php'))
+        include $path . 'map.php';
 }
 
 spl_autoload_register(
@@ -118,30 +123,31 @@ spl_autoload_register(
         $parts = explode('_', $className);
         $partsCount = count($parts);
 
-        if ($partsCount == 1) {
-            if (is_file(PATH_ENGINE . 'kernel/classes/' . $className . '.php')) {
-                includeFile(PATH_ENGINE . 'kernel/classes/' . $className . '.php');
+        if (!PACK_ENABLED) {
+            if ($partsCount == 1) {
+                if (is_file(PATH_ENGINE . 'kernel/classes/' . $className . '.php')) {
+                    includeFile(PATH_ENGINE . 'kernel/classes/' . $className . '.php');
+                }
+                return;
             }
-            return;
-        }
 
-        $engineFolder = strtolower(substr($parts[0], 3));
-        if (is_file(PATH_ENGINE . 'kernel/' . $engineFolder . '/' . $className . '.php')) {
-            includeFile(PATH_ENGINE . 'kernel/' . $engineFolder . '/' . $className . '.php');
-            return;
-        }
+            $engineFolder = strtolower(substr($parts[0], 3));
+            if (is_file(PATH_ENGINE . 'kernel/' . $engineFolder . '/' . $className . '.php')) {
+                includeFile(PATH_ENGINE . 'kernel/' . $engineFolder . '/' . $className . '.php');
+                return;
+            }
 
-        foreach ($includePaths as $path) {
-            for ($i = 1; $i < $partsCount; $i++) {
-                $dir = implode('/', array_slice($parts, 1, $i));
-                $file = $path . '/components/' . $dir . '/' . $className . '.php';
-                if (is_file($file)) {
-                    includeFile($file);
-                    return;
+            foreach ($includePaths as $path) {
+                for ($i = 1; $i < $partsCount; $i++) {
+                    $dir = implode('/', array_slice($parts, 1, $i));
+                    $file = $path . '/components/' . $dir . '/' . $className . '.php';
+                    if (is_file($file)) {
+                        includeFile($file);
+                        return;
+                    }
                 }
             }
         }
-
         eval ('class ' . $className . ' extends ' . $parts[0] . '{ public $is_phantom = true; }');
     }
 );
@@ -158,6 +164,16 @@ function print_data(mixed $data): void
 {
     print nl2br(eclIo_convert::array2json($data));
 }
+
+// Next line indicates the scripts insertion point to the packager engine. Do not change it.
+// __PACKAGER_INSERTION_POINT__ 
+
+defined('PACK_ENABLED') or define('PACK_ENABLED', false);
+defined('PACK_NAME') or define('PACK_NAME', 'ecolabore-engine');
+defined('PACK_TIME') or define('PACK_TIME', '');
+define('PACK_FILE', __FILE__);
+define('PACK_HALT_COMPILER_OFFSET', __COMPILER_HALT_OFFSET__);
+
 // Input and output drivers
 $io = new eclEngine_io();
 
@@ -177,7 +193,6 @@ $page->actions = $io->request->actions;
 $page->flags = $io->request->flags;
 $page->received = $io->request->received;
 
-$page->sessionStart();
 $page->route();
 $page->dispatch();
 $page->render();
@@ -187,18 +202,16 @@ $io->close();
 
 header_remove('Content-Type');
 header('Content-Type: ' . $page->contentType);
+header('Accept: */*');
 
 if (isset($page->flags['html'])) {
     print '<!DOCTYPE html><html><body>';
     print nl2br(eclIo_convert::htmlSpecialChars($page->buffer));
     print '</body></html>';
 } else {
-    if (isset($page->actions['export'])) {
-        file_put_contents($page->domain->name . '.html', $page->buffer);
-    }
     print $page->buffer;
 }
 
 ob_end_flush();
 
-__halt_compiler();              
+__halt_compiler();

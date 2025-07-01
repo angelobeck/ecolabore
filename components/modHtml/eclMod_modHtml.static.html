@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang={lang} charset={charset}>
-    <meta charset={charset} />
 
 <head>
+    <meta charset={charset} />
+    <link rel="stylesheet" type="text/css" href={styleSrc} />
     <title>{title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
@@ -11,7 +12,15 @@
     <mod name="layout" />
 </body>
 <script>
-    window.SYSTEM_APPLICATION_NAME = "{applicationName}";
+
+    const SYSTEM_HOST = "{host}";
+    const SYSTEM_SCRIPT_NAME = "{scriptName}";
+    const SYSTEM_REWRITE_ENGINE = {rewriteEngine} ;
+    const SYSTEM_HOSTING_MODE = "{hostingMode}";
+    const SYSTEM_DEFAULT_DOMAIN_NAME = "{defaultDomainName}";
+    const SYSTEM_DEFAULT_LANGUAGE = "{defaultLanguage}";
+
 </script>
 {scripts}
+
 </html>

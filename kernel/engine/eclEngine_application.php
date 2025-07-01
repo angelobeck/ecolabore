@@ -34,6 +34,9 @@ class eclEngine_application
         }
 
         $helper = 'eclApp_' . $applicationName;
+        if (isset($helper::$access) && $helper::$access > $this->access) {
+            $this->access = $helper::$access;
+        }
         if (isset($helper::$map)) {
             $this->map = $helper::$map;
         }

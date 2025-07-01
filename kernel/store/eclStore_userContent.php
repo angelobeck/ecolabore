@@ -29,9 +29,10 @@ class eclStore_userContent extends eclStore
         'spotlight' => 'int/1',
         // Contents
         'text' => 'array',
-        'local' => 'array',
+        'details' => 'array',
         'flags' => 'array',
         'extras' => 'array',
+        'files' => 'array',
         'links' => 'array',
         'keywords' => 'keywords'
     ];

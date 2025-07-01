@@ -5,7 +5,7 @@ class eclRender_nodeSlot extends eclRender_node {
         if(this.component.slot.length === 0)  {
             return;
         }
-        this.children = this.component.slot;
+        this.children = this.cloneChildren(this.component.slot);
         this.createChildren(this.children, parentElement, insertBeforeMe);
     }
 
