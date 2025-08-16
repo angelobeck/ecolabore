@@ -1,0 +1,15 @@
+{
+    "flags": {
+        "action": "cancel"
+    },
+    "text": {
+        "label": {
+            "pt": {
+                "value": "Cancelar"
+            },
+            "en": {
+                "value": "Cancel"
+            }
+        }
+    }
+}

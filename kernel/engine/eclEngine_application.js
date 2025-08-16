@@ -8,6 +8,7 @@ class eclEngine_application {
     data = [];
     access = 0;
     path;
+    groups;
     ignoreSubfolders = false;
     domainId = 0;
     userId = 0;
@@ -23,10 +24,12 @@ class eclEngine_application {
         if (parent) {
             this.access = parent.access;
             this.path = [...parent.path, name];
+            this.groups = parent.groups.map(group => group);
             this.domainId = parent.domainId;
             this.userId = parent.userId;
         } else {
             this.path = [];
+            this.groups = [];
         }
 
         const helper = registeredClasses.eclApp[applicationName];

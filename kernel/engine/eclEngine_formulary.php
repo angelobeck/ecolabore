@@ -3,7 +3,8 @@
 class eclEngine_formulary
 {
     public eclEngine_page $page;
-    public array $data = [];
+    public array $data;
+    private array $originalData;
     public array $flags = [];
     public string $prefix = 'edit';
     public array $children = [];
@@ -15,12 +16,13 @@ class eclEngine_formulary
     private string $currentName;
     private array $currentControl;
 
-    public function __construct(eclEngine_page $page, string|array $control, array $data, string $prefix)
+    public function __construct(eclEngine_page $page, string|array $control, array &$data, string $prefix)
     {
         global $store;
         $this->page = $page;
         $this->received = $page->received;
         $this->data = $data;
+        $this->originalData = &$data;
         $this->prefix = $prefix;
         $this->sessionKey = implode('/', $page->application->path) . '/_' . $prefix;
         if (is_string($control)) {
@@ -92,7 +94,15 @@ class eclEngine_formulary
                 $this->currentControl = $control;
                 $filter = 'eclFilter_' . $control['filter'];
 
-                $filter::sanitize($this, $control);
+                $error = $filter::sanitize($this, $control);
+                if (!$this->error and $error)
+                    $this->error = $error;
+            }
+        }
+
+        if (!$this->error) {
+            foreach ($this->data as $key => $value) {
+                $this->originalData[$key] = $value;
             }
         }
 

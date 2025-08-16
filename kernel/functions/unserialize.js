@@ -1,5 +1,8 @@
 
 function unserialize(jsonSerializedString, fileName = '') {
+    if (jsonSerializedString === undefined || jsonSerializedString === null || typeof (jsonSerializedString) !== 'string')
+        return {};
+
     var line = 1;
     var index = 0;
     var length = jsonSerializedString.length;

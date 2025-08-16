@@ -1,0 +1,15 @@
+{
+    "flags": {
+        "action": "back"
+    },
+    "text": {
+        "label": {
+            "pt": {
+                "value": "Retornar"
+            },
+            "en": {
+                "value": "Back"
+            }
+        }
+    }
+}

@@ -10,6 +10,7 @@ class eclEngine_application
     public array $data = [];
     public int $access = 0;
     public array $path;
+    public array $groups;
     public bool $ignoreSubfolders = false;
     public int $domainId = 0;
     public int $userId = 0;
@@ -27,10 +28,12 @@ class eclEngine_application
         if ($parent) {
             $this->access = $parent->access;
             $this->path = [...$parent->path, $name];
+            $this->groups = [...$parent->groups];
             $this->domainId = $parent->domainId;
             $this->userId = $parent->userId;
         } else {
             $this->path = [];
+            $this->groups = [];
         }
 
         $helper = 'eclApp_' . $applicationName;

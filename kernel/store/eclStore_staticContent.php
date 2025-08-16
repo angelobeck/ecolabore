@@ -56,8 +56,8 @@ class EclStore_staticContent
     {
         global $includePaths;
         $parts = explode('_', $name);
-        $folder = implode('/', array_slice($parts, 0, -1));
-        $sufix = end($parts);
+        $sufix = array_pop($parts);
+        $folder = implode('/', $parts);
 
         foreach ($includePaths as $base) {
             $path = $base . 'components/' . $folder . '/_staticContents/' . $sufix . '.json';

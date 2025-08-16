@@ -1,0 +1,15 @@
+{
+    "flags": {
+        "action": "next"
+    },
+    "text": {
+        "label": {
+            "pt": {
+                "value": "Próxima"
+            },
+            "en": {
+                "value": "Next"
+            }
+        }
+    }
+}

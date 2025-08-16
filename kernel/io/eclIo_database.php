@@ -59,15 +59,13 @@ class eclIo_database
             }
             $this->status = true;
 
-
-            /*
-            if (defined('DATABASE_ENCRYPT_ENABLE') and DATABASE_ENCRYPT_ENABLE) {
+            if (ENCRYPTION_ENABLED) {
                 $this->encryptEnable = true;
-                $this->cipher = DATABASE_ENCRYPT_CIPHER;
-                $this->key = base64_decode(DATABASE_ENCRYPT_KEY);
-                $this->ivLength = openssl_cipher_iv_length(DATABASE_ENCRYPT_CIPHER);
+                $this->cipher = ENCRYPTION_CIPHER;
+                $this->key = base64_decode(ENCRYPTION_KEY);
+                $this->ivLength = openssl_cipher_iv_length(ENCRYPTION_CIPHER);
             }
-                */
+
         } catch (PDOException $e) {
             if (defined('DATABASE_DISPLAY_ERRORS') and DATABASE_DISPLAY_ERRORS)
                 print 'Database connection error: ' . $e->getMessage() . '<br>';
@@ -423,7 +421,7 @@ class eclIo_database
         $results = [];
 
         $conditions = [];
-        foreach ($where as $fieldName => $field_value) {
+        foreach ($where as $fieldName => $fieldValue) {
             if (isset($table->fields[$fieldName])) {
                 [$fieldType] = explode('/', $table->fields[$fieldName]);
                 switch ($fieldType) {
@@ -432,30 +430,30 @@ class eclIo_database
                     case 'mediumint':
                     case 'int':
                     case 'time':
-                        if (is_int($field_value))
-                            $conditions[] = '`' . $fieldName . '`=' . strval($field_value);
-                        elseif (is_string($field_value) and is_numeric($field_value))
-                            $conditions[] = '`' . $fieldName . '`=' . $field_value;
-                        elseif (is_string($field_value) and preg_match('%^[<=> ]*[0-9]+$%', trim($field_value)))
-                            $conditions[] = '`' . $fieldName . '` ' . $field_value;
-                        elseif (is_array($field_value)) {
-                            $field_value = implode(', ', $field_value);
-                            if (preg_match('%^[0-9, ]+$%', $field_value))
-                                $conditions[] = '`' . $fieldName . '` IN(' . $field_value . ')';
+                        if (is_int($fieldValue))
+                            $conditions[] = '`' . $fieldName . '`=' . strval($fieldValue);
+                        elseif (is_string($fieldValue) and is_numeric($fieldValue))
+                            $conditions[] = '`' . $fieldName . '`=' . $fieldValue;
+                        elseif (is_string($fieldValue) and preg_match('%^[<=> ]*[0-9]+$%', trim($fieldValue)))
+                            $conditions[] = '`' . $fieldName . '` ' . $fieldValue;
+                        elseif (is_array($fieldValue)) {
+                            $fieldValue = implode(', ', $fieldValue);
+                            if (preg_match('%^[0-9, ]+$%', $fieldValue))
+                                $conditions[] = '`' . $fieldName . '` IN(' . $fieldValue . ')';
                         }
                         break;
 
                     case 'name':
-                        if (preg_match('%^[a-zA-Z0-9@:/._-]+$%', $field_value))
-                            $conditions[] = '`' . $fieldName . "`='" . $field_value . "'";
+                        if (preg_match('%^[a-zA-Z0-9@:/._-]+$%', $fieldValue))
+                            $conditions[] = '`' . $fieldName . "`='" . $fieldValue . "'";
                         break;
 
                     case 'hash':
-                        $conditions[] = '`' . $fieldName . "`='" . $this->hash($field_value) . "'";
+                        $conditions[] = '`' . $fieldName . "`='" . $this->hash($fieldValue) . "'";
                         break;
 
                     case 'keywords':
-                        foreach (explode(' ', $this->filterKeywords($field_value)) as $keyword) {
+                        foreach (explode(' ', $this->filterKeywords($fieldValue)) as $keyword) {
                             $conditions[] = '`' . $fieldName . "` LIKE('%" . $keyword . "%')";
                         }
                         break;
@@ -465,7 +463,7 @@ class eclIo_database
 
         if ($conditions) {
             // The query
-                        if ($columnsNames) {
+            if ($columnsNames) {
                 foreach ($columnsNames as $fieldName) {
                     if (!isset($table->fields[$fieldName]))
                         continue;
@@ -759,10 +757,10 @@ class eclIo_database
         if (!isset($string[0]))
             return '';
 
-        if (!defined('DATABASE_ENCRYPT_HASH'))
+        if (!defined('ENCRYPTION_HASH'))
             return $string;
 
-        return openssl_digest($string . base64_decode(DATABASE_ENCRYPT_HASH), 'sha256', false);
+        return openssl_digest($string . base64_decode(ENCRYPTION_HASH), 'sha256', false);
     }
 
     public static function password(string $plainPassword): string

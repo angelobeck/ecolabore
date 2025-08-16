@@ -1,11 +1,9 @@
 
 class eclMod {
-    page;
     children = [];
     data;
 
-    constructor(page, data = {}) {
-        this.page = page;
+    constructor(data = {}) {
         this.data = data;
     }
 

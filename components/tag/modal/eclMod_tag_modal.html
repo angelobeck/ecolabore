@@ -1,0 +1,8 @@
+<cut target="alert" name={name}>
+    <div>
+        <h1 tabindex="0" wire:element={header}>{_title_}</h1>
+        <p>{_content_}</p>
+        <slot />
+        <ecl-button label="Fechar" onclick={closeAlert} />
+    </div>
+</cut>

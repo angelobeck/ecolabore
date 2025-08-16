@@ -28,7 +28,7 @@ class eclStore_session extends eclStore
 
     public function &create(): array
     {
-        $ivlen = openssl_cipher_iv_length(DATABASE_ENCRYPT_CIPHER);
+        $ivlen = openssl_cipher_iv_length(ENCRYPTION_CYPHER);
         $iv = bin2hex(openssl_random_pseudo_bytes($ivlen));
         $name = eclIo_convert::generateRandomName();
         $key = bin2hex(openssl_random_pseudo_bytes(16));
@@ -69,7 +69,7 @@ class eclStore_session extends eclStore
                     'key' => $hexadecimalEncodedKey,
                     'iv' => $row['iv'],
                     'expires' => $row['expires'],
-                    'session' => unserialize(openssl_decrypt($row['session'], DATABASE_ENCRYPT_CIPHER, $key, 0, $iv))
+                    'session' => unserialize(openssl_decrypt($row['session'], ENCRYPTION_CYPHER, $key, 0, $iv))
                 ];
                 $this->rows[$id] = $data;
                 $this->indexByName[$name] = $id;
@@ -118,7 +118,7 @@ class eclStore_session extends eclStore
                 'created' => $row['created'],
                 'updated' => TIME,
                 'expires' => $row['expires'],
-                'session' => openssl_encrypt($serialized, DATABASE_ENCRYPT_CIPHER, $key, 0, $iv)
+                'session' => openssl_encrypt($serialized, ENCRYPTION_CYPHER, $key, 0, $iv)
             ];
             if ($id === 0)
                 $this->database->insert($this, $data);

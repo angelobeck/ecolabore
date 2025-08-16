@@ -1,0 +1,14 @@
+{
+    "text": {
+        "title": {
+"pt": {
+    "value": "Ooops!"
+}
+        },
+        "content": {
+            "pt": {
+                "value": "O campo '{label}' é de preenchimento obrigatório."
+            }
+        }
+    }
+}

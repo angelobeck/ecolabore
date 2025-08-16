@@ -48,7 +48,7 @@ defined('DEFAULT_TIMEZONE') or define('DEFAULT_TIMEZONE', 'america/sao_paulo');
 defined('DEFAULT_SESSION_TTL') or define('DEFAULT_SESSION_TTL', '3600');
 
 defined('ENCRYPTION_ENABLED') or define('ENCRYPTION_ENABLED', false);
-defined('ENCRYPTION_CYPHER') or define('ENCRYPTION_CYPHER', '');
+defined('ENCRYPTION_CYPHER') or define('ENCRYPTION_CYPHER', 'AES-128-CBC');
 defined('ENCRYPTION_KEY') or define('ENCRYPTION_KEY', '');
 defined('ENCRYPTION_HASH') or define('ENCRYPTION_HASH', '');
 

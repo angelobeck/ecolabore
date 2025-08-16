@@ -29,9 +29,7 @@ class eclRender_nodeModule extends eclRender_node {
         this.createStaticAttributes();
         this.createDinamicAttributes();
         setTimeout(() => {
-            this.component.beforeEvent();
             this.component.module.renderedCallback();
-            this.component.afterEvent();
         }, 20);
         this.component.module.connectedCallback();
         this.component.module.refreshCallback();
@@ -44,7 +42,8 @@ class eclRender_nodeModule extends eclRender_node {
         if (module !== this.module) {
             this.removeChildren(this.children);
             this.children = [];
-            this.component.module.disconnectedCallback();
+            if (this.component.module && this.component.module.disconnectedCallback)
+                this.component.module.disconnectedCallback();
 
             this.module = module;
             this.generateModule(this.endingElement.parentElement, this.endingElement);
@@ -52,9 +51,7 @@ class eclRender_nodeModule extends eclRender_node {
         }
 
         setTimeout(() => {
-            this.component.beforeEvent();
             this.component.module.renderedCallback();
-            this.component.afterEvent();
         }, 20);
         if (!cancelRefreshCallback)
             this.component.module.refreshCallback();
@@ -64,6 +61,7 @@ class eclRender_nodeModule extends eclRender_node {
 
     remove() {
         this.removeChildren(this.children);
+        if(this.component.module && this.component.module.disconnectedCallback)
         this.component.module.disconnectedCallback();
         if (this.endingElement) {
             let parentElement = this.endingElement.parentElement;
@@ -78,7 +76,7 @@ class eclRender_nodeModule extends eclRender_node {
     createStaticAttributes() {
         for (let name in this.staticAttributes) {
             const value = this.staticAttributes[name];
-            this.component.module[this.convertToCamelCase(name)] = value;
+            this.component.apis[this.convertToCamelCase(name)] = value;
         }
     }
 
@@ -93,7 +91,7 @@ class eclRender_nodeModule extends eclRender_node {
             } else {
                 const path = this.dinamicAttributes[name];
                 const value = this.parent.component.getProperty(path);
-                this.component.module[this.convertToCamelCase(name)] = value;
+                this.component.apis[this.convertToCamelCase(name)] = value;
             }
         }
     }
@@ -104,16 +102,16 @@ class eclRender_nodeModule extends eclRender_node {
     }
 
     refreshDinamicAttributes() {
-        for (let name in this.dinamicAttributes) {
-            if (name.startsWith("on")) {
+        for (let attributeName in this.dinamicAttributes) {
+            if (attributeName.startsWith("on"))
                 continue;
-            } else if (name.indexOf(":") > 0) {
+            if (attributeName.indexOf(":") > 0)
                 continue;
-            } else {
-                const path = this.dinamicAttributes[name];
-                const value = this.parent.component.getProperty(path);
-                this.component.module[this.convertToCamelCase(name)] = value;
-            }
+
+            let name = this.convertToCamelCase(attributeName);
+            const path = this.dinamicAttributes[attributeName];
+            const value = this.parent.component.getProperty(path);
+            this.component.apis[name] = value;
         }
     }
 

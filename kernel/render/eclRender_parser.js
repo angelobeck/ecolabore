@@ -92,6 +92,10 @@ class eclRender_parser {
                 node = new eclRender_nodeSlot(this.current, 'slot');
                 break;
 
+            case 'tag':
+                node = new eclRender_nodeTag(this.current, tagName);
+                break;
+
             case 'template':
                 node = new eclRender_nodeTemplate(this.current, 'template');
                 break;

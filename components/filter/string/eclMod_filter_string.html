@@ -1,6 +1,15 @@
-<label>
-    {control.text.label.Value}
-    <div>
-        <input type="text" onchange={handleChange} value={value} />
-    </div>
-</label>
+<ecl-input
+    label={control.text.label}
+    if:false={control.flags.display}
+    if:compare="textarea"
+    onchange={handleChange}
+    value={value}
+></ecl-input>
+
+<ecl-textarea
+    label={control.text.label}
+    if:true={control.flags.display}
+    if:compare="textarea"
+    onchange={handleChange}
+    value={value}
+></ecl-textarea>

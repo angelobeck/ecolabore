@@ -1,0 +1,15 @@
+{
+    "flags": {
+        "action": "finish"
+    },
+    "text": {
+        "label": {
+            "pt": {
+                "value": "Concluir"
+            },
+            "en": {
+                "value": "Finish"
+            }
+        }
+    }
+}

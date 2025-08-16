@@ -48,7 +48,7 @@ class eclRender_nodeElement extends eclRender_node {
                 continue;
             }
             let value = this.staticAttributes[name];
-            this.element.setAttribute(name, value);
+            this.element.setAttribute(name, value.toString());
         }
     }
 
@@ -64,16 +64,13 @@ class eclRender_nodeElement extends eclRender_node {
             } else if (name.indexOf(":") > 0) {
                 continue;
             } else {
-                const value = this.component.getProperty(path);
-                if (!value) {
+                let value = this.component.getProperty(path);
+                if (name.startsWith('aria')) {
+                    if (value === undefined || value === null || value === false)
+                        value = 'false';
+                    this.element.setAttribute(name, value.toString());
+                } else if (value === undefined || value === null || value === false || value === '') {
                     continue;
-                } else if (name === 'href') {
-                    this.element.dataset.href = value.toString();
-                    this.element.setAttribute('tabindex', '0');
-                    this.element.onclick = (event) => {
-                        event.preventDefault();
-                        navigate(event.currentTarget.dataset.href);
-                    };
                 } else if (name === 'value') {
                     this.element.value = value;
                 } else {
@@ -86,9 +83,7 @@ class eclRender_nodeElement extends eclRender_node {
     createEvent(name) {
         var target = this.dinamicAttributes[name];
         this.element[name] = (event) => {
-            this.component.beforeEvent();
             this.component.module[target](event);
-            this.component.afterEvent();
         };
     }
 
@@ -100,11 +95,15 @@ class eclRender_nodeElement extends eclRender_node {
             } else if (name.indexOf(":") > 0) {
                 continue;
             } else {
-                const value = this.component.getProperty(path);
-                if (name === "value") {
+                let value = this.component.getProperty(path);
+                if (name.startsWith('aria')) {
+                    if (value === undefined || value === null || value === false)
+                        value = 'false';
+                    this.element.setAttribute(name, value.toString());
+                } else if (value === undefined || value === null || value === false || value === '') {
+                    this.element.removeAttribute(name);
+                } else if (name === 'value') {
                     this.element.value = value;
-                } else if (name === 'href') {
-                    this.element.dataset.href = value;
                 } else {
                     this.element.setAttribute(name, value);
                 }

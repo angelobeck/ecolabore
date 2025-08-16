@@ -14,11 +14,28 @@ class eclEndpoint
 
     public function dispatch(array $received): array
     {
+        return $this->error('The endpoint ' . implode('/', $this->page->application->path) . '/_endpoint-' . $this->name . ' is invalid');
+    }
+
+    public function error(string | array $message): array
+    {
+        if(is_string($message))
         return [
             'error' => [
-                'message' => 'The endpoint ' . implode('/', $this->page->application->path) . '/_endpoint-' . $this->name . ' is invalid',
+                'message' => $message,
                 'application' => $this->page->application->applicationName
             ]
+        ];
+
+        return [
+            'error' => $message
+        ];
+    }
+
+    public function response(mixed $response): array
+    {
+        return [
+            'response' => $response
         ];
     }
 

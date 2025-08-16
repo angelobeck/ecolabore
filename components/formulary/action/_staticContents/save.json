@@ -1,0 +1,15 @@
+{
+    "flags": {
+        "action": "save"
+    },
+    "text": {
+        "label": {
+            "pt": {
+                "value": "Salvar"
+            },
+            "en": {
+                "value": "Save"
+            }
+        }
+    }
+}

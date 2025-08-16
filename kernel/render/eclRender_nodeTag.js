@@ -11,7 +11,19 @@ class eclRender_nodeTag extends eclRender_node {
     }
 
     generateModule(parentElement, insertBeforeMe) {
-        var moduleName = registeredTags[this.value];
+        var moduleName;
+        if (this.value === 'tag') {
+            if (this.staticAttributes.name)
+                moduleName = this.staticAttributes.name;
+            else if (this.dinamicAttributes.name)
+                moduleName = this.component.getProperty(this.dinamicAttributes.name);
+        } else {
+            moduleName = registeredTags[this.value];
+        }
+
+        if (!registeredClasses.eclMod[moduleName])
+            return;
+
         this.moduleSymbol = registeredClasses.eclMod[moduleName];
         this.module = new this.moduleSymbol();
         var tokenizer = new eclRender_tokenizer();
@@ -22,15 +34,17 @@ class eclRender_nodeTag extends eclRender_node {
         if (!template) {
             return;
         }
+
+        if (this.parent)
+            this.parent.component.childComponents.push(this.module);
+
         var tokens = tokenizer.tokenize(template);
         parser.parse(this, tokens, this.module);
 
         this.createStaticAttributes();
         this.createDinamicAttributes();
         setTimeout(() => {
-            this.component.beforeEvent();
             this.component.module.renderedCallback();
-            this.component.afterEvent();
         }, 20);
         this.component.module.connectedCallback();
         this.component.module.refreshCallback();
@@ -40,9 +54,7 @@ class eclRender_nodeTag extends eclRender_node {
 
     refresh() {
         setTimeout(() => {
-            this.component.beforeEvent();
             this.component.module.renderedCallback();
-            this.component.afterEvent();
         }, 20);
         this.component.module.refreshCallback();
         this.refreshDinamicAttributes();
@@ -58,12 +70,20 @@ class eclRender_nodeTag extends eclRender_node {
             this.endingElement = false;
         }
         this.children = this.component.slot;
+
+        if (this.parent) {
+            let children = this.parent.component.childComponents;
+            for (let i = 0; i < children.length; i++) {
+                if (children[i] === this.module)
+                    children.slice(i, 1);
+            }
+        }
     }
 
     createStaticAttributes() {
         for (let name in this.staticAttributes) {
             const value = this.staticAttributes[name];
-            this.component.module[this.convertToCamelCase(name)] = value;
+            this.component.apis[this.convertToCamelCase(name)] = value;
         }
     }
 
@@ -78,7 +98,7 @@ class eclRender_nodeTag extends eclRender_node {
             } else {
                 const path = this.dinamicAttributes[name];
                 const value = this.parent.component.getProperty(path);
-                this.component.module[this.convertToCamelCase(name)] = value;
+                this.component.apis[this.convertToCamelCase(name)] = value;
             }
         }
     }
@@ -89,16 +109,16 @@ class eclRender_nodeTag extends eclRender_node {
     }
 
     refreshDinamicAttributes() {
-        for (let name in this.dinamicAttributes) {
-            if (name.startsWith("on")) {
+        for (let attributeName in this.dinamicAttributes) {
+            if (attributeName.startsWith("on"))
                 continue;
-            } else if (name.indexOf(":") > 0) {
+            if (attributeName.indexOf(":") > 0)
                 continue;
-            } else {
-                const path = this.dinamicAttributes[name];
-                const value = this.parent.component.getProperty(path);
-                this.component.module[this.convertToCamelCase(name)] = value;
-            }
+
+            let name = this.convertToCamelCase(attributeName);
+            const path = this.dinamicAttributes[attributeName];
+            const value = this.parent.component.getProperty(path);
+            this.component.apis[name] = value;
         }
     }
 

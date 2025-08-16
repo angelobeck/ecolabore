@@ -283,8 +283,8 @@ class eclIo_convert
         $index = 0;
         foreach ($data as $key => $value) { // each array element
             $key = strval($key);
-            if (!preg_match('/^[a-zA-Z0-9_]+$/', $key))
-                throw new ErrorException("JSON encode error: invalid key");
+            if (!preg_match('/^[a-zA-Z0-9_-]+$/', $key))
+                throw new ErrorException("JSON encode error: invalid key '{$key}'");
 
             if ($index++)
                 $buffer .= ',' . CRLF;

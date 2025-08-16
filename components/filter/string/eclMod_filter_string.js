@@ -5,21 +5,30 @@ class eclMod_filter_string extends eclMod {
     value = '';
 
     connectedCallback() {
-        this.formulary.subscribe(this);
-        if(this.control.target)
-            this.value = this.formulary.getField(this.control.target);
+        this.api('formulary');
+        this.api('control');
     }
 
-    refreshCallback() {}
+    refreshCallback() {
+        if (!this.formulary)
+            return;
 
-    handleChange(event) {
-var value = event.currentTarget.value;
-if(this.control.target)
-    this.formulary.setField(this.control.target, value);
+        if (this.control.flags && this.control.flags.target)
+            this.value = this.formulary.getField(this.control.flags.target);
     }
 
     disconnectedCallback() {
+        if (!this.formulary)
+            return;
+
         this.formulary.unsubscribe(this);
+    }
+
+    handleChange(event) {
+        if (!this.formulary || !this.control.flags || !this.control.flags.target)
+            return;
+
+        this.formulary.setField(this.control.flags.target, event.detail.value);
     }
 
 }

@@ -1,0 +1,15 @@
+{
+    "flags": {
+        "action": "previous"
+    },
+    "text": {
+        "label": {
+            "pt": {
+                "value": "Anterior"
+            },
+            "en": {
+                "value": "Previous"
+            }
+        }
+    }
+}

@@ -4,34 +4,67 @@ class eclRender_component {
     slot;
     scopes = [];
     rootNode = false;
-    trackedProperties = {};
-    trackedPropertyChanged = false;
-    regularTrackedProperties;
+    render = false;
     eventListeners = {};
+    apis = {};
+    trackedProperties = {};
+    childComponents = [];
 
     constructor(rootNode, module, slot) {
         this.rootNode = rootNode;
+        var component = this;
+
         this.module = module;
         this.slot = rootNode.cloneChildren(slot);
 
+        this.module.node = this.rootNode;
+        
         this.module.dispatchEvent = (event) => {
             if (this.eventListeners['on' + event.type]) {
                 const callName = this.eventListeners['on' + event.type];
                 const component = this.rootNode.parent.component;
-                component.beforeEvent();
-                component.module[callName](event);
-                component.afterEvent();
+                if (component.module[callName])
+                    component.module[callName](event);
             }
         };
 
         this.module.refresh = () => {
             this.rootNode.refresh(true);
-            this.trackedPropertyChanged = false;
+            this.refresh = false;
+        };
+
+        this.module.api = (name) => {
+            var component = this;
+            if (component.apis[name] !== undefined && component.apis[name] !== null)
+                null;
+            else if (component.module[name] !== null && component.module[name] !== undefined)
+                component.apis[name] = component.module[name];
+            else
+                component.apis[name] = false;
+
+            Object.defineProperty(this.module, name, {
+                get() {
+                    return component.apis[name];
+                },
+                set(value) {
+                    component.apis[name] = value;
+                    if (!component.render) {
+                        component.render = true;
+                        setTimeout(() => {
+                            if (component.render) {
+                                component.render = false;
+                                component.rootNode.refresh(true);
+                                component.module.renderedCallback();
+                            }
+                        }, 20);
+                    }
+                }
+            });
         };
 
         this.module.track = (name) => {
             var component = this;
-            if (component.module[name] !== null || component.module[name] !== undefined)
+            if (component.module[name] !== null && component.module[name] !== undefined)
                 component.trackedProperties[name] = component.module[name];
             else
                 component.trackedProperties[name] = false;
@@ -42,14 +75,13 @@ class eclRender_component {
                 },
                 set(value) {
                     component.trackedProperties[name] = value;
-                    if (!component.trackedPropertyChanged) {
-                        component.trackedPropertyChanged = true;
+                    if (!component.render) {
+                        component.render = true;
                         setTimeout(() => {
-                            if (component.trackedPropertyChanged) {
+                            if (component.render) {
+                                component.render = false;
                                 component.rootNode.refresh(true);
-                                component.beforeEvent();
                                 component.module.renderedCallback();
-                                component.afterEvent();
                             }
                         }, 20);
                     }
@@ -57,8 +89,20 @@ class eclRender_component {
             });
         };
 
-        if (this.rootNode.parent && this.rootNode.parent.component && this.rootNode.parent.component.module)
-            this.module.parentModule = this.rootNode.parent.component;
+        Object.defineProperty(this.module, 'parentComponent', {
+            get() {
+                return rootNode.parent.component.module;
+            },
+            set(v) { }
+        });
+
+        Object.defineProperty(this.module, 'childComponents', {
+            get() {
+                return component.childComponents;
+            },
+            set(v) { }
+        });
+
     }
 
     getProperty(path, returnString = false) {
@@ -98,10 +142,10 @@ class eclRender_component {
                     current = current.child;
                 else
                     return '';
-            } else if (isset(current[name])) {
-                current = current[name];
-            } else {
+            } else if (current[name] === undefined || current[name] === null) {
                 return '';
+            } else {
+                current = current[name];
             }
         }
         if (returnString) {
@@ -123,42 +167,6 @@ class eclRender_component {
 
     setProperty(path, value) {
         this.module[path] = value;
-    }
-
-    beforeEvent() {
-        this.regularTrackedProperties = {};
-        var names = Object.keys(this.module);
-        for (let i = 0; i < names.length; i++) {
-            const name = names[i];
-            this.regularTrackedProperties[name] = this.module[name];
-        }
-    }
-
-    afterEvent() {
-        if (this.trackedPropertyChanged) {
-            this.trackedPropertyChanged = false;
-            this.renderedCallbackChangedAttributes();
-            return;
-        }
-
-        var names = Object.keys(this.trackedProperties);
-        for (let i = 0; i < names.length; i++) {
-            const name = names[i];
-            if (this.regularTrackedProperties[name] != this.module[name]) {
-                this.renderedCallbackChangedAttributes();
-                break;
-            }
-        }
-    }
-
-    renderedCallbackChangedAttributes() {
-        setTimeout(() => {
-            this.beforeEvent();
-            this.module.renderedCallback();
-            this.afterEvent();
-        }, 20);
-        this.trackedPropertyChanged = false;
-        this.rootNode.refresh(true);
     }
 
     getScope(node) {

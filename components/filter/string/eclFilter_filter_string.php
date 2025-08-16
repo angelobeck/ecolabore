@@ -30,8 +30,11 @@ class eclFilter_filter_string extends eclFilter
             return [];
         }
 
-        if ($control['required'])
-            return ['message' => 'Campo de preenchimento obrigatório'];
+        if (isset($control['required']))
+            return [
+        'message' => 'filter_string_requiredField',
+        'context' => ['label' => $control['label'] ?? '']
+        ];
 
         return [];
     }
@@ -43,8 +46,8 @@ class eclFilter_filter_string extends eclFilter
         if (isset($formulary->received[$name]))
             $value = $formulary->received[$name];
 
-        if ($value == '' && isset($control['required']))
-            $formulary->setErrorMessage($control, $name, 'form_alert_required');
+        // if ($value == '' && isset($control['required']))
+            // $formulary->setErrorMessage($control, $name, 'form_alert_required');
 
         if ($value === '' && isset($control['clear']))
             $value = false;

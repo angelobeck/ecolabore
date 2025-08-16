@@ -16,7 +16,12 @@ class eclEngine_page {
     }
 
     reset() {
+        var layout = this.modules.layout;
+        if (layout && layout.showAlert)
+            layout.showAlert = false;
+
         this.modules.reset();
+        this.modules.alert = 'modAlert_main';
         this.modules.layout = 'modLayout_main';
         this.modules.title = 'modTitle_main';
     }
@@ -49,9 +54,9 @@ class eclEngine_page {
         }
         child = application.child('-default');
         if (child) {
+            child.reset();
             child.path = [...child.parent.path, name];
             child.name = name;
-            child.reset();
             return this.routeSubfolders(child, path);
         }
         return null;
@@ -141,16 +146,31 @@ class eclEngine_page {
                 document.body.removeChild(document.body.lastElementChild);
             }
             this.rootNode = new eclRender_nodeModule();
-            this.rootNode.staticAttributes.name = 'layout';
+            this.rootNode.staticAttributes.name = 'alert';
             this.rootNode.create(document.body);
         } else {
             this.rootNode.refresh();
         }
     }
 
-    access(level) {
-        if(level === 0)
+    access(level, groups = false) {
+        if (level === 0)
             return true;
+
+        if (!this.session.user)
+            return false;
+
+        if (level === 1)
+            return true;
+
+        if (!groups)
+            groups = this.application.groups;
+
+        for (let i = 0; i < groups.length; i++) {
+            const group = groups[i];
+            if (group.check(this, level))
+                return true;
+        }
 
         return false;
     }
@@ -196,14 +216,31 @@ class eclEngine_page {
             return host;
     }
 
-    createModule(name) {
-        var data = store.staticContent.open(name);
-        if (data.flags && data.flags.module && registeredClasses.eclMod[data.flags.module]) {
-            let moduleConstructor = registeredClasses.eclMod[data.flags.module];
-            let module = new moduleConstructor(this, data);
-            return module;
+    sessionUpdate() {
+        localStorage.setItem('eclSystem_session', serialize(this.session));
+    }
+
+    sessionRestore() {
+        var raw = localStorage.getItem('eclSystem_session');
+        if (raw !== null || raw !== undefined || raw !== false || raw !== '') {
+            this.session = unserialize(raw);
         }
-        return new eclMod(this, data);
+    }
+
+    sessionRemove() {
+        localStorage.removeItem('eclSystem_session');
+    }
+
+    alertOpen() {
+        var alert = this.modules.createModule('alert');
+        if (alert)
+            alert.showAlert = true;
+    }
+
+    alertClose() {
+        var alert = this.modules.createModule('alert');
+        if (alert)
+            alert.showAlert = false;
     }
 
 }

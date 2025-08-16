@@ -1,0 +1,11 @@
+<div>Tab group</div>
+{_tablist_.length}
+<div role="tablist" foreach={_tablist_} for:item={tab}>
+    <span aria-selected={tab.selected} data-index={tab.index} onclick={handleClick} onkeydown={handleKeyDown} role="tab"
+        tabindex="0">
+        {tab.label}
+    </span>
+</div>
+<div>
+    <slot />
+</div>

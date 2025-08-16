@@ -30,6 +30,8 @@ class eclEngine_modules {
     }
 
     reset() {
+        this.#registeredModules = {};
+
         for (const name in this) {
             if(Object.hasOwn(this, name))
             delete this[name];

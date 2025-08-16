@@ -31,7 +31,7 @@ class eclMod_modHtml extends eclMod
 
                 $styleCache = PATH_CACHE . PACK_NAME . PACK_TIME . '.css';
                 if (is_file($styleCache)) {
-                                $this->styleSrc = $this->page->protocol . '//' . SERVER_HOST . 'cache/' . PACK_NAME . PACK_TIME . '.js';
+                                $this->styleSrc = $this->page->protocol . '//' . SERVER_HOST . 'cache/' . PACK_NAME . PACK_TIME . '.css';
                 }
                 $scriptCache = PATH_CACHE . PACK_NAME . PACK_TIME . '.js';
                 if (is_file($scriptCache)) {

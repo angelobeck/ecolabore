@@ -15,7 +15,7 @@ class eclStore_staticContent {
         var keys = Object.keys(data);
         for (let i = 0; i < keys.length; i++) {
             const key = keys[i];
-            if (key === 'children' || key === 'commands') {
+            if (key === 'children' || key === 'actions') {
                 result[key] = [];
                 for (let j = 0; j < data[key].length; j++) {
                     const child = data[key][j];
@@ -25,10 +25,33 @@ class eclStore_staticContent {
                         result[key][j] = child;
                 }
             } else {
-                result[key] = data[key];
+                result[key] = this.escapeString(data[key]);
             }
         }
         return result;
+    }
+
+    escapeString(data) {
+        if (typeof (data) === 'string')
+            return data.replace(/[#]q/g, '"')
+                .replace(/[#]0/g, "\0")
+                .replace(/[#]n/g, "\n")
+                .replace(/[#]r/g, "\r")
+                .replace(/[#]t/g, "\t")
+                .replace(/[#]b/g, "\\")
+                .replace(/[#]c/g, "#");
+
+        if (typeof (data) === 'object') {
+            let result = {};
+            var keys = Object.keys(data);
+            for (let i = 0; i < keys.length; i++) {
+                const key = keys[i];
+                result[key] = this.escapeString(data[key]);
+            }
+            return result;
+        }
+
+        return data;
     }
 
 }

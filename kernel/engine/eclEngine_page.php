@@ -22,13 +22,20 @@ class eclEngine_page
     public array $flags = [];
     public array $received = [];
     public array $session = [];
+    public bool $sessionStarted = false;
 
     public string $contentType = 'text/html';
     public string|array $buffer = '';
 
-    public function sessionStart(): void
+    public function sessionStart()
+    {
+
+    }
+
+    private function sessionStartFromSID(): void
     {
         global $applications, $store;
+        $this->sessionStarted = true;
         if (isset($this->flags['sid'][2])) {
             list(, $name, $key) = $this->flags['sid'];
             $openedSession = &$store->session->open($name, $key);
@@ -48,13 +55,39 @@ class eclEngine_page
         $this->user = $applications->child(APPLICATION_USERS_NAME)->child('-guest');
         if (isset($this->actions['logout'])) {
             $this->session = [];
-        } else if (isset($this->session['user_name'])) {
-            $user = $applications->child(APPLICATION_USERS_NAME)->child($this->session['user_name']);
+        } else if (isset($this->session['user']['name'])) {
+            $user = $applications->child(APPLICATION_USERS_NAME)->child($this->session['user']['name']);
             if ($user) {
                 $this->user = $user;
             }
         }
 
+    }
+
+    private function sessionStartFromAPI(string $name, string $key)
+    {
+        global $store;
+
+        $openedSession = &$store->session->open($name, $key);
+        if (!$openedSession)
+            return;
+
+        if (!isset($openedSession['session']['user']['name']))
+            return;
+
+        if ($openedSession['session']['user']['name'] === ADMIN_NAME) {
+            $this->session = &$openedSession['session'];
+            return;
+        }
+
+        $user = $store->user->open($openedSession['session']['user']['name']);
+        if (!$user)
+            return;
+
+        if ($user['status'] === 'blocked')
+            return;
+
+        $this->session = &$openedSession['session'];
     }
 
     public function route(): void
@@ -115,6 +148,7 @@ class eclEngine_page
 
     public function dispatch(): void
     {
+        global $store;
         $this->modules = new eclEngine_modules($this);
         $this->endpoints = new eclEngine_endpoints($this);
 
@@ -131,7 +165,20 @@ class eclEngine_page
             $input = eclIo_convert::json2array($raw);
             if (!is_array($input))
                 $input = [];
-            $this->buffer = $this->endpoints->$endpoint->dispatch($input);
+
+            if (isset($input['sessionId']) and isset($input['sessionKey'])) {
+                $this->sessionStartFromAPI($input['sessionId'], $input['sessionKey']);
+                if (!isset($this->session['user']['name'])) {
+                    $this->buffer = ["error" => ["message" => "system_invalidSession"]];
+                    return;
+                }
+            }
+
+            if ($this->access($this->application->access)) {
+                $this->buffer = $this->endpoints->$endpoint->dispatch($input);
+            } else {
+                $this->buffer = ["error" => ["message" => "system_accessDenied"]];
+            }
             return;
         }
 
@@ -154,12 +201,29 @@ class eclEngine_page
         $this->buffer = $render->render($this->modules->html);
     }
 
-    public function access(int $requiredAccess, array $groups): bool
+    public function access(int $level, array $groups = []): bool
     {
-        if ($requiredAccess === 4)
+        if ($level === 0)
+            return true;
+
+        if (!$this->sessionStarted)
+            $this->sessionStart();
+
+        if (!isset($this->session['user']))
             return false;
 
-        return true;
+        if ($level === 1)
+            return true;
+
+        if (!$groups)
+            $groups = $this->application->groups;
+
+        foreach ($groups as $group) {
+            if ($group->check($this, $level))
+                return true;
+        }
+
+        return false;
     }
 
     public function action(string $name): bool

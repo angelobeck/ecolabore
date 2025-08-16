@@ -21,9 +21,9 @@ function navigate(href) {
     }
 */
 
-history.pushState('', '', href);
+    history.pushState('', '', href);
     init();
-    
+
     function getRewindCount(lastPath, currentPath) {
         var counter = 0;
         while (

@@ -1,0 +1,10 @@
+<div class="formulary" for:each={_filters_} for:item={filter}>
+        <tag name={filter.name} control={filter.control} formulary={this} onaction={handleAction} />
+</div>
+<div for:each={_actions_} for:item={action}>
+    <ecl-button
+        label={action.label}
+        value={action.value}
+        onclick={handleAction}
+    ></ecl-button>
+</div>

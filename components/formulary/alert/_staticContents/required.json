@@ -1,0 +1,20 @@
+{
+    "text": {
+        "title": {
+            "pt": {
+                "value": "Ooops!"
+            },
+            "en": {
+                "value": "Ooops!"
+            }
+        },
+        "content": {
+            "pt": {
+                "value": "O preenchimento deste campo é obrigatório."
+            },
+            "en": {
+                "value": "This field cannot be empty."
+            }
+        }
+    }
+}
