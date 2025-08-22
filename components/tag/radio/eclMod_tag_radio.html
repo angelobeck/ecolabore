@@ -1,0 +1,15 @@
+<fieldset>
+    <legend if:true={legend}>{legend}</legend>
+    <div role="radiogroup"             for:each={_options_} for:item={item} wire:element={radiogroupElement}>
+        <div 
+            aria-checked={item.checked} 
+            data-index={item.index} 
+            onclick={handleClick} 
+            onkeydown={handleKeyDown} 
+            role="radio" 
+            tabindex={item.tabindex}
+        >
+            {item.label}
+        </div>
+    </div>
+</fieldset>

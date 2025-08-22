@@ -12,10 +12,11 @@ class eclStore_user extends eclStore
         'phone' => 'hash',
         'document' => 'hash',
         'password' => 'password',
-        'status' => 'name/8',
-        'access' => 'name/8',
         'created' => 'time',
         'lastAccess' => 'time',
+        'kid' => 'time',
+        'blocked' => 'int/1',
+        'verified' => 'int/1',
         'token' => 'hash'
     ];
 

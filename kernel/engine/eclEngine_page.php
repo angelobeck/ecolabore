@@ -165,6 +165,11 @@ class eclEngine_page
             $input = eclIo_convert::json2array($raw);
             if (!is_array($input))
                 $input = [];
+            $content = [];
+            if (isset($input['content']) and is_array($input['content']))
+                $content = $input['content'];
+            else
+                $content = [];
 
             if (isset($input['sessionId']) and isset($input['sessionKey'])) {
                 $this->sessionStartFromAPI($input['sessionId'], $input['sessionKey']);
@@ -175,7 +180,7 @@ class eclEngine_page
             }
 
             if ($this->access($this->application->access)) {
-                $this->buffer = $this->endpoints->$endpoint->dispatch($input);
+                $this->buffer = $this->endpoints->$endpoint->dispatch($content);
             } else {
                 $this->buffer = ["error" => ["message" => "system_accessDenied"]];
             }

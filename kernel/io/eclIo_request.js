@@ -4,18 +4,19 @@ class eclIo_request {
     catchCallback = false;
     request;
 
-    constructor(data = false, endpoint = 'main', path = false) {
+    constructor(data = null, endpoint = 'main', path = false) {
         if (!Array.isArray(path))
             path = [...page.application.path];
         var url = page.url(path, true, '_endpoint-' + endpoint);
 
-        if(page.session.user && page.session.user.sessionId && page.session.user.sessionKey) {
-            if(typeof(data) !== "object")
-                data = {};
-
-            data.sessionId = page.session.user.sessionId;
-            data.sessionKey = page.session.user.sessionKey;
+        var toSend = {};
+        if (page.session.user && page.session.user.sessionId && page.session.user.sessionKey) {
+            toSend.sessionId = page.session.user.sessionId;
+            toSend.sessionKey = page.session.user.sessionKey;
         }
+
+        if (data !== null || data !== false)
+                toSend.content = data;
 
         this.request = new XMLHttpRequest();
 
@@ -24,13 +25,13 @@ class eclIo_request {
             var data = unserialize(this.request.responseText);
             if (data && this.thenCallback && data.response !== undefined && data.response !== null)
                 this.thenCallback(data.response, raw);
-            else if(data && data.error && data.error.message === 'system_accessDenied')
+            else if (data && data.error && data.error.message === 'system_accessDenied')
                 navigate(page.url(page.domain.name, '-access-denied'));
-            else if(data && data.error && data.error.message === 'system_invalidSession')
+            else if (data && data.error && data.error.message === 'system_invalidSession')
                 navigate(page.url(page.domain.name, '-invalid-session'));
             else if (data && data.error && this.catchCallback)
                 this.catchCallback(data.error, raw);
-            else if(this.catchCallback)
+            else if (this.catchCallback)
                 this.catchCallback({}, raw);
         };
 
@@ -47,10 +48,10 @@ class eclIo_request {
 
         this.request.open('PUT', url);
 
-        if (data === undefined || data === null || data === false)
+        if (toSend == {})
             this.request.send();
         else
-            this.request.send(serialize(data));
+            this.request.send(serialize(toSend));
 
     }
 
