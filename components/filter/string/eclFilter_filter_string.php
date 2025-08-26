@@ -36,6 +36,7 @@ class eclFilter_filter_string extends eclFilter
         'context' => ['label' => $control['label'] ?? '']
         ];
 
+        $formulary->setField($control['target'], null);
         return [];
     }
 

@@ -33,9 +33,16 @@ class eclMod_filter_radio extends eclMod {
     }
 
     get _options_() {
-        return [
-            { label: "Novo amigo", value: 'male'},
-            {label: "Nova amiga", value: "female"}
-        ];
+        if(!Array.isArray(this.control.children))
+            return [];
+
+        return this.control.children.map(name => {
+            const item = store.staticContent.open(name);
+            return {
+                label: page.selectLanguage(item.text.label || '').value,
+                value: item.flags.value
+            };
+        });
     }
+
 }

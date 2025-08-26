@@ -9,6 +9,10 @@
             role="radio" 
             tabindex={item.tabindex}
         >
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" >
+                <path d="M 8 0 a 8 8 0 0 1 0 16 a 8 8 0 0 1 0 -16 z m 0 2 a 6 6 0 0 1 0 12 a 6 6 0 0 1 0 -12 z" fill="#fff" />
+                <path if:true={item.checked} d="M 8 4 a 4 4 0 0 1 0 8 a 4 4 0 0 1 0 -8 z" fill="#fff" />
+            </svg>
             {item.label}
         </div>
     </div>

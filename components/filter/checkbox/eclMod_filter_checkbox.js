@@ -35,7 +35,7 @@ class eclMod_filter_checkbox extends eclMod {
         if (!this.formulary || !this.control.flags || !this.control.flags.target)
             return;
 
-        var value = event.detail.value;
+        var value = event.detail.checked;
         if (value && isset(this.control.flags.trueValue))
             value = this.control.flags.trueValue;
         else if (!value && isset(this.control.flags.falseValue))

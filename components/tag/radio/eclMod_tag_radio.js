@@ -5,8 +5,8 @@ class eclMod_tag_radio extends eclMod {
     options = [];
     value = '';
 
-    index = 0;
-    indexMonitor = 0;
+    index = -1;
+    indexMonitor = -1;
 
     connectedCallback() {
         this.api('legend');
@@ -14,21 +14,34 @@ class eclMod_tag_radio extends eclMod {
         this.api('options');
         this.api('value');
         this.track('index');
+        this.track('indexMonitor');
     }
 
     get _options_() {
         if (!Array.isArray(this.options))
             return [];
 
+        if(this.index === -1) {
+for(let i = 0; i < this.options.length; i++) {
+    const option = this.options[i];
+    if(option.value === this.value) {
+        this.index = i;
+        this.indexMonitor = i;
+    }
+}
+        }
+
         return this.options.map((item, index) => {
             var tabindex = '-1';
-            if (this.index === index)
+            if(this.index === -1 && index === 0)
+tabindex = '0';
+            else if (this.index === index)
                 tabindex = '0';
             else if (this.indexMonitor === index)
                 tabindex = '0';
 
             var checked = false;
-            if (this.value && item.value === this.value)
+            if (this.index === index)
                 checked = true;
 
             return {
@@ -47,6 +60,7 @@ class eclMod_tag_radio extends eclMod {
         this.dispatchEvent(new CustomEvent('change', {
             detail: {
                 name: this.name,
+                index: index,
                 value: value
             }
         }));
@@ -62,6 +76,9 @@ class eclMod_tag_radio extends eclMod {
     handleKeyDown(event) {
         if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey)
             return;
+
+        if(this.index === -1)
+            this.index = 0;
 
         switch (event.key) {
             case "ArrowUp":

@@ -34,7 +34,7 @@ class eclMod_filter_password extends eclMod {
     }
 
     updateShowPassword(event) {
-        this.showPassword = event.detail.value;
+        this.showPassword = event.detail.checked;
     }
 
     get _type_() {
