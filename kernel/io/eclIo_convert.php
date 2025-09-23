@@ -329,6 +329,8 @@ class eclIo_convert
             }
             if ($ord >= 65 && $ord <= 90) { // A to Z
                 $ord += 32; // convert to lower
+            }else if($ord >= 48 and $ord <= 57){ // 0 to 9
+                null;
             } else if (($ord < 97 || $ord > 122) && $ord != 45) { // (<a || > z) && != -
                 $ord = 95; // _
             }

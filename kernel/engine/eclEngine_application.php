@@ -60,16 +60,10 @@ class eclEngine_application
         }
         foreach ($this->map as $applicationName) {
             $helper = 'eclApp_' . $applicationName;
-            if (isset($helper::$name)) {
-                if ($helper::$name != $name) {
-                    continue;
-                }
-            } else if (!$helper::isChild($this, $name)) {
-                continue;
+            if ($helper::isChild($this, $name) or (isset($helper::$name) and $helper::$name == $name)) {
+                $this->childrenByName[$name] = new eclEngine_application($this, $applicationName, $name);
+                return $this->childrenByName[$name];
             }
-
-            $this->childrenByName[$name] = new eclEngine_application($this, $applicationName, $name);
-            return $this->childrenByName[$name];
         }
         return false;
     }
@@ -83,12 +77,10 @@ class eclEngine_application
         $this->allChildrenIsLoaded = true;
         foreach ($this->map as $applicationName) {
             $helper = 'eclApp_' . $applicationName;
-            $names = [];
-            if (isset($helper::$name)) {
-                $names = [$helper::$name];
-            } else {
-                $names = $helper::childrenNames($this);
-            }
+            $names = $helper::childrenNames($this);
+            if (!$names and isset($helper::$name))
+                $names[] = $helper::$name;
+
             foreach ($names as $name) {
                 if (isset($this->childrenByName[$name])) {
                     $child = $this->childrenByName[$name];

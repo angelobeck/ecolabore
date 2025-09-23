@@ -1,7 +1,7 @@
 
 class eclRender_nodeCut extends eclRender_node {
-value = 'cut';
-    
+    value = 'cut';
+
     create(parentElement, insertBeforeMe) {
         var name = this.findName();
         var target = this.findTarget();
@@ -10,10 +10,20 @@ value = 'cut';
             page.cuts[target] = {
                 names: {}
             };
-        page.cuts[target].names[name] = this.children;
+        page.cuts[target].names[name] = {
+            children: this.children,
+            refresh: () => { }
+        };
     }
 
     refresh() {
+        var name = this.findName();
+        var target = this.findTarget();
+
+        if (!page.cuts[target] || !page.cuts[target].names[name])
+            return;
+
+        page.cuts[target].names[name].refresh();
     }
 
     remove() {
@@ -24,7 +34,10 @@ value = 'cut';
             page.cuts[target] = {
                 names: {}
             };
-        page.cuts[target].names[name] = [];
+        page.cuts[target].names[name] = {
+            children: [],
+            refresh: () => { }
+        };
     }
 
     findName() {

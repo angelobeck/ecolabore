@@ -25,10 +25,13 @@ class eclMod_filter_checkbox extends eclMod {
     }
 
     get _checked_() {
+        var value = false;
         if (this.control.flags && this.control.flags.trueValue && this.value === this.control.flags.trueValue)
-            return true;
-        else
-            return false;
+            value = true;
+        if (this.control.flags && this.control.flags.invert)
+            value = !value;
+
+        return value;
     }
 
     handleChange(event) {
@@ -36,11 +39,14 @@ class eclMod_filter_checkbox extends eclMod {
             return;
 
         var value = event.detail.checked;
+        if (this.control.flags && this.control.flags.invert)
+            value = !value;
         if (value && isset(this.control.flags.trueValue))
-            value = this.control.flags.trueValue;
+            this.formulary.setField(this.control.flags.target, this.control.flags.trueValue);
         else if (!value && isset(this.control.flags.falseValue))
-            value = this.control.flags.falseValue;
-        this.formulary.setField(this.control.flags.target, value);
+            this.formulary.setField(this.control.flags.target, this.control.flags.falseValue);
+        else
+            this.formulary.setField(this.control.flags.target, value);
     }
 
 }

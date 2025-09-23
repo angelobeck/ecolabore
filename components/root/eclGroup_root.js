@@ -6,7 +6,7 @@ class eclGroup_root extends eclGroup {
         return false;
         if (level === 1)
             return true;
-        if (page.session.user.groups && page.session.user.groups['-root'] && page.session.user.groups['-root'] === 4)
+        if (page.session.user.groups && page.session.user.groups['-root'] && page.session.user.groups['-root'] >= level)
             return true;
         else
             return false;

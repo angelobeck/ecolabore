@@ -24,7 +24,7 @@ defined('MODULES') or define('MODULES', []);
 if (is_file(SERVER_CONFIG_FILE))
     include SERVER_CONFIG_FILE;
 
-    defined('ADMIN_NAME') or define('ADMIN_NAME', 'admin');
+defined('ADMIN_NAME') or define('ADMIN_NAME', 'admin');
 defined('ADMIN_TITLE') or define('ADMIN_TITLE', 'Administrator');
 defined('ADMIN_GENDER') or define('ADMIN_GENDER', 'male');
 defined('ADMIN_PASSWORD') or define('ADMIN_PASSWORD', '');
@@ -165,6 +165,10 @@ function print_data(mixed $data): void
     print nl2br(eclIo_convert::array2json($data));
 }
 
+function ecl_log(mixed $data): void
+{
+    file_put_contents(PATH_ROOT . 'log.txt', eclIo_convert::array2json($data));
+}
 // Next line indicates the scripts insertion point to the packager engine. Do not change it.
 // __PACKAGER_INSERTION_POINT__ 
 

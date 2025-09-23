@@ -64,7 +64,7 @@ class eclEngine_page
 
     }
 
-    private function sessionStartFromAPI(string $name, string $key)
+    public function sessionStartFromAPI(string $name, string $key)
     {
         global $store;
 
@@ -84,7 +84,7 @@ class eclEngine_page
         if (!$user)
             return;
 
-        if ($user['status'] === 'blocked')
+        if (isset($user['status']) and $user['status'] === 'blocked')
             return;
 
         $this->session = &$openedSession['session'];
@@ -130,20 +130,22 @@ class eclEngine_page
 
         $name = array_shift($path);
         $child = $application->child($name);
-        if ($child) {
-            $child = $this->routeSubfolders($child, $path);
-        }
-        if ($child) {
-            return $child;
+        if (!$child) {
+            $default = $application->child('-default');
+            if (is_object($default)) {
+                $default->path = [...$default->parent->path, $name];
+                $default->name = $name;
+                $result = $this->routeSubfolders($default, $path);
+                if ($result)
+                    return $result;
+            }
+        } else {
+            $result = $this->routeSubfolders($child, $path);
+            if ($result)
+                return $result;
         }
 
-        $child = $application->child('-default');
-        if ($child) {
-            $child->path = [...$child->parent->path, $name];
-            $child->name = $name;
-            return $this->routeSubfolders($child, $path);
-        }
-        return false;
+        return $application->child('-not-found');
     }
 
     public function dispatch(): void
@@ -161,33 +163,60 @@ class eclEngine_page
 
         if (isset($this->actions['endpoint'][1])) {
             $endpoint = $this->actions['endpoint'][1];
-            $raw = file_get_contents("php://input");
-            $input = eclIo_convert::json2array($raw);
-            if (!is_array($input))
-                $input = [];
-            $content = [];
-            if (isset($input['content']) and is_array($input['content']))
-                $content = $input['content'];
+            if ($endpoint === 'file')
+                $this->dispatchFileUpload();
             else
-                $content = [];
-
-            if (isset($input['sessionId']) and isset($input['sessionKey'])) {
-                $this->sessionStartFromAPI($input['sessionId'], $input['sessionKey']);
-                if (!isset($this->session['user']['name'])) {
-                    $this->buffer = ["error" => ["message" => "system_invalidSession"]];
-                    return;
-                }
-            }
-
-            if ($this->access($this->application->access)) {
-                $this->buffer = $this->endpoints->$endpoint->dispatch($content);
-            } else {
-                $this->buffer = ["error" => ["message" => "system_accessDenied"]];
-            }
+                $this->dispatchEndpoint($endpoint);
             return;
         }
 
         $helper::view_main($this);
+    }
+
+    private function dispatchEndpoint(string $endpoint)
+    {
+        $raw = file_get_contents("php://input");
+
+        $input = eclIo_convert::json2array($raw);
+        if (!is_array($input))
+            $input = [];
+
+        $content = [];
+        if (isset($input['content']) and is_array($input['content']))
+            $content = $input['content'];
+        else
+            $content = [];
+
+        if (isset($input['sessionId']) and isset($input['sessionKey'])) {
+            $this->sessionStartFromAPI($input['sessionId'], $input['sessionKey']);
+            if (!isset($this->session['user']['name'])) {
+                $this->buffer = ["error" => ["message" => "system_invalidSession"]];
+                return;
+            }
+        }
+
+        if ($this->access($this->application->access)) {
+            $this->buffer = $this->endpoints->$endpoint->dispatch($content);
+        } else {
+            $this->buffer = ["error" => ["message" => "system_accessDenied"]];
+        }
+    }
+
+    private function dispatchFileUpload()
+    {
+        if (isset($this->actions['endpoint'][3])) {
+            $this->sessionStartFromAPI($this->actions['endpoint'][2], $this->actions['endpoint'][3]);
+            if (!isset($this->session['user']['name'])) {
+                $this->buffer = ["error" => ["message" => "system_invalidSession"]];
+                return;
+            }
+        }
+
+        if ($this->access($this->application->access)) {
+            $this->buffer = $this->endpoints->file->dispatch([]);
+        } else {
+            $this->buffer = ["error" => ["message" => "system_accessDenied"]];
+        }
     }
 
     public function render(): void

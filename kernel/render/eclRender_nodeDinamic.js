@@ -8,8 +8,10 @@ class eclRender_nodeDinamic extends eclRender_node {
     }
 
     refresh() {
-        var value = this.component.getProperty(this.value, true);
-        this.element.data = value;
+        if (this.element) {
+            var value = this.component.getProperty(this.value, true);
+            this.element.data = value;
+        }
     }
 
     remove() {

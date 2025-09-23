@@ -1,4 +1,11 @@
-<span class="button" onclick={handleClick} role="button" style={style} tabindex="0" class="general_button">
+<span 
+    class="general_button"
+    onclick={handleClick} 
+    onkeydown={handleKeydown}
+    role="button" 
+    style={style} 
+    tabindex="0" 
+>
     {label.Value}
     <slot />
 </span>

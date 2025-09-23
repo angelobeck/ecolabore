@@ -17,7 +17,7 @@ class eclEndpoint
         return $this->error('The endpoint ' . implode('/', $this->page->application->path) . '/_endpoint-' . $this->name . ' is invalid');
     }
 
-    public function error(string | array $message): array
+    public function error(string | array $message = ''): array
     {
         if(is_string($message))
         return [
@@ -32,7 +32,7 @@ class eclEndpoint
         ];
     }
 
-    public function response(mixed $response): array
+    public function response(mixed $response = []): array
     {
         return [
             'response' => $response

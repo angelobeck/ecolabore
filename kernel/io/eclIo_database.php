@@ -607,7 +607,8 @@ class eclIo_database
         $conditions = [];
         foreach ($where as $fieldName => $field_value) {
             if (isset($table->fields[$fieldName])) {
-                switch ($table->fields[$fieldName]) {
+                [$prefix] = explode('/', $table->fields[$fieldName]);
+                switch ($prefix) {
                     case 'primary_key':
                     case 'tinyint':
                     case 'mediumint':

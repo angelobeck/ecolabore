@@ -6,10 +6,14 @@ class eclRender_nodePaste extends eclRender_node {
         var target = this.findTarget();
         var name = this.findName();
 
-if(page.cuts[target] && page.cuts[target].names[name]) {
-    this.children = page.cuts[target].names[name];
-        this.createChildren(this.children, parentElement, insertBeforeMe);
-}
+        if (page.cuts[target] && page.cuts[target].names[name]) {
+            this.children = page.cuts[target].names[name].children;
+            this.createChildren(this.children, parentElement, insertBeforeMe);
+
+            page.cuts[target].names[name].refresh = () => {
+                this.refreshChildren(this.children);
+            };
+        }
     }
 
     refresh() {

@@ -18,6 +18,9 @@ class eclRender_nodeElement extends eclRender_node {
     }
 
     refresh() {
+        if (!this.element)
+            return;
+
         this.refreshDinamicAttributes();
 
         if (this.dinamicAttributes["for:each"]) {

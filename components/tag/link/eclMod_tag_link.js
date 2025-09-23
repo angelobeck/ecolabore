@@ -16,4 +16,11 @@ class eclMod_tag_link extends eclMod {
         navigate(this.url);
     }
 
+    handleKeydown(event) {
+        if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)
+            return;
+        if (event.key == ' ' || event.key == 'Enter')
+            navigate(this.url);
+    }
+
 }

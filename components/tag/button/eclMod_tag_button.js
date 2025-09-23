@@ -18,4 +18,15 @@ class eclMod_tag_button extends eclMod {
         }));
     }
 
+    handleKeydown(event) {
+        if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)
+            return;
+
+        switch (event.key) {
+            case ' ':
+            case 'Enter':
+                this.handleClick();
+        }
+    }
+
 }

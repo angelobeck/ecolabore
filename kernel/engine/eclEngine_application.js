@@ -57,16 +57,11 @@ class eclEngine_application {
                 continue;
 
             const helper = registeredClasses.eclApp[applicationName];
-            if (isset(helper.name)) {
-                if (helper.name != name) {
-                    continue;
-                }
-            } else if (!helper.isChild(this, name)) {
-                continue;
-            }
 
-            this.childrenByName[name] = new eclEngine_application(this, applicationName, name);
-            return this.childrenByName[name];
+            if (helper.isChild(this, name) || (isset(helper.name) && helper.name == name)) {
+                this.childrenByName[name] = new eclEngine_application(this, applicationName, name);
+                return this.childrenByName[name];
+            }
         }
         return false;
     }
@@ -83,12 +78,11 @@ class eclEngine_application {
                 continue;
 
             const helper = registeredClasses.eclApp[applicationName];
-            let names = [];
-            if (helper.name) {
-                names = [helper.name];
-            } else {
-                names = helper.childrenNames(this);
-            }
+            var names = [];
+            names = helper.childrenNames(this);
+            if (isset(helper.name))
+                names.push(helper.name);
+
             for (let j = 0; j < names.length; j++) {
                 let name = names[j];
                 let child;

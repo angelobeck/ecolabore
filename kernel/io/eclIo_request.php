@@ -12,12 +12,20 @@ class eclIo_request
     public function __construct()
     {
         $path = [];
-        if (isset($_GET['url'])) {
+        if (SERVER_REWRITE_ENGINE) {
+            $root = substr($_SERVER['SCRIPT_NAME'], 1, -strlen(SERVER_SCRIPT_NAME));
+            $request = $_SERVER['REQUEST_URI'];
+            $url = substr($request, 1 + strlen($root));
+            $parts = explode('/', $url);
+        } else if (isset($_GET['url'])) {
             $parts = explode('/', $_GET['url']);
-            foreach ($parts as $folder) {
-                if (preg_match('/^[a-zA-Z0-9._+-]+$/', $folder)) {
-                    $path[] = $folder;
-                }
+        } else {
+            $parts = [];
+        }
+
+        foreach ($parts as $folder) {
+            if (preg_match('/^[a-zA-Z0-9._+-]+$/', $folder)) {
+                $path[] = $folder;
             }
         }
 

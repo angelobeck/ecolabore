@@ -1,0 +1,17 @@
+<span>
+    <ecl-button onclick={actionDialogOpen}>Enviar arquivo</ecl-button>
+</span>
+
+<cut target="alert" name={name}>
+    <div>
+        <h1 class="header" tabindex="0" wire:element={headerElement}>{title}</h1>
+        <div>
+            <input aria-disabled={disabled} type="file" name={name} wire:element={inputFileElement} />
+        </div>
+        <div>
+        <progress value="0" max="100" wire:element={progressElement}>{progress}%</progress>
+        </div>
+        <ecl-button disabled={disabled} onclick={actionSend}>Enviar</ecl-button>
+        <ecl-button onclick={actionClose}>Cancelar</ecl-button>
+    </div>
+</cut>

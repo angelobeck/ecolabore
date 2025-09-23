@@ -29,13 +29,13 @@ class eclMod_modHtml extends eclMod
                 else
                         $this->title = $this->page->selectLanguage($domainTitle)['value'];
 
-                $styleCache = PATH_CACHE . PACK_NAME . PACK_TIME . '.css';
+                $styleCache = PATH_ACETS . PACK_NAME . PACK_TIME . '.css';
                 if (is_file($styleCache)) {
-                                $this->styleSrc = $this->page->protocol . '//' . SERVER_HOST . 'cache/' . PACK_NAME . PACK_TIME . '.css';
+                                $this->styleSrc = $this->page->protocol . '//' . SERVER_HOST . 'acets/' . PACK_NAME . PACK_TIME . '.css';
                 }
-                $scriptCache = PATH_CACHE . PACK_NAME . PACK_TIME . '.js';
+                $scriptCache = PATH_ACETS . PACK_NAME . PACK_TIME . '.js';
                 if (is_file($scriptCache)) {
-                        $src = $this->page->protocol . '//' . SERVER_HOST . 'cache/' . PACK_NAME . PACK_TIME . '.js';
+                        $src = $this->page->protocol . '//' . SERVER_HOST . 'acets/' . PACK_NAME . PACK_TIME . '.js';
 $this->scripts = '<script src="' . $src . '"></script>';
                 } else {
                         $this->scripts = eclApp_systemJavascript_application::generate_script($this->page, true);

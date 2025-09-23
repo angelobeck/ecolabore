@@ -231,10 +231,11 @@ class eclEngine_page {
         localStorage.removeItem('eclSystem_session');
     }
 
-    alertOpen() {
+    alertOpen(name) {
         var alert = this.modules.createModule('alert');
         if (alert)
             alert.showAlert = true;
+        alert.name = name;
     }
 
     alertClose() {
