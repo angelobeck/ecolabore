@@ -94,10 +94,7 @@ function setMap(string $applicationHost, string $applicationChild): void
 function getMap(string $applicationHost): array
 {
     global $applicationsMaps;
-    if (isset($applicationsMaps[$applicationHost]))
-        return $applicationsMaps[$applicationHost];
-    else
-        return [];
+        return $applicationsMaps[$applicationHost] ?? [];
 }
 
 $includePaths = [PATH_ENGINE, PATH_APPLICATION];
