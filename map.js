@@ -5,6 +5,7 @@ setTag('ecl-checkbox', 'tag_checkbox');
 setTag('ecl-dialog', 'tag_dialog');
 setTag('ecl-file-upload', 'tag_fileUpload');
 setTag('ecl-formulary', 'tag_formulary');
+setTag('ecl-icon', 'tag_icon');
 setTag('ecl-input', 'tag_input');
 setTag('ecl-link', 'tag_link');
 setTag('ecl-modal', 'tag_modal');

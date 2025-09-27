@@ -88,12 +88,21 @@ class eclRender_parser {
                 node = new eclRender_nodePaste(this.current, 'paste');
                 break;
 
+            case 'render':
+                node = new eclRender_nodeRender(this.current, 'paste');
+                break;
+
             case 'slot':
                 node = new eclRender_nodeSlot(this.current, 'slot');
                 break;
 
             case 'tag':
                 node = new eclRender_nodeTag(this.current, tagName);
+                break;
+
+            case 'svg':
+                node = new eclRender_nodeElement(this.current, tagName);
+                node.ns = 'http://www.w3.org/2000/svg';
                 break;
 
             case 'template':

@@ -5,6 +5,9 @@ class eclRender_nodeElement extends eclRender_node {
 
     create(parentElement, insertBeforeMe) {
         var tagName = this.value.toUpperCase();
+        if(this.ns)
+        this.element = document.createElementNS(this.ns, tagName);
+    else
         this.element = document.createElement(tagName);
         parentElement.insertBefore(this.element, insertBeforeMe);
         this.createStaticAttributes();

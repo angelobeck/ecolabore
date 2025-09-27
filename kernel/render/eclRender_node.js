@@ -8,12 +8,14 @@ class eclRender_node {
     children = [];
     closingTag = true;
     status;
+    ns; // namespace for svg elements
 
     constructor(parent, value) {
         this.parent = parent;
         this.value = value;
         if (parent !== undefined) {
             this.component = parent.component;
+            this.ns = parent.ns;
         }
     }
 

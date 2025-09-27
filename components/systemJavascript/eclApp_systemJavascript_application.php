@@ -69,7 +69,6 @@ class eclApp_systemJavascript_application extends eclApp
                         switch ($prefix) {
                             case 'eclEngine':
                             case 'eclRender':
-                            case 'eclStore':
                                 break;
 
                             default:
@@ -132,7 +131,7 @@ class eclApp_systemJavascript_application extends eclApp
                 $rows[] = $sufix . ': ' . $prefix . '_' . $sufix;
             }
             $bufferRegisteredClasses .= implode(',' . CRLF, $rows);
-            $bufferRegisteredClasses .= '};' . CRLF . CRLF;
+            $bufferRegisteredClasses .= CRLF . '};' . CRLF . CRLF;
         }
 
 

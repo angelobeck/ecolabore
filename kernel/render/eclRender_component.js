@@ -18,7 +18,7 @@ class eclRender_component {
         this.slot = rootNode.cloneChildren(slot);
 
         this.module.node = this.rootNode;
-        
+
         this.module.dispatchEvent = (event) => {
             if (this.eventListeners['on' + event.type]) {
                 const callName = this.eventListeners['on' + event.type];
@@ -88,21 +88,6 @@ class eclRender_component {
                 }
             });
         };
-
-        Object.defineProperty(this.module, 'parentComponent', {
-            get() {
-                return rootNode.parent.component.module;
-            },
-            set(v) { }
-        });
-
-        Object.defineProperty(this.module, 'childComponents', {
-            get() {
-                return component.childComponents;
-            },
-            set(v) { }
-        });
-
     }
 
     getProperty(path, returnString = false) {

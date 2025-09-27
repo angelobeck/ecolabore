@@ -1,5 +1,8 @@
 
 function navigate(href) {
+    if (page.blocked)
+        return;
+
     var lastPath = page.getPathFromUrl(window.location.href);
     var currentPath = page.getPathFromUrl(href);
     var rewindCount = getRewindCount(lastPath, currentPath);

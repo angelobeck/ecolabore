@@ -10,6 +10,7 @@ class eclEngine_page {
 
     pathMonitor = [];
     actions = [];
+    blocked = false;
 
     constructor() {
         this.modules = new eclEngine_modules();
