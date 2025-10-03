@@ -15,7 +15,8 @@ class eclRender_node {
         this.value = value;
         if (parent !== undefined) {
             this.component = parent.component;
-            this.ns = parent.ns;
+            if (parent.ns)
+                this.ns = parent.ns;
         }
     }
 

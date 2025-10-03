@@ -4,11 +4,13 @@ class eclRender_nodeElement extends eclRender_node {
     element;
 
     create(parentElement, insertBeforeMe) {
-        var tagName = this.value.toUpperCase();
-        if(this.ns)
-        this.element = document.createElementNS(this.ns, tagName);
-    else
-        this.element = document.createElement(tagName);
+        if (this.ns) {
+            let tagName = this.value;
+            this.element = document.createElementNS(this.ns, tagName);
+        } else {
+            let tagName = this.value.toUpperCase();
+            this.element = document.createElement(tagName);
+        }
         parentElement.insertBefore(this.element, insertBeforeMe);
         this.createStaticAttributes();
         this.createDinamicAttributes();
@@ -54,7 +56,7 @@ class eclRender_nodeElement extends eclRender_node {
                 continue;
             }
             let value = this.staticAttributes[name];
-            this.element.setAttribute(name, value.toString());
+                this.element.setAttribute(name, value.toString());
         }
     }
 
