@@ -16,7 +16,7 @@ class eclIo_request {
         }
 
         if (data !== null || data !== false)
-                toSend.content = data;
+            toSend.content = data;
 
         this.request = new XMLHttpRequest();
 
@@ -27,9 +27,12 @@ class eclIo_request {
                 this.thenCallback(data.response, raw);
             else if (data && data.error && data.error.message === 'system_accessDenied')
                 navigate(page.url([page.domain.name, '-access-denied']));
-            else if (data && data.error && data.error.message === 'system_invalidSession')
+            else if (data && data.error && data.error.message === 'system_invalidSession') {
+                page.session.user = {};
+                page.sessionUpdate();
+                page.domain.reset();
                 navigate(page.url([page.domain.name, '-invalid-session']));
-            else if (data && data.error && this.catchCallback)
+            } else if (data && data.error && this.catchCallback)
                 this.catchCallback(data.error, raw);
             else if (this.catchCallback)
                 this.catchCallback({}, raw);
