@@ -15,6 +15,9 @@ class eclMod_filter_string extends eclMod {
 
         if (this.control.flags && this.control.flags.target)
             this.value = this.formulary.getField(this.control.flags.target);
+
+        if(this.value == '' && this.control.flags && this.control.flags.default)
+            this.value = this.control.flags.default;
     }
 
     disconnectedCallback() {

@@ -25,16 +25,19 @@ class eclFilter_filter_string extends eclFilter
     {
         $value = $formulary->getReceived($control['target']);
 
-        if (is_string($value) && strlen($value)  > 0) {
+        if (is_string($value) && strlen($value) > 0) {
             $formulary->setField($control['target'], $value);
+            return [];
+        } else if (is_numeric($value)) {
+            $formulary->setField($control['target'], strval($value));
             return [];
         }
 
         if (isset($control['required']))
             return [
-        'message' => 'filter_string_requiredField',
-        'context' => ['label' => $control['label'] ?? '']
-        ];
+                'message' => 'filter_string_requiredField',
+                'context' => ['label' => $control['label'] ?? '']
+            ];
 
         $formulary->setField($control['target'], null);
         return [];
@@ -48,10 +51,10 @@ class eclFilter_filter_string extends eclFilter
             $value = $formulary->received[$name];
 
         // if ($value == '' && isset($control['required']))
-            // $formulary->setErrorMessage($control, $name, 'form_alert_required');
+        // $formulary->setErrorMessage($control, $name, 'form_alert_required');
 
         if ($value === '' && isset($control['clear']))
-            $value = false;
+            $value = null;
 
         $formulary->setField($control['target'], $value);
     }
