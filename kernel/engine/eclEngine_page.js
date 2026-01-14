@@ -2,6 +2,7 @@
 class eclEngine_page {
     cuts = {};
     rootNode;
+    nextFocus = '';
     session = {};
 
     application;
@@ -18,13 +19,16 @@ class eclEngine_page {
 
     reset() {
         var layout = this.modules.layout;
-        if (layout && layout.showAlert)
+        if (layout && layout.showAlert) {
             layout.showAlert = false;
+            layout.showMenu = false;
+        }
 
         this.modules.reset();
         this.modules.alert = 'modAlert_main';
         this.modules.layout = 'modLayout_main';
         this.modules.title = 'modTitle_main';
+        this.modules.menu = 'modMenu_main';
     }
 
     route() {
@@ -205,8 +209,16 @@ class eclEngine_page {
         else
             path = [...fromPath];
 
+        var flags = [];
+
+        if (SYSTEM_APP_ON)
+            flags.push('app-on');
+
         if (actions !== '')
-            path.push(actions);
+            flags.push(actions.substring(1));
+
+        if (flags.length > 0)
+            path.push('_' + flags.join('_'));
 
         if (SYSTEM_HOSTING_MODE == 'single' && path[0] === SYSTEM_DEFAULT_DOMAIN_NAME)
             path.shift();
@@ -236,13 +248,52 @@ class eclEngine_page {
         var alert = this.modules.createModule('alert');
         if (alert)
             alert.showAlert = true;
-        alert.name = name;
+        alert.alertName = name;
     }
 
     alertClose() {
         var alert = this.modules.createModule('alert');
+        if (!alert)
+            return;
+
+        alert.showAlert = false;
+        alert.showAlertMonitor = false;
+        alert.hidden = false;
+
+        if (this.nextFocus != '') {
+            setTimeout(() => {
+                let element = document.getElementById(this.nextFocus);
+                this.nextFocus = '';
+                if (element)
+                    element.focus();
+            }, 50);
+        }
+    }
+
+    menuOpen(name = 'menu') {
+        var alert = this.modules.createModule('alert');
         if (alert)
-            alert.showAlert = false;
+            alert.showMenu = true;
+        alert.menuName = name;
+    }
+
+    menuClose() {
+        var alert = this.modules.createModule('alert');
+        if (!alert)
+            return;
+
+        alert.showMenu = false;
+        alert.showMenuMonitor = false;
+        alert.hidden = false;
+
+        if (this.nextFocus != '') {
+            setTimeout(() => {
+                let element = document.getElementById(this.nextFocus);
+                this.nextFocus = '';
+                if (element)
+                    element.focus();
+            }, 50);
+        }
     }
 
 }

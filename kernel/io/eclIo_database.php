@@ -416,7 +416,7 @@ class eclIo_database
         return $data['id'];
     }
 
-    public function select(eclStore $table, array $where, int $limit = 0, array $columnsNames = []): array
+    public function select(eclStore $table, array $where, int $limit = 0, array $columnsNames = [], $orderBy = '', $orderDirection = 'ASC'): array
     {
         $results = [];
 
@@ -475,11 +475,12 @@ class eclIo_database
                 $queryColumns = implode(', ', $columns);
             else
                 $queryColumns = '*';
-            if ($limit) {
-                $queryLimit = ' LIMIT ' . strval($limit);
-            } else {
-                $queryLimit = '';
-            }
+
+            $queryLimit = '';
+            if ($orderBy)
+                $queryLimit .= ' ORDER BY `' . $orderBy . '` ' . $orderDirection;
+            if ($limit)
+                $queryLimit .= ' LIMIT ' . strval($limit);
 
             $rows = $this->query('SELECT ' . $queryColumns . ' FROM `' . $this->databasePrefix . $table->name . '` WHERE '
                 . implode(' AND ', $conditions) . $queryLimit);

@@ -21,7 +21,7 @@ class eclRender_node {
     }
 
     createChildren(children, parentElement, insertBeforeMe) {
-        if (!Array.isArray(children)) {
+        if (!Array.isArray(children) || !parentElement) {
             return;
         }
         var index;

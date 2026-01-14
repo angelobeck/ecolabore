@@ -1,12 +1,12 @@
 <?php
 
-class eclFilter_filter_password extends eclFilter
+class eclFilter_filter_select extends eclFilter
 {
 
     static function create(eclEngine_formulary $formulary, array $control, string $name)
     {
         if (!isset($control['template']))
-            $control['template'] = 'form_input';
+            $control['template'] = 'form_select';
 
         $control['name'] = $name;
 
@@ -23,51 +23,32 @@ class eclFilter_filter_password extends eclFilter
 
     static function sanitize(eclEngine_formulary $formulary, array $control): array
     {
-        $password = $formulary->getReceived($control['target']);
-        $repeatPassword = $formulary->getReceived($control['target'] . '_repeat');
+        $value = $formulary->getReceived($control['target']);
 
-        if (!is_string($password) || strlen($password) == 0) {
-            return [
-                'message' => 'filter_string_requiredField',
-                'context' => [
-                    'label' => $control['label'] ?? '',
-                    'id' => $control['id'] ?? ''
-                ]
-            ];
+        if (!is_string($value)) {
+            $value = '';
         }
 
-        if ($password !== $repeatPassword) {
-            return [
-                'message' => 'filter_password_invalidRepeatPassword',
-                'context' => [
-                    'id' => $control['id'] ?? ''
-                ]
-            ];
+        if (isset($control['optionsList'])) {
+            $options = explode(', ', $control['optionsList']);
+
+            if (!in_array($value, $options))
+                return [
+                    'message' => 'filter_select_invalidOption',
+                    'context' => [
+                        'label' => $control['label'] ?? '',
+                        'id' => $control['id'] ?? ''
+                    ]
+                ];
+
+            $formulary->setField($control['target'], $value);
+            return [];
         }
 
-        if (!self::check($password)) {
-            return [
-                'message' => 'filter_password_invalidPassword',
-                'context' => [
-                    'id' => $control['id'] ?? ''
-                ]
-            ];
-        }
-
-        $formulary->setField($control['target'], $password);
-        $formulary->setField('repeatPassword', $password);
+        $formulary->setField($control['target'], null);
         return [];
     }
 
-    private static function check($value)
-    {
-        if (strlen($value) < 6)
-            return false;
-        if (!preg_match('/[0-9]/', $value) || !preg_match('/[a-z]/', $value))
-            return false;
-        else
-            return true;
-    }
     public static function save(eclEngine_formulary $formulary, array $control, string $name)
     {
         $value = '';
@@ -79,7 +60,7 @@ class eclFilter_filter_password extends eclFilter
         // $formulary->setErrorMessage($control, $name, 'form_alert_required');
 
         if ($value === '' && isset($control['clear']))
-            $value = false;
+            $value = null;
 
         $formulary->setField($control['target'], $value);
     }

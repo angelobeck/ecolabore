@@ -22,6 +22,8 @@ class eclMod_tag_modal extends eclMod {
 
         if (control && control.text && control.text.content) {
             var content = control.text.content.pt.value;
+
+
             if (this.context.label) {
                 let index = content.indexOf('{label}');
                 if(index) {
@@ -47,6 +49,9 @@ class eclMod_tag_modal extends eclMod {
     }
 
     closeAlert() {
+                if(this.context.id)
+            page.nextFocus = this.context.id;
+
         page.alertClose(this.name);
     }
 

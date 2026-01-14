@@ -54,7 +54,16 @@ class eclMod_tag_fileUpload extends eclMod {
 
         this.request.onloadend = () => {
             this.disabled = false;
-            this.dispatchEvent(new CustomEvent("loadend"));
+
+            var raw = this.request.responseText;
+            var data = unserialize(this.request.responseText);
+            if (data && data.response !== undefined && data.response !== null) {
+                this.dispatchEvent(new CustomEvent("loadend"));
+            } else if (data && data.error) {
+                this.dispatchEvent(new CustomEvent("error", {
+                    detail: data.error
+                }));
+            }
             page.alertClose(this.name);
         }
 

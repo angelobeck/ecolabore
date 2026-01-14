@@ -18,4 +18,16 @@ class eclMod_tag_accordion extends eclMod {
         this.expanded = !this.expanded;
     }
 
+    
+    handleKeydown(event) {
+        if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)
+            return;
+
+        switch (event.key) {
+            case ' ':
+            case 'Enter':
+                this.handleClick();
+        }
+    }
+
 }

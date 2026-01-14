@@ -2,6 +2,7 @@
 class eclMod_tag_checkbox extends eclMod {
     checked = false;
     label = '';
+    id = '';
     name = '';
 
     input;
@@ -9,6 +10,7 @@ class eclMod_tag_checkbox extends eclMod {
     connectedCallback() {
         this.api('checked');
         this.api('label');
+        this.api('id');
         this.api('name');
     }
 

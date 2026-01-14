@@ -14,6 +14,7 @@ class eclMod_modHtml extends eclMod
         public string $hostingMode = SERVER_HOSTING_MODE;
         public string $defaultDomainName = DEFAULT_DOMAIN_NAME;
         public string $defaultLanguage = DEFAULT_LANGUAGE;
+        public string $app = 'false';
 
         public function connectedCallback(): void
         {
@@ -21,6 +22,9 @@ class eclMod_modHtml extends eclMod
                 $this->charset = $this->page->charset;
                 $this->styleSrc = $this->page->url([$this->page->domain->name, '-styles', 'application.css']);
                 $this->rewriteEngine = SERVER_REWRITE_ENGINE ? 'true' : 'false';
+
+                if(isset($this->page->flags['app'][1]) and $this->page->flags['app'][1] == 'on')
+                $this->app = 'true';
 
                 $title = $this->page->data['text']['label'] ?? $this->page->application->data['text']['label'] ?? '';
                 $domainTitle = $this->page->domain->data['text']['title'] ?? 'Ecolabore';

@@ -81,7 +81,8 @@ class eclRender_component {
                             if (component.render) {
                                 component.render = false;
                                 component.rootNode.refresh(true);
-                                component.module.renderedCallback();
+                                if (component.module.renderedCallback)
+                                    component.module.renderedCallback();
                             }
                         }, 20);
                     }

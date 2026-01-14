@@ -4,6 +4,9 @@ class eclRender_nodeElement extends eclRender_node {
     element;
 
     create(parentElement, insertBeforeMe) {
+        if (!parentElement)
+            return;
+
         if (this.ns) {
             let tagName = this.value;
             this.element = document.createElementNS(this.ns, tagName);
@@ -36,6 +39,9 @@ class eclRender_nodeElement extends eclRender_node {
     }
 
     remove() {
+        if (!this.element)
+            return;
+
         if (this.dinamicAttributes["for:each"]) {
             while (this.loopChildren.length > 0) {
                 this.removeChildren(this.loopChildren.shift());
@@ -56,7 +62,7 @@ class eclRender_nodeElement extends eclRender_node {
                 continue;
             }
             let value = this.staticAttributes[name];
-                this.element.setAttribute(name, value.toString());
+            this.element.setAttribute(name, value.toString());
         }
     }
 

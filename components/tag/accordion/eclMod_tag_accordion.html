@@ -1,4 +1,4 @@
-<div aria-expanded={expanded} class="accordion" onclick={handleClick} role="button" tabindex="0">
+<div aria-expanded={expanded} class="accordion" onclick={handleClick} onkeydown={handleKeydown} role="button" tabindex="0">
     {label.Value}
 </div>
 <div class="accordion-content" if:true={expanded}>

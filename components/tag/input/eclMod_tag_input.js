@@ -2,6 +2,7 @@
 class eclMod_tag_input extends eclMod {
     autocomplete = "off";
     label = '';
+    id = '';
     required = false;
     type = 'text';
     value = '';
@@ -11,6 +12,7 @@ class eclMod_tag_input extends eclMod {
     connectedCallback() {
         this.api('autocomplete');
         this.api('label');
+        this.api('id');
         this.api('required');
         this.api('type');
         this.api('value');

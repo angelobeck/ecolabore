@@ -1,0 +1,14 @@
+{
+    "text": {
+        "title": {
+"pt": {
+    "value": "Ooops!"
+}
+        },
+        "content": {
+            "pt": {
+                "value": "Você precisa escolher uma das opções no campo #q{label}#q."
+            }
+        }
+    }
+}

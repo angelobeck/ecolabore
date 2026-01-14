@@ -1,0 +1,16 @@
+<label class="input">
+    {label.Value}<br />
+    <select 
+        for:each={_options_}
+        for:item={option}
+        id={id}
+        onchange={handleChange}
+        required={required}
+        wire:element={select} 
+        class="field_select_input"
+    >
+        <option value={option.value} selected={option.selected}>
+            {option.label.Value}
+        </option>
+    </select>
+</label>

@@ -2,21 +2,34 @@
 class eclRender_nodeRender extends eclRender_node {
     endingElement;
     value = 'render';
+    template;
 
     create(parentElement, insertBeforeMe) {
         this.endingElement = document.createComment(" parse ");
         parentElement.insertBefore(this.endingElement, insertBeforeMe);
-        var template = this.findMyTemplate();
+        this.template = this.findMyTemplate();
         var tokenizer = new eclRender_tokenizer();
         var parser = new eclRender_parser();
 
-        var tokens = tokenizer.tokenize(template);
+        var tokens = tokenizer.tokenize(this.template);
         parser.parse(this, tokens, this.component.module);
         this.createChildren(this.children, parentElement, this.endingElement);
     }
 
-    refresh(cancelRefreshCallback = false) {
-        this.refreshChildren(this.children);
+    refresh() {
+        var template = this.findMyTemplate();
+        if (this.template == template) {
+            this.refreshChildren(this.children);
+        } else {
+            this.removeChildren(this.children);
+            this.template = template;
+            var tokenizer = new eclRender_tokenizer();
+            var parser = new eclRender_parser();
+
+            var tokens = tokenizer.tokenize(this.template);
+            parser.parse(this, tokens, this.component.module);
+            this.createChildren(this.children, this.endingElement.parentElement, this.endingElement);
+        }
     }
 
     remove() {

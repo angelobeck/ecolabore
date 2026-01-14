@@ -34,6 +34,7 @@ class eclIo_request
             foreach ($actionsGroups as $group) {
                 $parts = explode('-', $group);
                 switch ($parts[0]) {
+                    case 'app':
                     case 'sid':
                     case 'js':
                     case 'html':

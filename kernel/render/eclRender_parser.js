@@ -80,6 +80,10 @@ class eclRender_parser {
                 node = new eclRender_nodeCut(this.current, 'cut');
                 break;
 
+            case 'escape':
+                node = new eclRender_nodeEscape(this.current, '');
+                break;
+
             case 'mod':
                 node = new eclRender_nodeModule(this.current, 'mod');
                 break;
@@ -183,7 +187,7 @@ class eclRender_parser {
         if (this.index < this.length) {
             line = this.tokens[this.index]['line'];
         } else {
-            line = end(this.tokens)['line'];
+            line = this.tokens[this.tokens.length - 1].line;
         }
         throw new Error(`Template parsing error: ${message} on line ${line} in template of module ${templateName}`);
     }

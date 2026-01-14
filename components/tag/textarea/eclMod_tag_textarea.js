@@ -1,6 +1,7 @@
 
 class eclMod_tag_textarea extends eclMod {
     label = '';
+    id = '';
     required = false;
     value = '';
 
@@ -8,6 +9,7 @@ class eclMod_tag_textarea extends eclMod {
 
     connectedCallback() {
         this.api('label');
+        this.api('id');
         this.api('required');
         this.api('value');
     }

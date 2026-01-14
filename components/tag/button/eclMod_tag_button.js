@@ -1,11 +1,13 @@
 
 class eclMod_tag_button extends eclMod {
     label = '';
+    id = '';
     style = '';
     value = '';
 
     connectedCallback() {
         this.api('label');
+        this.api('id');
         this.api('style');
         this.api('value');
     }

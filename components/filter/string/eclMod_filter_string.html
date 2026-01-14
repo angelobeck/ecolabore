@@ -1,5 +1,7 @@
 <ecl-input
+    autocomplete={_autocomplete_}
     label={control.text.label}
+    id={control.flags.id}
     if:false={control.flags.display}
     if:compare="textarea"
     onchange={handleChange}
@@ -8,6 +10,7 @@
 
 <ecl-textarea
     label={control.text.label}
+    id={control.flags.id}
     if:true={control.flags.display}
     if:compare="textarea"
     onchange={handleChange}

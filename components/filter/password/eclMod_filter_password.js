@@ -17,6 +17,11 @@ class eclMod_filter_password extends eclMod {
         this.track('score');
     }
 
+    refreshCallback() {
+        this.password = this.formulary.getField('password');
+        this.repeatPassword = this.formulary.getField('repeatPassword');
+    }
+
     updatePassword(event) {
         this.password = event.detail.value;
 
@@ -31,6 +36,8 @@ class eclMod_filter_password extends eclMod {
     updateRepeatPassword(event) {
         this.repeatPassword = event.detail.value;
             this.showNotIdenticalMessage = (this.password != this.repeatPassword);
+
+            this.formulary.setField('password_repeat', this.password);
     }
 
     updateShowPassword(event) {

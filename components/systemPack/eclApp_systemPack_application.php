@@ -9,11 +9,12 @@ class eclApp_systemPack_application extends eclApp
         $file = file_get_contents(PACK_FILE);
         $pos = strpos($file, '__PACKAGER_INSERTION_POINT__');
         $pos += strlen('__PACKAGER_INSERTION_POINT__');
+$time = '_' . date('Y-m-d-H-i', TIME);
 
-        $header = substr($file, 0, $pos) . CRLF . CRLF;
+$header = substr($file, 0, $pos) . CRLF . CRLF;
         $footer = substr($file, $pos);
         $systemIsPacked = "define('PACK_ENABLED', true);" . CRLF
-            . "define('PACK_TIME', '" . TIME . "');" . CRLF . CRLF;
+            . "define('PACK_TIME', '" . $time . "');" . CRLF . CRLF;
 
         $scripts = self::getScripts();
         [$staticContentsIndex, $staticContents] = self::getStaticContents();

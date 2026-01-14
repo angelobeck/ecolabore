@@ -29,7 +29,8 @@ class eclRender_nodeModule extends eclRender_node {
         this.createStaticAttributes();
         this.createDinamicAttributes();
         setTimeout(() => {
-            this.component.module.renderedCallback();
+            if (this.component.module.renderedCallback)
+                this.component.module.renderedCallback();
         }, 20);
         this.component.module.connectedCallback();
         this.component.module.refreshCallback();
@@ -61,8 +62,8 @@ class eclRender_nodeModule extends eclRender_node {
 
     remove() {
         this.removeChildren(this.children);
-        if(this.component.module && this.component.module.disconnectedCallback)
-        this.component.module.disconnectedCallback();
+        if (this.component.module && this.component.module.disconnectedCallback)
+            this.component.module.disconnectedCallback();
         if (this.endingElement) {
             let parentElement = this.endingElement.parentElement;
             parentElement.removeChild(this.endingElement);

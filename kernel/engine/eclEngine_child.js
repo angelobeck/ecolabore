@@ -39,4 +39,14 @@ class eclEngine_child {
         return this;
     }
 
+    disabled(value) {
+        this.data.disabled = value;
+        return this;
+    }
+
+    role(value) {
+        this.data.role = value;
+        return this;
+    }
+
 }

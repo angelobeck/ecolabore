@@ -36,7 +36,10 @@ class eclFilter_filter_string extends eclFilter
         if (isset($control['required']))
             return [
                 'message' => 'filter_string_requiredField',
-                'context' => ['label' => $control['label'] ?? '']
+                'context' => [
+                    'label' => $control['label'] ?? '',
+                    'id' => $control['id'] ?? ''
+                    ]
             ];
 
         $formulary->setField($control['target'], null);
