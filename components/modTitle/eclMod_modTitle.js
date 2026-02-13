@@ -5,7 +5,7 @@ class eclMod_modTitle extends eclMod
 
     connectedCallback()
     {
-        this.title = this.page.application.data['text']['title'] || this.page.application.name;
+        this.title = page.application.data['text']['title'] || this.page.application.name;
     }
 
 }

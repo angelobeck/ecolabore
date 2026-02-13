@@ -26,8 +26,11 @@ class eclEngine_page {
 
         this.modules.reset();
         this.modules.alert = 'modAlert_main';
+        this.modules.content = 'modContent_main';
         this.modules.layout = 'modLayout_main';
+        this.modules.list = 'modList_main';
         this.modules.title = 'modTitle_main';
+        this.modules.nav = 'modNav_main';
         this.modules.menu = 'modMenu_main';
     }
 

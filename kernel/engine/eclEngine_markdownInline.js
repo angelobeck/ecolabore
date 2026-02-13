@@ -4,11 +4,12 @@ class eclEngine_markdownInline {
     buffer = '';
 
     static patterns = {
+        autolink: /^[<]([^>]+)[>]/,
         bold: /^\*\*(([^*]|\*[^*])+)\*\*/,
         code: /^[`]{2}([^`]+)[`]{2}/,
         italic: /^\_([^\_]+)\_/,
         link: /^\[([^\]]+)\]\(([^)]+)\)/,
-        tag: /^\[(^\]]+\])/
+        tag: /^\[([^\]]+)\]/
     };
 
     constructor(content) {
@@ -38,6 +39,10 @@ class eclEngine_markdownInline {
             }
         }
         return this.buffer;
+    }
+
+    autolink(match) {
+        this.buffer += '<escape value="' + match[0].replace(/\"/g, '#q') + '" />';
     }
 
     bold(match) {
@@ -76,17 +81,29 @@ class eclEngine_markdownInline {
             audio: 'audio',
             file: 'file',
             figura: 'img',
+            http: 'link',
+            https: 'link',
             imagem: 'img',
-            img: 'img'
+            img: 'img',
+            mailto: 'link',
+            tel: 'link'
         };
-
-        this.content = this.content.substring(match[0].length);
 
         if (!translation[name]) {
             return;
         }
-
-        this.buffer += '<ecl-' + translation[name] + ' value="' + (parts[1] || '') + '" />';
+        let value = parts[1] || '';
+        if (translation[name] == 'link') {
+            let url, label;
+            url = name + ':' + value;
+            if (name == 'mailto' || name == 'tel')
+                label = value;
+            else
+                label = name + ':' + value;
+            this.buffer += '<a href="' + url + '">' + label + '</a>';
+        } else {
+            this.buffer += '<ecl-' + translation[name] + ' value="' + value + '" />';
+        }
     }
 
 }

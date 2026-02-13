@@ -1,17 +1,20 @@
 
 class eclMod_tag_markdown extends eclMod {
-    value = '';
+    content = '';
     code = '';
 
     connectedCallback() {
-        this.api('value');
+        this.api('content');
         this.track('code');
     }
 
     get _html_() {
-        var lines = this.value.split("\n");
+        if (typeof (this.content) !== 'string')
+            this.content = '';
+
+        var lines = this.content.split("\n");
         var markdown = new eclEngine_markdown(lines);
-        this.code =  markdown.render();
+        this.code = markdown.render();
         return this.code;
     }
 

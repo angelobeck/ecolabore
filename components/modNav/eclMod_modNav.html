@@ -1,0 +1,13 @@
+  <nav for:each={_children_} for:item={item}>
+    <div
+      aria-current={item.current}
+      aria-disabled={item.disabled}
+      data-url={item.url}
+      onclick={handleClick}
+      onkeydown={handleKeydown}
+      role={item.role}
+      tabindex="0"
+    >
+        {item.label.Value}
+      </div>
+  </nav>

@@ -1,7 +1,7 @@
 <cut target="alert" name={name}>
     <div>
         <h1 class="header" tabindex="0" wire:element={header}>{_title_}</h1>
-        <p>{_content_}</p>
+        <ecl-markdown content={_content_} />
         <slot />
         <ecl-button label="Fechar" onclick={closeAlert} />
     </div>
