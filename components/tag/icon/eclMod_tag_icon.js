@@ -2,20 +2,25 @@
 class eclMod_tag_icon extends eclMod {
     svg = '';
     divElement;
-    svgElement;
     rendered = false;
-    raw = '';
+    svgMonitor = '';
 
     connectedCallback() {
         this.api('svg');
-        this.track('raw');
+    }
+
+    refreshCallback() {
+        if (this.rendered && this.svgMonitor != this.svg) {
+            this.divElement.innerHTML = this.svg;
+            this.svgMonitor = this.svg;
+        }
     }
 
     renderedCallback() {
         if (!this.rendered) {
             this.rendered = true;
             this.divElement.innerHTML = this.svg;
-            this.raw = this.divElement.innerHTML;
+            this.svgMonitor = this.svg;
         }
     }
 
