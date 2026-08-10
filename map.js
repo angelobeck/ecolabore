@@ -9,7 +9,7 @@ setTag('ecl-icon', 'tag_icon');
 setTag('ecl-input', 'tag_input');
 setTag('ecl-link', 'tag_link');
 setTag('ecl-markdown', 'tag_markdown');
-setTag('ecl-modal', 'tag_modal');
+setTag('ecl-comal', 'tag_comal');
 setTag('ecl-radio', 'tag_radio');
 setTag('ecl-select', 'tag_select');
 setTag('ecl-tab', 'tag_tab');

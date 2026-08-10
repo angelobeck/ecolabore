@@ -27,10 +27,10 @@ class EclStore_staticContent
                 $values = array_values($control['children']);
                 $control['children'] = [];
                 $parts = explode('_', $name);
-                $modulePrefix = join('_', array_slice($parts, 0, -1));
+                $componentPrefix = join('_', array_slice($parts, 0, -1));
                 foreach ($values as $value) {
                     if (is_string($value) and isset($value[0]) and $value[0] == '~')
-                        $control['children'][] = $modulePrefix . '_' . substr($value, 1);
+                        $control['children'][] = $componentPrefix . '_' . substr($value, 1);
                     else
                         $control['children'][] = $value;
                 }

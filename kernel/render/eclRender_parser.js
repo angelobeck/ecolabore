@@ -7,10 +7,10 @@ class eclRender_parser {
     index;
     length;
 
-    parse(rootNode, tokens, module) {
-        this.templateName = module.constructor.name;
+    parse(rootNode, tokens, component) {
+        this.templateName = component.constructor.name;
         this.root = rootNode;
-        this.root.component = new eclRender_component(rootNode, module, rootNode.children);
+        this.root.mediator = new eclRender_mediator(rootNode, component, rootNode.children);
         rootNode.children = [];
         this.current = this.root;
         this.tokens = tokens;
@@ -84,8 +84,8 @@ class eclRender_parser {
                 node = new eclRender_nodeEscape(this.current, '');
                 break;
 
-            case 'mod':
-                node = new eclRender_nodeModule(this.current, 'mod');
+            case 'com':
+                node = new eclRender_nodeComponent(this.current, 'com');
                 break;
 
             case 'paste':
@@ -189,7 +189,7 @@ class eclRender_parser {
         } else {
             line = this.tokens[this.tokens.length - 1].line;
         }
-        throw new Error(`Template parsing error: ${message} on line ${line} in template of module ${templateName}`);
+        throw new Error(`Template parsing error: ${message} on line ${line} in template of component ${templateName}`);
     }
 
 }

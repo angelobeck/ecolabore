@@ -1,6 +1,6 @@
 
 class eclRender_node {
-    component;
+    mediator;
     parent;
     value;
     staticAttributes = [];
@@ -14,7 +14,7 @@ class eclRender_node {
         this.parent = parent;
         this.value = value;
         if (parent !== undefined) {
-            this.component = parent.component;
+            this.mediator = parent.mediator;
             if (parent.ns)
                 this.ns = parent.ns;
         }
@@ -29,9 +29,9 @@ class eclRender_node {
         var scope = false;
         for (index = 0; index < children.length; index++) {
             node = children[index];
-            scope = this.component.getScope(node);
+            scope = this.mediator.getScope(node);
             if (scope) {
-                node.component.scopes.unshift(scope);
+                node.mediator.scopes.unshift(scope);
             }
 
             if (node.dinamicAttributes["if:true"] || node.dinamicAttributes["if:false"]) {
@@ -45,7 +45,7 @@ class eclRender_node {
                 node.create(parentElement, insertBeforeMe);
             }
             if (scope) {
-                node.component.scopes.shift();
+                node.mediator.scopes.shift();
             }
         }
     }
@@ -59,9 +59,9 @@ class eclRender_node {
         var scope = false;
         for (index = 0; index < children.length; index++) {
             node = children[index];
-            scope = this.component.getScope(node);
+            scope = this.mediator.getScope(node);
             if (scope) {
-                node.component.scopes.unshift(scope);
+                node.mediator.scopes.unshift(scope);
             }
 
             if (node.dinamicAttributes["if:true"] || node.dinamicAttributes["if:false"]) {
@@ -78,7 +78,7 @@ class eclRender_node {
                 node.refresh();
             }
             if (scope) {
-                node.component.scopes.shift();
+                node.mediator.scopes.shift();
             }
 
         }
@@ -108,7 +108,7 @@ class eclRender_node {
     createLoop(element, insertBeforeMe) {
         var loopChildren;
         var target;
-        const loopIterator = this.component.getProperty(this.dinamicAttributes["for:each"]);
+        const loopIterator = this.mediator.getProperty(this.dinamicAttributes["for:each"]);
         if (!Array.isArray(loopIterator)) {
             return;
         }
@@ -120,20 +120,20 @@ class eclRender_node {
             target = "item";
         }
         this.loopChildren = [];
-        this.component.scopes.unshift({});
+        this.mediator.scopes.unshift({});
         for (let iteratorIndex = 0; iteratorIndex < loopIterator.length; iteratorIndex++) {
-            this.component.scopes[0][target] = loopIterator[iteratorIndex];
+            this.mediator.scopes[0][target] = loopIterator[iteratorIndex];
             loopChildren = this.cloneChildren(this.children);
             this.loopChildren.push(loopChildren);
             this.createChildren(loopChildren, element, insertBeforeMe);
         }
-        this.component.scopes.shift();
+        this.mediator.scopes.shift();
     }
 
     refreshLoop(element, insertBeforeMe) {
         var loopChildren;
         var target;
-        var loopIterator = this.component.getProperty(this.dinamicAttributes["for:each"]);
+        var loopIterator = this.mediator.getProperty(this.dinamicAttributes["for:each"]);
         if (!Array.isArray(loopIterator)) {
             loopIterator = [];
         }
@@ -153,9 +153,9 @@ class eclRender_node {
             }
         }
 
-        this.component.scopes.unshift({});
+        this.mediator.scopes.unshift({});
         for (let iteratorIndex = 0; iteratorIndex < loopIterator.length; iteratorIndex++) {
-            this.component.scopes[0][target] = loopIterator[iteratorIndex];
+            this.mediator.scopes[0][target] = loopIterator[iteratorIndex];
             if (iteratorIndex < this.loopChildren.length) {
                 loopChildren = this.loopChildren[iteratorIndex];
                 this.refreshChildren(loopChildren);
@@ -165,17 +165,17 @@ class eclRender_node {
                 this.createChildren(loopChildren, element, insertBeforeMe);
             }
         }
-        this.component.scopes.shift();
+        this.mediator.scopes.shift();
     }
 
     checkConditionStatus(node) {
         var value;
         if (node.dinamicAttributes["if:true"]) {
-            value = node.component.getProperty(node.dinamicAttributes["if:true"]);
+            value = node.mediator.getProperty(node.dinamicAttributes["if:true"]);
             if (node.staticAttributes["if:compare"]) {
                 return value.toString() == node.staticAttributes["if:compare"];
             } else if (node.dinamicAttributes["if:compare"]) {
-                return value == node.component.getProperty(node.dinamicAttributes["if:compare"]);
+                return value == node.mediator.getProperty(node.dinamicAttributes["if:compare"]);
             } else if (
                 value === undefined ||
                 value === null ||
@@ -191,11 +191,11 @@ class eclRender_node {
                 return true;
             }
         } else if (node.dinamicAttributes["if:false"]) {
-            value = node.component.getProperty(node.dinamicAttributes["if:false"]);
+            value = node.mediator.getProperty(node.dinamicAttributes["if:false"]);
             if (node.staticAttributes["if:compare"]) {
                 return value.toString() != node.staticAttributes["if:compare"];
             } else if (node.dinamicAttributes["if:compare"]) {
-                return value != node.component.getProperty(node.dinamicAttributes["if:compare"]);
+                return value != node.mediator.getProperty(node.dinamicAttributes["if:compare"]);
             } else if (
                 value === undefined ||
                 value === null ||

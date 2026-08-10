@@ -9,7 +9,7 @@ class eclEngine_page
     public eclEngine_dialogs $dialogs;
     public eclEngine_endpoints $endpoints;
     public eclEngine_menus $menus;
-    public eclEngine_modules $modules;
+    public eclEngine_components $components;
     public eclEngine_views $views;
 
     public string $protocol = SERVER_PROTOCOL;
@@ -151,7 +151,7 @@ class eclEngine_page
     public function dispatch(): void
     {
         global $store;
-        $this->modules = new eclEngine_modules($this);
+        $this->components = new eclEngine_components($this);
         $this->endpoints = new eclEngine_endpoints($this);
 
         if ($this->domain->applicationName !== $this->application->applicationName) {
@@ -232,7 +232,7 @@ class eclEngine_page
         }
 
         $render = new eclEngine_render($this);
-        $this->buffer = $render->render($this->modules->html);
+        $this->buffer = $render->render($this->components->html);
     }
 
     public function access(int $level, array $groups = []): bool

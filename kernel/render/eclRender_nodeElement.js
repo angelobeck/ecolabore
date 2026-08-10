@@ -73,12 +73,12 @@ class eclRender_nodeElement extends eclRender_node {
                 this.createEvent(name);
             } else if (name === "wire:element") {
                 if (/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(path))
-                    this.component.module[path] = this.element;
+                    this.mediator.component[path] = this.element;
                 continue;
             } else if (name.indexOf(":") > 0) {
                 continue;
             } else {
-                let value = this.component.getProperty(path);
+                let value = this.mediator.getProperty(path);
                 if (name.startsWith('aria')) {
                     if (value === undefined || value === null || value === false)
                         value = 'false';
@@ -97,7 +97,7 @@ class eclRender_nodeElement extends eclRender_node {
     createEvent(name) {
         var target = this.dinamicAttributes[name];
         this.element[name] = (event) => {
-            this.component.module[target](event);
+            this.mediator.component[target](event);
         };
     }
 
@@ -109,7 +109,7 @@ class eclRender_nodeElement extends eclRender_node {
             } else if (name.indexOf(":") > 0) {
                 continue;
             } else {
-                let value = this.component.getProperty(path);
+                let value = this.mediator.getProperty(path);
                 if (name.startsWith('aria')) {
                     if (value === undefined || value === null || value === false)
                         value = 'false';

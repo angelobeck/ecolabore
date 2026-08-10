@@ -8,7 +8,7 @@ class eclStore_userContent extends eclStore
     public array $fields = [
         // Indexing
         'user_id' => 'int/4',
-        'mode' => 'name/8',
+        'come' => 'name/8',
         'parent_id' => 'int/4',
         'id' => 'primary_key',
         // Class identifiers
@@ -39,7 +39,7 @@ class eclStore_userContent extends eclStore
 
     // Index
     public array $index = [
-        'user_find_children' => ['user_id', 'mode', 'parent_id']
+        'user_find_children' => ['user_id', 'come', 'parent_id']
     ];
 
     private array $indexByName = [];
@@ -75,7 +75,7 @@ class eclStore_userContent extends eclStore
                     $this->rows[$userId][$id] = $data;
                     $this->originalRows[$userId][$id] = $data;
                     $this->indexByName[$userId][$data['name']] = $id;
-                    $this->indexByParent[$userId][$data['mode']][$data['parent_id']][$id] = $id;
+                    $this->indexByParent[$userId][$data['come']][$data['parent_id']][$id] = $id;
                     $found[] = $data;
                 } else {
                     $found[] = $this->rows[$userId][$id];
@@ -93,7 +93,7 @@ class eclStore_userContent extends eclStore
         $data['user_id'] = $userId;
         if (!isset($data['parent_id']))
             $data['parent_id'] = 0;
-        $data['index'] = count($this->children($userId, $data['mode'], $data['parent_id']));
+        $data['index'] = count($this->children($userId, $data['come'], $data['parent_id']));
         if (!isset($data['name']) or !strlen($data['name']))
             $data['name'] = 't' . strval(TIME);
         $where = array('user_id' => $userId, 'name' => $data['name']);
@@ -114,7 +114,7 @@ class eclStore_userContent extends eclStore
         $this->rows[$userId][$id] = $data;
         $this->originalRows[$userId][$id] = $data;
         $this->indexByName[$userId][$data['name']] = $id;
-        $this->indexByParent[$userId][$data['mode']][$data['parent_id']][$id] = $id;
+        $this->indexByParent[$userId][$data['come']][$data['parent_id']][$id] = $id;
         $this->lastInsertedData = $data;
         return $id;
     }
@@ -158,19 +158,19 @@ class eclStore_userContent extends eclStore
         return $empty;
     }
 
-    public function &openChild($userId, $mode, $parentId, $name, $access = 4)
+    public function &openChild($userId, $come, $parentId, $name, $access = 4)
     {
-        if (!isset($this->chargedParents[$userId][$mode][$parentId])) {
-            $this->chargedParents[$userId][$mode][$parentId] = true;
+        if (!isset($this->chargedParents[$userId][$come][$parentId])) {
+            $this->chargedParents[$userId][$come][$parentId] = true;
             $this->indexFoundRows($this->database->select($this, [
                 'user_id' => $userId,
-                'mode' => $mode,
+                'come' => $come,
                 'parent_id' => $parentId
             ]));
         }
 
-        if (isset($this->indexByParent[$userId][$mode][$parentId])) {
-            foreach ($this->indexByParent[$userId][$mode][$parentId] as $id) {
+        if (isset($this->indexByParent[$userId][$come][$parentId])) {
+            foreach ($this->indexByParent[$userId][$come][$parentId] as $id) {
                 if ($this->rows[$userId][$id]['name'] == $name) {
                     $found = &$this->rows[$userId][$id];
                     if ($found['access'] <= $access)
@@ -185,24 +185,24 @@ class eclStore_userContent extends eclStore
         return $found;
     }
 
-    public function children($userId, $mode, $parentId, $access = 4, $max = 0, $offset = 0, $sort = 'index', $direction = 'asc')
+    public function children($userId, $come, $parentId, $access = 4, $max = 0, $offset = 0, $sort = 'index', $direction = 'asc')
     {
-        if (!isset($this->chargedParents[$userId][$mode][$parentId])) {
-            if (isset($this->chargedMode[$userId][$mode]))
+        if (!isset($this->chargedParents[$userId][$come][$parentId])) {
+            if (isset($this->chargedMode[$userId][$come]))
                 return [];
 
-            $this->chargedParents[$userId][$mode][$parentId] = true;
+            $this->chargedParents[$userId][$come][$parentId] = true;
             $this->indexFoundRows($this->database->select($this, [
                 'user_id' => $userId,
-                'mode' => $mode,
+                'come' => $come,
                 'parent_id' => $parentId
             ]));
         }
 
-        if (isset($this->indexByParent[$userId][$mode][$parentId])) { // children exists
+        if (isset($this->indexByParent[$userId][$come][$parentId])) { // children exists
             $sorted = [];
             $rows = $this->rows[$userId];
-            foreach ($this->indexByParent[$userId][$mode][$parentId] as $id) {
+            foreach ($this->indexByParent[$userId][$come][$parentId] as $id) {
                 if ($rows[$id]['access'] <= $access)
                     $sorted[$rows[$id][$sort]][] = $rows[$id];
             }
@@ -213,7 +213,7 @@ class eclStore_userContent extends eclStore
                 ksort($sorted);
 
             if ($max == 0)
-                $max = count($this->indexByParent[$userId][$mode][$parentId]);
+                $max = count($this->indexByParent[$userId][$come][$parentId]);
             else
                 $max += $offset;
 
@@ -234,9 +234,9 @@ class eclStore_userContent extends eclStore
         return [];
     }
 
-    public function childrenNames($userId, $mode, $parentId, $access = 4, $max = 0, $offset = 0, $sort = 'index', $direction = 'asc')
+    public function childrenNames($userId, $come, $parentId, $access = 4, $max = 0, $offset = 0, $sort = 'index', $direction = 'asc')
     {
-        $children = $this->children($userId, $mode, $parentId, $access, $max, $offset, $sort, $direction);
+        $children = $this->children($userId, $come, $parentId, $access, $max, $offset, $sort, $direction);
         $names = [];
         foreach ($children as $child) {
             $names[] = $child['name'];
@@ -244,52 +244,52 @@ class eclStore_userContent extends eclStore
         return $names;
     }
 
-    public function mode($userId, $mode)
+    public function come($userId, $come)
     {
-        if (!isset($this->chargedMode[$userId][$mode])) {
-            $this->chargedMode[$userId][$mode] = $this->indexFoundRows($this->database->select($this, [
+        if (!isset($this->chargedMode[$userId][$come])) {
+            $this->chargedMode[$userId][$come] = $this->indexFoundRows($this->database->select($this, [
                 'user_id' => $userId,
-                'mode' => $mode
+                'come' => $come
             ]));
 
             // index chargedParents
             if (!isset($this->chargedParents[$userId]))
                 $this->chargedParents[$userId] = [];
-            if (!isset($this->chargedParents[$userId][$mode]))
-                $this->chargedParents[$userId][$mode] = [];
+            if (!isset($this->chargedParents[$userId][$come]))
+                $this->chargedParents[$userId][$come] = [];
 
-            foreach ($this->chargedMode[$userId][$mode] as $row) {
+            foreach ($this->chargedMode[$userId][$come] as $row) {
                 if (!$row or !isset($row['id']) or !isset($row['parent_id']))
                     continue;
 
-                if (!isset($this->chargedParents[$userId][$mode][$row['parent_id']]) or !is_array($this->chargedParents[$userId][$mode][$row['parent_id']]))
-                    $this->chargedParents[$userId][$mode][$row['parent_id']] = [];
+                if (!isset($this->chargedParents[$userId][$come][$row['parent_id']]) or !is_array($this->chargedParents[$userId][$come][$row['parent_id']]))
+                    $this->chargedParents[$userId][$come][$row['parent_id']] = [];
 
-                $this->chargedParents[$userId][$mode][$row['parent_id']][$row['id']] = true;
-                $this->indexByParent[$userId][$mode][$row['parent_id']][$row['id']] = $row['id'];
+                $this->chargedParents[$userId][$come][$row['parent_id']][$row['id']] = true;
+                $this->indexByParent[$userId][$come][$row['parent_id']][$row['id']] = $row['id'];
             }
         }
 
-        return $this->chargedMode[$userId][$mode];
+        return $this->chargedMode[$userId][$come];
     }
 
-    public function findMarker($userId, $marker, $mode = 'section')
+    public function findMarker($userId, $marker, $come = 'section')
     {
         static $markers = [];
-        if (!isset($markers[$userId][$mode])) {
+        if (!isset($markers[$userId][$come])) {
             if (!isset($markers[$userId]))
                 $markers[$userId] = [];
-            if (!isset($markers[$userId][$mode]))
-                $markers[$userId][$mode] = [];
-            foreach ($this->mode($userId, $mode) as $data) {
+            if (!isset($markers[$userId][$come]))
+                $markers[$userId][$come] = [];
+            foreach ($this->come($userId, $come) as $data) {
                 if ($data['access'] > 30)
                     continue;
-                if (!isset($markers[$userId][$mode][$data['marker']]))
-                    $markers[$userId][$mode][$data['marker']] = $data['id'];
+                if (!isset($markers[$userId][$come][$data['marker']]))
+                    $markers[$userId][$come][$data['marker']] = $data['id'];
             }
         }
-        if (isset($markers[$userId][$mode][$marker]))
-            return $markers[$userId][$mode][$marker];
+        if (isset($markers[$userId][$come][$marker]))
+            return $markers[$userId][$come][$marker];
 
         return false;
     }
@@ -332,9 +332,9 @@ class eclStore_userContent extends eclStore
         return [];
     }
 
-    public function childrenReindex($userId, $mode, $parentId)
+    public function childrenReindex($userId, $come, $parentId)
     {
-        foreach ($this->children($userId, $mode, $parentId) as $index => $child) {
+        foreach ($this->children($userId, $come, $parentId) as $index => $child) {
             $this->rows[$userId][$child['id']]['index'] = $index;
         }
     }
@@ -360,12 +360,12 @@ class eclStore_userContent extends eclStore
             if (!$data)
                 return false;
 
-            if ($data['parent_id'] != 0 or $data['mode'] != 'section' or !isset($data['flags']['section_type']) or $data['flags']['section_type'] != 'menu')
+            if ($data['parent_id'] != 0 or $data['come'] != 'section' or !isset($data['flags']['section_type']) or $data['flags']['section_type'] != 'menu')
                 array_unshift($pathway, $data['name']);
             $id = $data['parent_id'];
             if ($id == 1)
                 $id = 0;
-            if (!$id and $data['mode'] != 'section' and $data['marker']) { // find special section
+            if (!$id and $data['come'] != 'section' and $data['marker']) { // find special section
                 $id = $this->findMarker($userId, $data['marker']);
                 if (!$id)
                     return false;
@@ -393,7 +393,7 @@ class eclStore_userContent extends eclStore
             $this->deletedRows[$userId][$id] = $id;
             $this->rows[$userId][$id] = [];
             unset($this->originalRows[$userId][$id]);
-            unset($this->indexByParent[$userId][$data['mode']][$data['parent_id']][$id]);
+            unset($this->indexByParent[$userId][$data['come']][$data['parent_id']][$id]);
             unset($this->indexByName[$userId][$data['name']][$id]);
         }
 

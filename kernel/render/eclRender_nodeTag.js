@@ -1,89 +1,78 @@
 
 class eclRender_nodeTag extends eclRender_node {
     endingElement;
-    moduleSymbol;
-    module;
+    componentSymbol;
+    component;
 
     create(parentElement, insertBeforeMe) {
         this.endingElement = document.createComment(" tag ");
         parentElement.insertBefore(this.endingElement, insertBeforeMe);
-        this.generateModule(parentElement, this.endingElement);
+        this.generateComponent(parentElement, this.endingElement);
     }
 
-    generateModule(parentElement, insertBeforeMe) {
-        var moduleName;
+    generateComponent(parentElement, insertBeforeMe) {
+        var componentName;
         if (this.value === 'tag') {
             if (this.staticAttributes.name)
-                moduleName = this.staticAttributes.name;
+                componentName = this.staticAttributes.name;
             else if (this.dinamicAttributes.name)
-                moduleName = this.component.getProperty(this.dinamicAttributes.name);
+                componentName = this.mediator.getProperty(this.dinamicAttributes.name);
         } else {
-            moduleName = registeredTags[this.value];
+            componentName = registeredTags[this.value];
         }
 
-        if (!registeredClasses.eclMod[moduleName])
+        if (!registeredClasses.eclCom[componentName])
             return;
 
-        this.moduleSymbol = registeredClasses.eclMod[moduleName];
-        this.module = new this.moduleSymbol();
+        this.componentSymbol = registeredClasses.eclCom[componentName];
+        this.component = new this.componentSymbol();
         var tokenizer = new eclRender_tokenizer();
         var parser = new eclRender_parser();
 
-        var templateName = this.module.constructor.name;
+        var templateName = this.component.constructor.name;
         var template = templates[templateName];
         if (!template) {
             return;
         }
 
-        if (this.parent)
-            this.parent.component.childComponents.push(this.module);
-
         var tokens = tokenizer.tokenize(template);
-        parser.parse(this, tokens, this.module);
+        parser.parse(this, tokens, this.component);
 
         this.createStaticAttributes();
         this.createDinamicAttributes();
         setTimeout(() => {
-            this.component.module.renderedCallback();
+            this.mediator.component.renderedCallback();
         }, 20);
-        this.component.module.connectedCallback();
-        this.component.module.refreshCallback();
+        this.mediator.component.connectedCallback();
+        this.mediator.component.refreshCallback();
 
         this.createChildren(this.children, parentElement, insertBeforeMe);
     }
 
     refresh() {
         setTimeout(() => {
-            this.component.module.renderedCallback();
+            this.mediator.component.renderedCallback();
         }, 20);
-        this.component.module.refreshCallback();
+        this.mediator.component.refreshCallback();
         this.refreshDinamicAttributes();
         this.refreshChildren(this.children);
     }
 
     remove() {
         this.removeChildren(this.children);
-        this.component.module.disconnectedCallback();
+        this.mediator.component.disconnectedCallback();
         if (this.endingElement) {
             let parentElement = this.endingElement.parentElement;
             parentElement.removeChild(this.endingElement);
             this.endingElement = false;
         }
-        this.children = this.component.slot;
-
-        if (this.parent) {
-            let children = this.parent.component.childComponents;
-            for (let i = 0; i < children.length; i++) {
-                if (children[i] === this.module)
-                    children.slice(i, 1);
-            }
-        }
+        this.children = this.mediator.slot;
     }
 
     createStaticAttributes() {
         for (let name in this.staticAttributes) {
             const value = this.staticAttributes[name];
-            this.component.apis[this.convertToCamelCase(name)] = value;
+            this.mediator.apis[this.convertToCamelCase(name)] = value;
         }
     }
 
@@ -97,15 +86,15 @@ class eclRender_nodeTag extends eclRender_node {
                 continue;
             } else {
                 const path = this.dinamicAttributes[name];
-                const value = this.parent.component.getProperty(path);
-                this.component.apis[this.convertToCamelCase(name)] = value;
+                const value = this.parent.mediator.getProperty(path);
+                this.mediator.apis[this.convertToCamelCase(name)] = value;
             }
         }
     }
 
     createEvent(type) {
         var callbackName = this.dinamicAttributes[type];
-        this.component.eventListeners[type] = callbackName;
+        this.mediator.eventListeners[type] = callbackName;
     }
 
     refreshDinamicAttributes() {
@@ -117,8 +106,8 @@ class eclRender_nodeTag extends eclRender_node {
 
             let name = this.convertToCamelCase(attributeName);
             const path = this.dinamicAttributes[attributeName];
-            const value = this.parent.component.getProperty(path);
-            this.component.apis[name] = value;
+            const value = this.parent.mediator.getProperty(path);
+            this.mediator.apis[name] = value;
         }
     }
 

@@ -9,11 +9,11 @@ class eclRender_parser
     private int $index;
     private int $length;
 
-    public function parse(array $tokens, eclMod $module, string $templateName, array $slot = []): array
+    public function parse(array $tokens, eclCom $component, string $templateName, array $slot = []): array
     {
         $this->templateName = $templateName;
         $this->root = new eclRender_node(null, '', '');
-        $this->root->component = new eclRender_component($module, $slot);
+        $this->root->mediator = new eclRender_mediator($component, $slot);
         $this->current = $this->root;
         $this->tokens = $tokens;
         $this->index = 0;
@@ -144,7 +144,7 @@ class eclRender_parser
         } else {
             $line = end($this->tokens)['line'];
         }
-        throw new Exception("Template parsing error: $message on line $line in template of module $templateName");
+        throw new Exception("Template parsing error: $message on line $line in template of component $templateName");
     }
 
 }

@@ -13,17 +13,17 @@ class eclEngine_render
         $this->parser = new eclRender_parser();
     }
 
-    public function render(eclMod $module, array $params = [], array $slot = []): string
+    public function render(eclCom $component, array $params = [], array $slot = []): string
     {
         global $store;
-        $templateName = get_class($module);
-        $template = $store->moduleTemplate->open($templateName);
+        $templateName = get_class($component);
+        $template = $store->componentTemplate->open($templateName);
         $tokens = $this->tokenizer->tokenize($template);
-        $children = $this->parser->parse($tokens, $module, $templateName, $slot);
+        $children = $this->parser->parse($tokens, $component, $templateName, $slot);
         foreach ($params as $key => $value) {
-            $module->$key = $value;
+            $component->$key = $value;
         }
-        $module->connectedCallback();
+        $component->connectedCallback();
         return $this->renderChildren($children);
     }
 
@@ -38,21 +38,21 @@ class eclEngine_render
                     break;
 
                 case 'dinamic_content':
-                    $buffer .= $node->component->getProperty($node->value, true);
+                    $buffer .= $node->mediator->getProperty($node->value, true);
                     break;
 
                 default:
-                    if (isset($node->dinamicAttributes['if:true']) and !$node->component->getProperty($node->dinamicAttributes['if:true']))
+                    if (isset($node->dinamicAttributes['if:true']) and !$node->mediator->getProperty($node->dinamicAttributes['if:true']))
                         break;
-                    if (isset($node->dinamicAttributes['if:false']) and $node->component->getProperty($node->dinamicAttributes['if:false']))
+                    if (isset($node->dinamicAttributes['if:false']) and $node->mediator->getProperty($node->dinamicAttributes['if:false']))
                         break;
                     switch ($node->value) {
-                        case 'mod':
-                            $buffer .= $this->renderModule($node);
+                        case 'com':
+                            $buffer .= $this->renderComponent($node);
                             break;
 
                         case 'slot':
-                            $buffer .= $this->renderChildren($node->component->slot);
+                            $buffer .= $this->renderChildren($node->mediator->slot);
                             break;
 
                         default:
@@ -63,12 +63,12 @@ class eclEngine_render
         return $buffer;
     }
 
-    private function renderModule(eclRender_node $node): string
+    private function renderComponent(eclRender_node $node): string
     {
         if (isset($node->staticAttributes['name']))
             $name = $node->staticAttributes['name'];
         else if (isset($node->dinamicAttributes['name']))
-            $name = $node->component->getProperty($node->dinamicAttributes['name']);
+            $name = $node->mediator->getProperty($node->dinamicAttributes['name']);
         else
             return '';
 
@@ -78,7 +78,7 @@ class eclEngine_render
         if (!preg_match('/^[a-zA-Z0-9_]+$/', $name))
             return '';
 
-        $module = $this->page->modules->$name;
+        $component = $this->page->components->$name;
         $params = [];
         foreach ($node->staticAttributes as $attribute => $value) {
             if (strpos($attribute, ':') === false and $attribute !== 'name' and $attribute !== 'prefix')
@@ -86,10 +86,10 @@ class eclEngine_render
         }
         foreach ($node->dinamicAttributes as $attribute => $value) {
             if (strpos($attribute, ':') === false and $attribute !== 'name')
-                $params[$attribute] = $node->component->getProperty($value);
+                $params[$attribute] = $node->mediator->getProperty($value);
         }
 
-        return $this->render($module, $params, $node->children);
+        return $this->render($component, $params, $node->children);
     }
 
     private function renderTag(eclRender_node $node): string
@@ -103,7 +103,7 @@ class eclEngine_render
             }
             foreach ($node->dinamicAttributes as $attribute => $value) {
                 if (strpos($attribute, ':') === false) {
-                    $value = $node->component->getProperty($value, true);
+                    $value = $node->mediator->getProperty($value, true);
                     if ($value !== '')
                         $buffer .= ' ' . $attribute . '="' . $value . '"';
                 }
@@ -131,7 +131,7 @@ class eclEngine_render
     private function renderLoop(eclRender_node $node): string
     {
         $buffer = '';
-        $array = $node->component->getProperty($node->dinamicAttributes['for:each']);
+        $array = $node->mediator->getProperty($node->dinamicAttributes['for:each']);
         if (!is_array($array) or count($array) === 0)
             return $buffer;
 
@@ -142,14 +142,14 @@ class eclEngine_render
         else
             $name = 'item';
 
-        array_unshift($node->component->scopes, []);
+        array_unshift($node->mediator->scopes, []);
 
         foreach ($array as $item) {
-            $node->component->scopes[0][$name] = $item;
+            $node->mediator->scopes[0][$name] = $item;
             $buffer .= $this->renderChildren($node->children);
         }
 
-        array_shift($node->component->scopes);
+        array_shift($node->mediator->scopes);
         return $buffer;
     }
 

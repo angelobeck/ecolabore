@@ -11,6 +11,6 @@ class eclApp_systemLogin extends eclApp{
 
     public static function view_main(eclEngine_page $page): void
     {
-        $page->modules->layout = 'systemLogin_main';
+        $page->components->layout = 'systemLogin_main';
     }
 }

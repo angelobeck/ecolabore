@@ -1,0 +1,12 @@
+{
+    "text": {
+        "title": {
+            "pt": {
+                "value": "Navegação principal"
+            }
+        }
+    },
+    "flags": {
+        "component": "comNav"
+    }
+}

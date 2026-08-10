@@ -55,7 +55,7 @@ class eclRender_nodePaste extends eclRender_node {
         if (this.staticAttributes['name'])
             return this.staticAttributes['name'];
         else if (this.dinamicAttributes['name']) {
-            let value = this.component.getProperty(this.dinamicAttributes['name']);
+            let value = this.mediator.getProperty(this.dinamicAttributes['name']);
             if (value && typeof (value) === "string")
                 return value;
         }
@@ -66,7 +66,7 @@ class eclRender_nodePaste extends eclRender_node {
         if (this.staticAttributes['target'])
             return this.staticAttributes['target'];
         else if (this.dinamicAttributes['target']) {
-            let value = this.component.getProperty(this.dinamicAttributes['target']);
+            let value = this.mediator.getProperty(this.dinamicAttributes['target']);
             if (value && typeof (value) === "string")
                 return value;
         }

@@ -12,7 +12,7 @@ class eclRender_nodeRender extends eclRender_node {
         var parser = new eclRender_parser();
 
         var tokens = tokenizer.tokenize(this.template);
-        parser.parse(this, tokens, this.component.module);
+        parser.parse(this, tokens, this.mediator.component);
         this.createChildren(this.children, parentElement, this.endingElement);
     }
 
@@ -27,7 +27,7 @@ class eclRender_nodeRender extends eclRender_node {
             var parser = new eclRender_parser();
 
             var tokens = tokenizer.tokenize(this.template);
-            parser.parse(this, tokens, this.component.module);
+            parser.parse(this, tokens, this.mediator.component);
             this.createChildren(this.children, this.endingElement.parentElement, this.endingElement);
         }
     }
@@ -45,7 +45,7 @@ class eclRender_nodeRender extends eclRender_node {
         if (this.staticAttributes.value)
             return this.staticAttributes.value;
         else if (this.dinamicAttributes.value)
-            return this.component.getProperty(this.dinamicAttributes.value);
+            return this.mediator.getProperty(this.dinamicAttributes.value);
         else
             return '';
     }

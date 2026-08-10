@@ -77,7 +77,7 @@ date_default_timezone_set(DEFAULT_TIMEZONE);
 ini_set('display_errors', SERVER_DISPLAY_ERRORS);
 ini_set('log_errors', SERVER_LOG_ERRORS);
 ini_set('error_log', SERVER_LOG_FILE);
-ini_set('session.use_strict_mode', 0);
+ini_set('session.use_strict_come', 0);
 
 $applicationsMaps = [];
 

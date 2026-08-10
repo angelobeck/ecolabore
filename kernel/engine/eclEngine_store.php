@@ -4,12 +4,12 @@ class EclEngine_store
 {
     private $drivers = [];
     public eclStore_staticContent $staticContent;
-    public eclStore_moduleTemplate $moduleTemplate;
+    public eclStore_componentTemplate $componentTemplate;
 
     public function __construct()
     {
         $this->staticContent = new eclStore_staticContent();
-        $this->moduleTemplate = new eclStore_moduleTemplate();
+        $this->componentTemplate = new eclStore_componentTemplate();
     }
 
     public function __get($name)

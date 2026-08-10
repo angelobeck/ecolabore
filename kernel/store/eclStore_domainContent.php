@@ -8,7 +8,7 @@ class eclStore_domainContent extends eclStore
     public array $fields = [
         // Indexing
         'domain_id' => 'int/4',
-        'mode' => 'name/8',
+        'come' => 'name/8',
         'parent_id' => 'int/4',
         'id' => 'primary_key',
         'master_id' => 'int/4',
@@ -43,7 +43,7 @@ class eclStore_domainContent extends eclStore
 
     // Index
     public array $index = [
-        'domain_find_children' => ['domain_id', 'mode', 'parent_id'],
+        'domain_find_children' => ['domain_id', 'come', 'parent_id'],
         'domain_find_name' => ['domain_id', 'name']
     ];
 
@@ -82,7 +82,7 @@ class eclStore_domainContent extends eclStore
                     $this->rows[$domainId][$id] = $data;
                     $this->originalRows[$domainId][$id] = $data;
                     $this->indexByName[$domainId][$data['name']] = $id;
-                    $this->indexByParent[$domainId][$data['mode']][$data['parent_id']][$id] = $id;
+                    $this->indexByParent[$domainId][$data['come']][$data['parent_id']][$id] = $id;
                     $found[] = $data;
                 } // row not indexed
                 else
@@ -100,7 +100,7 @@ class eclStore_domainContent extends eclStore
         $data['domain_id'] = $domainId;
         if (!isset($data['parent_id']))
             $data['parent_id'] = 0;
-        $data['index'] = count($this->children($domainId, $data['mode'], $data['parent_id']));
+        $data['index'] = count($this->children($domainId, $data['come'], $data['parent_id']));
         if (!isset($data['name']) or !strlen($data['name']))
             $data['name'] = 't' . strval(TIME);
         $where = array('domain_id' => $domainId, 'name' => $data['name']);
@@ -121,7 +121,7 @@ class eclStore_domainContent extends eclStore
         $this->rows[$domainId][$id] = $data;
         $this->originalRows[$domainId][$id] = $data;
         $this->indexByName[$domainId][$data['name']] = $id;
-        $this->indexByParent[$domainId][$data['mode']][$data['parent_id']][$id] = $id;
+        $this->indexByParent[$domainId][$data['come']][$data['parent_id']][$id] = $id;
         $this->lastInsertedData = $data;
         return $id;
     }
@@ -165,19 +165,19 @@ class eclStore_domainContent extends eclStore
         return $empty;
     }
 
-    public function &openChild($domainId, $mode, $parentId, $name, $access = 4)
+    public function &openChild($domainId, $come, $parentId, $name, $access = 4)
     {
-        if (!isset($this->chargedParents[$domainId][$mode][$parentId])) {
-            $this->chargedParents[$domainId][$mode][$parentId] = true;
+        if (!isset($this->chargedParents[$domainId][$come][$parentId])) {
+            $this->chargedParents[$domainId][$come][$parentId] = true;
             $this->indexFoundRows($this->database->select($this, [
                 'domain_id' => $domainId,
-                'mode' => $mode,
+                'come' => $come,
                 'parent_id' => $parentId
             ]));
         }
 
-        if (isset($this->indexByParent[$domainId][$mode][$parentId])) {
-            foreach ($this->indexByParent[$domainId][$mode][$parentId] as $id) {
+        if (isset($this->indexByParent[$domainId][$come][$parentId])) {
+            foreach ($this->indexByParent[$domainId][$come][$parentId] as $id) {
                 if ($this->rows[$domainId][$id]['name'] == $name) {
                     $found = &$this->rows[$domainId][$id];
                     if ($found['access'] <= $access)
@@ -192,24 +192,24 @@ class eclStore_domainContent extends eclStore
         return $found;
     }
 
-    public function children($domainId, $mode, $parentId, $access = 4, $max = 0, $offset = 0, $sort = 'index', $direction = 'asc')
+    public function children($domainId, $come, $parentId, $access = 4, $max = 0, $offset = 0, $sort = 'index', $direction = 'asc')
     {
-        if (!isset($this->chargedParents[$domainId][$mode][$parentId])) {
-            if (isset($this->chargedMode[$domainId][$mode]))
+        if (!isset($this->chargedParents[$domainId][$come][$parentId])) {
+            if (isset($this->chargedMode[$domainId][$come]))
                 return [];
 
-            $this->chargedParents[$domainId][$mode][$parentId] = true;
+            $this->chargedParents[$domainId][$come][$parentId] = true;
             $this->indexFoundRows($this->database->select($this, [
                 'domain_id' => $domainId,
-                'mode' => $mode,
+                'come' => $come,
                 'parent_id' => $parentId
             ]));
         }
 
-        if (isset($this->indexByParent[$domainId][$mode][$parentId])) { // children exists
+        if (isset($this->indexByParent[$domainId][$come][$parentId])) { // children exists
             $sorted = [];
             $rows = $this->rows[$domainId];
-            foreach ($this->indexByParent[$domainId][$mode][$parentId] as $id) {
+            foreach ($this->indexByParent[$domainId][$come][$parentId] as $id) {
                 if ($rows[$id]['access'] <= $access)
                     $sorted[$rows[$id][$sort]][] = $rows[$id];
             }
@@ -220,7 +220,7 @@ class eclStore_domainContent extends eclStore
                 ksort($sorted);
 
             if ($max == 0)
-                $max = count($this->indexByParent[$domainId][$mode][$parentId]);
+                $max = count($this->indexByParent[$domainId][$come][$parentId]);
             else
                 $max += $offset;
 
@@ -241,9 +241,9 @@ class eclStore_domainContent extends eclStore
         return [];
     }
 
-    public function childrenNames($domainId, $mode, $parentId, $access = 4, $max = 0, $offset = 0, $sort = 'index', $direction = 'asc')
+    public function childrenNames($domainId, $come, $parentId, $access = 4, $max = 0, $offset = 0, $sort = 'index', $direction = 'asc')
     {
-        $children = $this->children($domainId, $mode, $parentId, $access, $max, $offset, $sort, $direction);
+        $children = $this->children($domainId, $come, $parentId, $access, $max, $offset, $sort, $direction);
         $names = [];
         foreach ($children as $child) {
             $names[] = $child['name'];
@@ -251,52 +251,52 @@ class eclStore_domainContent extends eclStore
         return $names;
     }
 
-    public function mode($domainId, $mode)
+    public function come($domainId, $come)
     {
-        if (!isset($this->chargedMode[$domainId][$mode])) {
-            $this->chargedMode[$domainId][$mode] = $this->indexFoundRows($this->database->select($this, [
+        if (!isset($this->chargedMode[$domainId][$come])) {
+            $this->chargedMode[$domainId][$come] = $this->indexFoundRows($this->database->select($this, [
                 'domain_id' => $domainId,
-                'mode' => $mode
+                'come' => $come
             ]));
 
             // index chargedParents
             if (!isset($this->chargedParents[$domainId]))
                 $this->chargedParents[$domainId] = [];
-            if (!isset($this->chargedParents[$domainId][$mode]))
-                $this->chargedParents[$domainId][$mode] = [];
+            if (!isset($this->chargedParents[$domainId][$come]))
+                $this->chargedParents[$domainId][$come] = [];
 
-            foreach ($this->chargedMode[$domainId][$mode] as $row) {
+            foreach ($this->chargedMode[$domainId][$come] as $row) {
                 if (!$row or !isset($row['id']) or !isset($row['parent_id']))
                     continue;
 
-                if (!isset($this->chargedParents[$domainId][$mode][$row['parent_id']]) or !is_array($this->chargedParents[$domainId][$mode][$row['parent_id']]))
-                    $this->chargedParents[$domainId][$mode][$row['parent_id']] = [];
+                if (!isset($this->chargedParents[$domainId][$come][$row['parent_id']]) or !is_array($this->chargedParents[$domainId][$come][$row['parent_id']]))
+                    $this->chargedParents[$domainId][$come][$row['parent_id']] = [];
 
-                $this->chargedParents[$domainId][$mode][$row['parent_id']][$row['id']] = true;
-                $this->indexByParent[$domainId][$mode][$row['parent_id']][$row['id']] = $row['id'];
+                $this->chargedParents[$domainId][$come][$row['parent_id']][$row['id']] = true;
+                $this->indexByParent[$domainId][$come][$row['parent_id']][$row['id']] = $row['id'];
             }
         }
 
-        return $this->chargedMode[$domainId][$mode];
+        return $this->chargedMode[$domainId][$come];
     }
 
-    public function findMarker($domainId, $marker, $mode = 'section')
+    public function findMarker($domainId, $marker, $come = 'section')
     {
         static $markers = [];
-        if (!isset($markers[$domainId][$mode])) {
+        if (!isset($markers[$domainId][$come])) {
             if (!isset($markers[$domainId]))
                 $markers[$domainId] = [];
-            if (!isset($markers[$domainId][$mode]))
-                $markers[$domainId][$mode] = [];
-            foreach ($this->mode($domainId, $mode) as $data) {
+            if (!isset($markers[$domainId][$come]))
+                $markers[$domainId][$come] = [];
+            foreach ($this->come($domainId, $come) as $data) {
                 if ($data['access'] > 30)
                     continue;
-                if (!isset($markers[$domainId][$mode][$data['marker']]))
-                    $markers[$domainId][$mode][$data['marker']] = $data['id'];
+                if (!isset($markers[$domainId][$come][$data['marker']]))
+                    $markers[$domainId][$come][$data['marker']] = $data['id'];
             }
         }
-        if (isset($markers[$domainId][$mode][$marker]))
-            return $markers[$domainId][$mode][$marker];
+        if (isset($markers[$domainId][$come][$marker]))
+            return $markers[$domainId][$come][$marker];
 
         return false;
     }
@@ -339,9 +339,9 @@ class eclStore_domainContent extends eclStore
         return [];
     }
 
-    public function childrenReindex($domainId, $mode, $parentId)
+    public function childrenReindex($domainId, $come, $parentId)
     {
-        foreach ($this->children($domainId, $mode, $parentId) as $index => $child) {
+        foreach ($this->children($domainId, $come, $parentId) as $index => $child) {
             $this->rows[$domainId][$child['id']]['index'] = $index;
         }
     }
@@ -367,12 +367,12 @@ class eclStore_domainContent extends eclStore
             if (!$data)
                 return false;
 
-            if ($data['parent_id'] != 0 or $data['mode'] != 'section' or !isset($data['flags']['section_type']) or $data['flags']['section_type'] != 'menu')
+            if ($data['parent_id'] != 0 or $data['come'] != 'section' or !isset($data['flags']['section_type']) or $data['flags']['section_type'] != 'menu')
                 array_unshift($pathway, $data['name']);
             $id = $data['parent_id'];
             if ($id == 1)
                 $id = 0;
-            if (!$id and $data['mode'] != 'section' and $data['marker']) { // find special section
+            if (!$id and $data['come'] != 'section' and $data['marker']) { // find special section
                 $id = $this->findMarker($domainId, $data['marker']);
                 if (!$id)
                     return false;
@@ -400,7 +400,7 @@ class eclStore_domainContent extends eclStore
             $this->deletedRows[$domainId][$id] = $id;
             $this->rows[$domainId][$id] = [];
             unset($this->originalRows[$domainId][$id]);
-            unset($this->indexByParent[$domainId][$data['mode']][$data['parent_id']][$id]);
+            unset($this->indexByParent[$domainId][$data['come']][$data['parent_id']][$id]);
             unset($this->indexByName[$domainId][$data['name']][$id]);
         }
 

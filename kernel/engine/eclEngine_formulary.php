@@ -109,7 +109,7 @@ class eclEngine_formulary
         return !$this->error;
     }
 
-    public function create(): eclMod
+    public function create(): eclCom
     {
         global $store;
         $this->children = [];
@@ -137,12 +137,12 @@ class eclEngine_formulary
                     $filter::create($this, $control, $name);
             }
         }
-        $form = new eclMod_form($this->page);
+        $form = new eclCom_form($this->page);
         $form->children = $this->children;
         return $form;
     }
 
-    public function view(): eclMod
+    public function view(): eclCom
     {
         $this->flags['view'] = true;
         return $this->create();

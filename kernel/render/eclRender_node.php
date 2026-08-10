@@ -2,7 +2,7 @@
 
 class eclRender_node
 {
-    public eclRender_component $component;
+    public eclRender_mediator $mediator;
     public eclRender_node|null $parent;
     public string $type;
     public string $value;
@@ -17,7 +17,7 @@ class eclRender_node
         $this->type = $type;
         $this->value = $value;
         if ($parent !== null) {
-            $this->component = $parent->component;
+            $this->mediator = $parent->mediator;
         }
     }
 

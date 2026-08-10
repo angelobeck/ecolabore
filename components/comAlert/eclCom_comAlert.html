@@ -1,0 +1,17 @@
+<div aria-hidden={hidden} style="display:flex; flex-direction:column; min-height:100vh; width:100%">
+        <com name="layout" />
+</div>
+
+<div class="comal-curtain" if:true={showAlert}></div>
+
+<div if:true={showAlert} class="comal-wrapper">
+    <div class="comal-window">
+        <paste target="alert" name={alertName} />
+    </div>
+</div>
+
+<div class="comal-curtain" if:true={showMenu}></div>
+
+<div if:true={showMenu} class="menu">
+            <paste target="menu" name={menuName} />
+</div>

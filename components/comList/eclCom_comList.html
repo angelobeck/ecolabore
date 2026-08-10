@@ -1,0 +1,12 @@
+<ul 
+    for:each={_children_} 
+    for:item={child} 
+    if:true={_showComponent_}
+    class="list-vertical"
+>
+    <li>
+        <ecl-link url={child.url} style="flex-basis:0; flex-grow:1;  display:flex; ">
+            {child.title.Value}
+        </ecl-link>
+    </li>
+</ul>

@@ -2,14 +2,14 @@
 class eclRender_nodeDinamic extends eclRender_node {
 
     create(parentElement, insertBeforeMe) {
-        var value = this.component.getProperty(this.value, true);
+        var value = this.mediator.getProperty(this.value, true);
         this.element = document.createTextNode(value);
         parentElement.insertBefore(this.element, insertBeforeMe);
     }
 
     refresh() {
         if (this.element) {
-            var value = this.component.getProperty(this.value, true);
+            var value = this.mediator.getProperty(this.value, true);
             this.element.data = value;
         }
     }

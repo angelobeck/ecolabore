@@ -14,24 +14,24 @@ class eclEngine_page {
     blocked = false;
 
     constructor() {
-        this.modules = new eclEngine_modules();
+        this.components = new eclEngine_components();
     }
 
     reset() {
-        var layout = this.modules.layout;
+        var layout = this.components.layout;
         if (layout && layout.showAlert) {
             layout.showAlert = false;
             layout.showMenu = false;
         }
 
-        this.modules.reset();
-        this.modules.alert = 'modAlert_main';
-        this.modules.content = 'modContent_main';
-        this.modules.layout = 'modLayout_main';
-        this.modules.list = 'modList_main';
-        this.modules.title = 'modTitle_main';
-        this.modules.nav = 'modNav_main';
-        this.modules.menu = 'modMenu_main';
+        this.components.reset();
+        this.components.alert = 'comAlert_main';
+        this.components.content = 'comContent_main';
+        this.components.layout = 'comLayout_main';
+        this.components.list = 'comList_main';
+        this.components.title = 'comTitle_main';
+        this.components.nav = 'comNav_main';
+        this.components.menu = 'comMenu_main';
     }
 
     route() {
@@ -153,7 +153,7 @@ class eclEngine_page {
             while (document.body.children.length) {
                 document.body.removeChild(document.body.lastElementChild);
             }
-            this.rootNode = new eclRender_nodeModule();
+            this.rootNode = new eclRender_nodeComponent();
             this.rootNode.staticAttributes.name = 'alert';
             this.rootNode.create(document.body);
         } else {
@@ -217,10 +217,10 @@ class eclEngine_page {
         if (SYSTEM_APP_ON)
             flags.push('app-on');
 
-        if (actions !== '')
+        if (actions !== false && actions !== '')
             flags.push(actions.substring(1));
 
-        if (flags.length > 0)
+        if (actions !== false && flags.length > 0)
             path.push('_' + flags.join('_'));
 
         if (SYSTEM_HOSTING_MODE == 'single' && path[0] === SYSTEM_DEFAULT_DOMAIN_NAME)
@@ -248,14 +248,14 @@ class eclEngine_page {
     }
 
     alertOpen(name) {
-        var alert = this.modules.createModule('alert');
+        var alert = this.components.createComponent('alert');
         if (alert)
             alert.showAlert = true;
         alert.alertName = name;
     }
 
     alertClose() {
-        var alert = this.modules.createModule('alert');
+        var alert = this.components.createComponent('alert');
         if (!alert)
             return;
 
@@ -274,14 +274,14 @@ class eclEngine_page {
     }
 
     menuOpen(name = 'menu') {
-        var alert = this.modules.createModule('alert');
+        var alert = this.components.createComponent('alert');
         if (alert)
             alert.showMenu = true;
         alert.menuName = name;
     }
 
     menuClose() {
-        var alert = this.modules.createModule('alert');
+        var alert = this.components.createComponent('alert');
         if (!alert)
             return;
 
