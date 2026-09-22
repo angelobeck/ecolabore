@@ -29,65 +29,67 @@ class eclEngine_page
 
     public function sessionStart()
     {
+        global $io, $store;
 
-    }
+        if ($this->sessionStarted) {
+            return;
+        }
 
-    private function sessionStartFromSID(): void
-    {
-        global $applications, $store;
         $this->sessionStarted = true;
-        if (isset($this->flags['sid'][2])) {
-            list(, $name, $key) = $this->flags['sid'];
-            $openedSession = &$store->session->open($name, $key);
-            if ($openedSession) {
-                $this->session = &$openedSession['session'];
-            } else {
-                unset($this->flags['sid']);
+        $sessionId = '';
+        $sessionKey = '';
+        if (isset($this->received['sessionId']) and isset($this->received['sessionKey'])) {
+            $sessionId = $this->received['sessionId'];
+            $sessionKey = $this->received['sessionKey'];
+        } else if (isset($_COOKIE['ecl-session'])) {
+            $parts = explode('-', $_COOKIE['ecl-session']);
+            if (count($parts) == 2) {
+                [$sessionId, $sessionKey] = $parts;
             }
         }
 
-        if (!isset($this->flags['sid'][2])) {
-            $createdSession = &$store->session->create();
-            $this->flags['sid'] = ['sid', $createdSession['name'], $createdSession['key']];
-            $this->session = &$createdSession['session'];
+        if ($this->findSession($sessionId, $sessionKey)) {
+            $io->session->setCookie('ecl-session', $sessionId . '-' . $sessionKey);
+        } else {
+            $io->session->setCookie('ecl-session', 'invalid');
         }
 
-        $this->user = $applications->child(APPLICATION_USERS_NAME)->child('-guest');
         if (isset($this->actions['logout'])) {
+            $io->session->setCookie('ecl-session', 'invalid');
+            ecl_log('logout');
             $this->session = [];
-        } else if (isset($this->session['user']['name'])) {
-            $user = $applications->child(APPLICATION_USERS_NAME)->child($this->session['user']['name']);
-            if ($user) {
-                $this->user = $user;
+            $openedSession = $store->session->open($sessionId, $sessionKey);
+            if (isset($openedSession['id'])) {
+                $store->session->delete($openedSession['id']);
             }
         }
-
     }
 
-    public function sessionStartFromAPI(string $name, string $key)
+    private function findSession(string $sessionId, string $sessionKey): bool
     {
         global $store;
 
-        $openedSession = &$store->session->open($name, $key);
-        if (!$openedSession)
-            return;
+        if ($sessionId == '' || $sessionKey == '')
+            return false;
 
+        $openedSession = &$store->session->open($sessionId, $sessionKey);
         if (!isset($openedSession['session']['user']['name']))
-            return;
+            return false;
 
         if ($openedSession['session']['user']['name'] === ADMIN_NAME) {
             $this->session = &$openedSession['session'];
-            return;
+            return true;
         }
 
         $user = $store->user->open($openedSession['session']['user']['name']);
         if (!$user)
-            return;
+            return false;
 
         if (isset($user['status']) and $user['status'] === 'blocked')
-            return;
+            return false;
 
         $this->session = &$openedSession['session'];
+        return true;
     }
 
     public function route(): void
@@ -150,7 +152,8 @@ class eclEngine_page
 
     public function dispatch(): void
     {
-        global $store;
+        global $io, $store;
+
         $this->components = new eclEngine_components($this);
         $this->endpoints = new eclEngine_endpoints($this);
 
@@ -161,62 +164,24 @@ class eclEngine_page
         $helper = 'eclApp_' . $this->application->applicationName;
         $helper::dispatch($this);
 
+        if (!$this->access($this->application->access)) {
+            return;
+        }
+
         if (isset($this->actions['endpoint'][1])) {
             $endpoint = $this->actions['endpoint'][1];
-            if ($endpoint === 'file')
-                $this->dispatchFileUpload();
-            else
-                $this->dispatchEndpoint($endpoint);
+            if ($endpoint === 'file') {
+                $this->buffer = $this->endpoints->file->dispatch([]);
+            } else {
+                if (isset($this->received['content']) and is_array($this->received['content']))
+                    $this->buffer = $this->endpoints->$endpoint->dispatch($this->received['content']);
+                else
+                    $this->buffer = $this->endpoints->$endpoint->dispatch([]);
+            }
             return;
         }
 
         $helper::view_main($this);
-    }
-
-    private function dispatchEndpoint(string $endpoint)
-    {
-        $raw = file_get_contents("php://input");
-
-        $input = eclIo_convert::json2array($raw);
-        if (!is_array($input))
-            $input = [];
-
-        $content = [];
-        if (isset($input['content']) and is_array($input['content']))
-            $content = $input['content'];
-        else
-            $content = [];
-
-        if (isset($input['sessionId']) and isset($input['sessionKey'])) {
-            $this->sessionStartFromAPI($input['sessionId'], $input['sessionKey']);
-            if (!isset($this->session['user']['name'])) {
-                $this->buffer = ["error" => ["message" => "system_invalidSession"]];
-                return;
-            }
-        }
-
-        if ($this->access($this->application->access)) {
-            $this->buffer = $this->endpoints->$endpoint->dispatch($content);
-        } else {
-            $this->buffer = ["error" => ["message" => "system_accessDenied"]];
-        }
-    }
-
-    private function dispatchFileUpload()
-    {
-        if (isset($this->actions['endpoint'][3])) {
-            $this->sessionStartFromAPI($this->actions['endpoint'][2], $this->actions['endpoint'][3]);
-            if (!isset($this->session['user']['name'])) {
-                $this->buffer = ["error" => ["message" => "system_invalidSession"]];
-                return;
-            }
-        }
-
-        if ($this->access($this->application->access)) {
-            $this->buffer = $this->endpoints->file->dispatch([]);
-        } else {
-            $this->buffer = ["error" => ["message" => "system_accessDenied"]];
-        }
     }
 
     public function render(): void

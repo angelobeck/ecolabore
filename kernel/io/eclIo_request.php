@@ -2,6 +2,7 @@
 
 class eclIo_request
 {
+    public string $protocol = SERVER_PROTOCOL;
     public string $host = SERVER_HOST;
     public array $path = [];
     public string $lang = DEFAULT_LANGUAGE;
@@ -54,6 +55,15 @@ class eclIo_request
         $this->path = $path;
 
         $this->received = $_POST;
+
+        if (isset($this->actions['endpoint']) and !$_FILES) {
+            $raw = file_get_contents("php://input");
+
+            $input = eclIo_convert::json2array($raw);
+            if (is_array($input)) {
+                $this->received = $input;
+            }
+        }
     }
 
 }

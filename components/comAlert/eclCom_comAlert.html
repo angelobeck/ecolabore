@@ -2,15 +2,15 @@
         <com name="layout" />
 </div>
 
-<div class="comal-curtain" if:true={showAlert}></div>
+<div class="modal-curtain" if:true={showAlert}></div>
 
-<div if:true={showAlert} class="comal-wrapper">
-    <div class="comal-window">
+<div if:true={showAlert} class="modal-wrapper">
+    <div class="modal-window">
         <paste target="alert" name={alertName} />
     </div>
 </div>
 
-<div class="comal-curtain" if:true={showMenu}></div>
+<div class="modal-curtain" if:true={showMenu}></div>
 
 <div if:true={showMenu} class="menu">
             <paste target="menu" name={menuName} />
