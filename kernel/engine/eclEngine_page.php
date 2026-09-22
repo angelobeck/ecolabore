@@ -56,7 +56,6 @@ class eclEngine_page
 
         if (isset($this->actions['logout'])) {
             $io->session->setCookie('ecl-session', 'invalid');
-            ecl_log('logout');
             $this->session = [];
             $openedSession = $store->session->open($sessionId, $sessionKey);
             if (isset($openedSession['id'])) {
