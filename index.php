@@ -202,6 +202,9 @@ $page->render();
 $store->close();
 $io->close();
 
+// Remova apenas headers especificos: header_remove() sem argumento ou
+// header_remove('Set-Cookie') descartaria a sessao e os cookies assinados
+// do CloudFront emitidos pelo endpoint do audiobook.
 header_remove('Content-Type');
 header('Content-Type: ' . $page->contentType);
 header('Accept: */*');

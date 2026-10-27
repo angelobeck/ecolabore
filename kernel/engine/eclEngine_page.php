@@ -87,6 +87,10 @@ class eclEngine_page
         if (isset($user['status']) and $user['status'] === 'blocked')
             return false;
 
+        // A tabela user guarda o bloqueio na coluna inteira 'blocked' (1 ou 4).
+        if (!empty($user['blocked']))
+            return false;
+
         $this->session = &$openedSession['session'];
         return true;
     }
